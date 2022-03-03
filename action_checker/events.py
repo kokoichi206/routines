@@ -30,7 +30,7 @@ class LINENotifyBot:
             files=files,
         )
 
-"""
+""" Github api を使用する方法
 dt_now = datetime.datetime.now()
 
 # datetime format: 2022-03-03T11:56:15Z
@@ -58,7 +58,7 @@ def action_counts_today(username: str):
 now = datetime.datetime.now()
 formatted_date = now.strftime("%Y-%m-%d")
 
-# 本日の活動量を取得
+# 本日の活動量を、html の草から直接取得
 def counts_today(username: str):
 
     TOP_URL = f'https://github.com/{username}'
@@ -96,8 +96,10 @@ def init_images():
 
 
 if __name__ == "__main__":
+    # 引数に LINE notify の token を渡す
     if len(sys.argv) == 1:
         sys.exit()
+
     LINE_NOTIFY_TOKEN = sys.argv[1]
     init_images()
     users = ["kokoichi206", "kqns91", "p238049y"]
