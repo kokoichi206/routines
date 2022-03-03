@@ -1,12 +1,13 @@
 name: action_checker
 on:
   schedule:
-    - cron: '16 23 * * *'
+    # 日本時間23時00分
+    - cron: '0 14 * * *'
 
 jobs:
-  build:
+  checker:
     runs-on: ubuntu-latest
-
+    environment: production
     steps:
       - uses: actions/checkout@v2
       - name: Set up Python 3.8
@@ -20,4 +21,4 @@ jobs:
 
       - name: Run script
         run: |
-          python action_checker/events.py
+          python action_checker/events.py ${{ secrets.LINE_NOTIFY_TOKEN }}
