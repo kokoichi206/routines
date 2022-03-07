@@ -73,48 +73,46 @@ def counts_today(username: str):
     for detail in details:
         if detail.has_attr('data-count'):
             if detail.attrs['data-date'] == formatted_date:
-                return detail.attrs['data-count']
+                return int(detail.attrs['data-count'])
     return -1
 
 # Github に写真を保存したくないため、都度ダウンロードする
-def init_images():
-    good_img_path = "https://kokoichi0206.mydns.jp/imgs/line/god.png"
-    bad_img_path = "https://kokoichi0206.mydns.jp/imgs/line/president.png"
-    imgs = [
-        {
-            "path": good_img_path,
-            "name": "god"
-        },
-        {
-            "path": bad_img_path,
-            "name": "president"
-        },
-    ]
-    for img in imgs:
+def init_images(steps):
+    BASE_URL = "https://kokoichi0206.mydns.jp/imgs/github-events"
+    for step in steps:
         urllib.request.urlretrieve(
-            img["path"], f"{img['name']}.png")
+            f'{BASE_URL}/{step}.png', f"{step}.png")
 
 
 if __name__ == "__main__":
-    # 引数に LINE notify の token を渡す
-    if len(sys.argv) == 1:
+    # 引数に必要な情報を渡す
+    # 1. LINE notify の token
+    # 2. 監視対象のgithub名(スペース区切り)
+    # 3. 画像の切り替えを行う活動数(スペース区切り)
+    if len(sys.argv) < 3:
         sys.exit()
 
     LINE_NOTIFY_TOKEN = sys.argv[1]
-    init_images()
-    users = ["kokoichi206", "kqns91", "p238049y"]
+    users = sys.argv[2].split(" ")
+    steps = list(map(int, sys.argv[3].split(" ")))
+    init_images(steps)
+    # のちのループのために上限値を作る
+    steps.append(99999)
 
     bot = LINENotifyBot(access_token=LINE_NOTIFY_TOKEN)
     for user in users:
         counts = counts_today(user)
 
-        if counts == "0" or counts == 0:
+        print(counts)
+        if counts == 0:
             bot.send(
                 message = f'{user}の本日の活動数は{counts}です。\nこのまま本日を終えても良いですか？',
-                image = 'president.png',
+                image = '0.png',
             )
         else:
-            bot.send(
-                message = f'{user}の本日の活動数は{counts}です。',
-                image = 'god.png',
-            )
+            for i in range(1, len(steps)):
+                if steps[i] <= counts < steps[i+1]: 
+                    bot.send(
+                        message = f'{user}の本日の活動数は{counts}です。',
+                        image = f'{steps[i]}.png',
+                    )
