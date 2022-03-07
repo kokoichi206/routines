@@ -23,5 +23,5 @@ jobs:
         run: |
           python action_checker/events.py \
             ${{ secrets.LINE_NOTIFY_TOKEN }} \
-            ${{ secrets.CHECK_USERS }} \
-            ${{ secrets.CHECK_STEPS }}
+            \"${{ secrets.CHECK_USERS }}\" \
+            \"${{ secrets.CHECK_STEPS }}\"
