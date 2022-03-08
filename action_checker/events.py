@@ -85,16 +85,21 @@ def init_images(steps):
 
 
 if __name__ == "__main__":
+
+    ARG_SEPARATOR = "\\"
+
     # 引数に必要な情報を渡す
     # 1. LINE notify の token
-    # 2. 監視対象のgithub名(スペース区切り)
-    # 3. 画像の切り替えを行う活動数(スペース区切り)
+    # 2. 監視対象のgithub名(ARG_SEPARATOR 区切り)
+    #      - 渡す際の区切り文字に注意
+    # 3. 画像の切り替えを行う活動数(ARG_SEPARATOR 区切り)
+    #      - 渡す際の区切り文字に注意
     if len(sys.argv) < 3:
         sys.exit()
 
     LINE_NOTIFY_TOKEN = sys.argv[1]
-    users = sys.argv[2].split(" ")
-    steps = list(map(int, sys.argv[3].split(" ")))
+    users = sys.argv[2].split(ARG_SEPARATOR)
+    steps = list(map(int, sys.argv[3].split(ARG_SEPARATOR)))
     init_images(steps)
     # のちのループのために上限値を作る
     steps.append(99999)
