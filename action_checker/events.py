@@ -86,8 +86,7 @@ def init_images(steps):
 
 if __name__ == "__main__":
 
-    ARG_SEPARATOR = "\\"
-
+    ARG_SEPARATOR = "/"
     # 引数に必要な情報を渡す
     # 1. LINE notify の token
     # 2. 監視対象のgithub名(ARG_SEPARATOR 区切り)
