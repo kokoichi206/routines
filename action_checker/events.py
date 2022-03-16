@@ -59,6 +59,7 @@ now = datetime.datetime.now()
 formatted_date = now.strftime("%Y-%m-%d")
 
 # 本日の活動量を、html の草から直接取得
+# (今日のカウント, 0日連続日数) を返却
 def counts_today(username: str):
 
     TOP_URL = f'https://github.com/{username}'
@@ -70,11 +71,27 @@ def counts_today(username: str):
 
     details = soup.findAll('rect', class_='ContributionCalendar-day')
 
+    # 過去の草一覧
+    counts = []
+    # 本日の草
+    today = 0
     for detail in details:
         if detail.has_attr('data-count'):
+            counts.append(detail.attrs['data-count'])
+            print(counts)
             if detail.attrs['data-date'] == formatted_date:
-                return int(detail.attrs['data-count'])
-    return -1
+                today = int(detail.attrs['data-count'])
+    if today == 0:
+        result = 0
+        for cnt in counts[::-1]:
+            print(cnt)
+            if cnt == "0":
+                result += 1
+            else:
+                return today, result
+    else:
+        return today, 0
+    return -1, -1
 
 # Github に写真を保存したくないため、都度ダウンロードする
 def init_images(steps):
@@ -105,12 +122,12 @@ if __name__ == "__main__":
 
     bot = LINENotifyBot(access_token=LINE_NOTIFY_TOKEN)
     for user in users:
-        counts = counts_today(user)
+        counts, zero_days = counts_today(user)
 
         print(counts)
         if counts == 0:
             bot.send(
-                message = f'{user}の本日の活動数は{counts}です。\nこのまま本日を終えても良いですか？',
+                message = f'{user}の本日の活動数は{counts}です。このまま今日を終えると{zero_days}日連続で No contributions になります\n本当によろしいですか？',
                 image = '0.png',
             )
         else:
