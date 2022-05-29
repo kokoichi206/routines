@@ -1,0 +1,25 @@
+name: my_site_health_checker
+on:
+  schedule:
+    # 日本時間9時00分
+    - cron: '0 0 * * *'
+
+jobs:
+  checker:
+    runs-on: ubuntu-latest
+    environment: production
+    env:
+      TargetURL: https://kokoichi0206.mydns.jp
+    steps:
+      - name: Health Check
+        run: |
+          curl -s "${TargetURL}" -o /dev/null -w '%{http_code}\n' |\
+            awk '$1 ~ /[1345][0-9]{2}/{exit 1}'
+
+      - name: Report using Line API
+        if: failure()
+        run: |
+          curl -X POST \
+            -H 'Authorization: Bearer ${{ secrets.LINE_NOTIFY_TOKEN_TO_ME }}' \
+            -F "message=${TargetURL} が正常に起動していません。" \
+            'https://notify-api.line.me/api/notify'
