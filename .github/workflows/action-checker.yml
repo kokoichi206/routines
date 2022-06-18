@@ -1,5 +1,7 @@
 name: action_checker
 on:
+  # 手動実行できるようにする！
+  workflow_dispatch:
   schedule:
     # 日本時間23時00分
     - cron: '0 14 * * *'
@@ -24,4 +26,11 @@ jobs:
           python action_checker/events.py \
             "${{ secrets.LINE_NOTIFY_TOKEN }}" \
             "${{ secrets.CHECK_USERS }}" \
+            "${{ secrets.CHECK_STEPS }}"
+
+      - name: Run script for server-side kotlin
+        run: |
+          python action_checker/events.py \
+            "${{ secrets.LINE_NOTIFY_TOKEN_TO_SERVER_SIDE_KOTLIN }}" \
+            "${{ secrets.CHECK_USERS_SERVER_SIDE_KOTLIN }}" \
             "${{ secrets.CHECK_STEPS }}"
