@@ -14,6 +14,12 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
+      - name: Get yesterday result
+        run: |
+          # if monday, the result is 0
+          bash action_checker/num_codes.sh ${{ secrets.REPO_TOKEN }}
+          mv last_result yesterday_result
+
       - name: Check this week lines
         run: |
           curl -s \
@@ -27,6 +33,19 @@ jobs:
                   "https://api.github.com/repos/${{ secrets.USER_NAME }}/@/stats/code_frequency" |\
                   jq '.[-1][]' | paste - - - | awk '{print $2+$3}' |\
                   awk '{a += $0} END {print a}' > last_result
+
+      - name: Calculate the code result
+        id: todays-lines
+        run: |
+          num_codes_today=$(paste last_result yesterday_result | awk '{print $1-$2}')
+          echo "::set-output name=lines::$(echo ${num_codes_today})"
+
+      - name: Notify
+        run: |
+          curl -X POST \
+            -H 'Authorization: Bearer ${{ secrets.LINE_NOTIFY_TOKEN_TO_SERVER_SIDE_KOTLIN }}' \
+            -F "message=今日${{ steps.todays-lines.outputs.lines }}行コード書いたデス。" \
+            'https://notify-api.line.me/api/notify'
 
       - name: Archive num codes results
         uses: actions/upload-artifact@v3
