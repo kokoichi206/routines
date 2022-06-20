@@ -1,0 +1,35 @@
+name: Check how many codes did you write
+
+on:
+  # 手動実行できるようにする！
+  workflow_dispatch:
+  schedule:
+    # 日本時間23時00分
+    - cron: '0 14 * * *'
+
+jobs:
+  check_num_codes:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Check this week lines
+        run: |
+          curl -s \
+              -H "Accept: application/vnd.github.v3+json" \
+              -H "Authorization: token ${{ secrets.REPO_TOKEN }}"\
+              "https://api.github.com/users/${{ secrets.USER_NAME }}/repos?per_page=100" |\
+              jq '.[].name' |\
+              xargs -I@ curl -s \
+                  -H "Accept: application/vnd.github.v3+json" \
+                  -H "Authorization: token ${{ secrets.REPO_TOKEN }}" \
+                  "https://api.github.com/repos/${{ secrets.USER_NAME }}/@/stats/code_frequency" |\
+                  jq '.[-1][]' | paste - - - | awk '{print $2+$3}' |\
+                  awk '{a += $0} END {print a}' > last_result
+
+      - name: Archive num codes results
+        uses: actions/upload-artifact@v3
+        with:
+          name: how_many_codes_report
+          path: last_result
