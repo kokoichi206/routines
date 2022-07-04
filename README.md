@@ -18,7 +18,24 @@
     - `/`区切り
   - 対応する画像をリモートに保存する
 
+
 ## Health Checker
 サイトがダウンしていないかを毎日9時に調べ、異常があった場合 Line で通知する。
 
 - [定期実行ymlファイル](.github/workflows/my_site-health-checker.yml)
+
+
+## 今日コード何行書いた？
+毎日23時に、今日何行書いたかを調べ、ラインに通知する
+
+- [定期実行ymlファイル](.github/workflows/num_codes.yml)
+
+### 方針
+Github REST API を使う。
+
+1. リポジトリ一覧を取得
+  - [API](https://docs.github.com/ja/rest/repos/repos#list-repositories-for-the-authenticated-user)
+2. 各リポジトリに対し、週間のコード変化量を取得し、和を求める
+  - [API](https://docs.github.com/ja/rest/metrics/statistics#get-the-weekly-commit-activity)
+3. 前日分の結果を artifacts から取得し、その差分を本日の進捗とする
+4. 明日の比較用に artifacts に保存する
