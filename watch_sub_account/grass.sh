@@ -24,7 +24,7 @@ BASE_FILE="grass.svg"
 OUTPUT_FILE="grass_color.svg"
 
 # create 5 colors using: https://colordesigner.io/gradient-generator
-LEVEL0=" fill=\"rgb(219, 234, 223)\""
+LEVEL0=" fill=\"rgb(255, 255, 255)\""
 LEVEL1=" fill=\"rgb(175, 220, 184)\""
 LEVEL2=" fill=\"rgb(132, 204, 143)\""
 LEVEL3=" fill=\"rgb(90, 187, 99)\""
