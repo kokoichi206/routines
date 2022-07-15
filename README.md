@@ -26,7 +26,7 @@
 
 
 ## 今日コード何行書いた？
-毎日23時に、今日何行書いたかを調べ、ラインに通知する
+毎日23時に、今日何行書いたかを調べ、ラインに通知する。
 
 - [定期実行ymlファイル](.github/workflows/num_codes.yml)
 
@@ -39,3 +39,11 @@ Github REST API を使う。
   - [API](https://docs.github.com/ja/rest/metrics/statistics#get-the-weekly-commit-activity)
 3. 前日分の結果を artifacts から取得し、その差分を本日の進捗とする
 4. 明日の比較用に artifacts に保存する
+
+
+## サブアカウントの草の成長状況監視
+毎日23時に、サブアカウントの草がきちんと成長しているかを描画し、ラインに通知する。
+
+- [定期実行ymlファイル](.github/workflows/sub_account-grass-watcher.yml)
+- [サブアカウント](https://github.com/kokoichi2)
+- [草画像生成スクリプト](./watch_sub_account/grass.sh)
