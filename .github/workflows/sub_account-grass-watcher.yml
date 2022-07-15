@@ -1,0 +1,33 @@
+name: sub_account-grass-watcher
+
+on:
+  workflow_dispatch:
+  schedule:
+    # 日本時間23時00分
+    - cron: "0 14 * * *"
+
+jobs:
+  watcher:
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Make grass
+        run: |
+          bash ./watch_sub_account/grass.sh
+
+      - name: Convert svg to png
+        run: |
+          sudo apt-get install imagemagick
+          # 'unable to read font `helvetica''
+          sudo apt install -y gsfonts
+          convert grass_color.svg grass_color.png
+
+      - name: Notify to me on Line
+        run: |
+          curl -X POST \
+            -H 'Authorization: Bearer ${{ secrets.LINE_NOTIFY_TOKEN_TO_ME }}' \
+            -F "message=お知らせ:草の成長状況" \
+            -F "imageFile=@grass_color.png" \
+            'https://notify-api.line.me/api/notify'
