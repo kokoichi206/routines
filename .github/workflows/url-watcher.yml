@@ -18,7 +18,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Check if diff found
+      - name: Diff check
         id: diff-check
         run: |
           curl https://odhackathon.metro.tokyo.lg.jp/ > latest.txt
@@ -32,13 +32,14 @@ jobs:
           fi
           echo "::set-output name=diff::$(echo ${result})"
 
-      - name: Push if diff found
+      - name: Commit and push if diff found
         if: ${{ steps.diff-check.outputs.diff }}
         run: |
           mv latest.txt index.txt
           git config user.name kokoichi206
           git config user.email tt.300607@gmail.com
           git add .
+          # 複数行のコミットメッセージ
           git commit -F- << EOS
           $(date +%m-%d)更新分
 
@@ -51,6 +52,8 @@ jobs:
       - name: Notify if diff found
         if: ${{ steps.diff-check.outputs.diff }}
         run: |
+          # Slack API を使って通知
+          ## see: https://api.slack.com/methods/chat.postMessage
           curl -X POST 'https://slack.com/api/chat.postMessage' \
             -d "token=${{ secrets.SLACK_API_TOKEN_HACKATHON }}" \
             -d 'channel=#times_tominaga' \
