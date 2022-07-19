@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# website: http://ogp.me/ns/website#">
+	  <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-159328955-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-159328955-1');
+    </script>
+    <meta charset="utf-8">
+    <meta name="Robots" content="index,follow">
+    <meta name="description" content="情報が呼吸する都市へ。">
+    <meta name="keywords" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="format-detection" content="telephone=no">
+    <!-- FAVICON-->
+    <link rel="shortcut icon" href="https://odhackathon.metro.tokyo.lg.jp/wp-content/themes/opendatahackathon/assets/images/favicon.ico">
+    <!-- WEBFONT--><link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;500;600;700&family=Jost:wght@100;200;300;400;500;600;700;800;900&family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <!-- CSS-->
+    <link href="https://odhackathon.metro.tokyo.lg.jp/wp-content/themes/opendatahackathon/assets/css/style.min.css?20220719-2117" rel="stylesheet" media="all">
+    <!-- OGP-->
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="ja_JP">
+    <meta property="og:site_name" content="都知事杯OpenDataHackathon">
+          <meta property="og:title" content="都知事杯 オープンデータハッカソン">
+      <meta property="og:url" content="https://odhackathon.metro.tokyo.lg.jp">
+          <meta property="og:description" content="情報が呼吸する都市へ。">
+    <meta property="og:image" content="https://odhackathon.metro.tokyo.lg.jp/wp-content/themes/opendatahackathon/assets/images/ogp.jpg">
+    <!-- OGP-twitter-->
+    <meta name="twitter:card" content="summary_large_image">
+    <!-- FONTAWESOME-->
+    <link href="https://use.fontawesome.com/releases/v5.15.1/css/all.css" rel="stylesheet" integrity="sha384-vp86vTRFVJgpjF9jiIGPEEqYqlDwgyBgEF109VFjmqGmIY/Y4HV4d3Gp2irVfcrp" crossorigin="anonymous">
+  <title>都知事杯 オープンデータハッカソン | 情報が、呼吸する都市へ。</title>
+<meta name='robots' content='max-image-preview:large' />
+<link rel='dns-prefetch' href='//s.w.org' />
+<script type="text/javascript">
+window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/14.0.0\/72x72\/","ext":".png","svgUrl":"https:\/\/s.w.org\/images\/core\/emoji\/14.0.0\/svg\/","svgExt":".svg","source":{"concatemoji":"https:\/\/odhackathon.metro.tokyo.lg.jp\/wp-includes\/js\/wp-emoji-release.min.js?ver=6.0.1"}};
+/*! This file is auto-generated */
+!function(e,a,t){var n,r,o,i=a.createElement("canvas"),p=i.getContext&&i.getContext("2d");function s(e,t){var a=String.fromCharCode,e=(p.clearRect(0,0,i.width,i.height),p.fillText(a.apply(this,e),0,0),i.toDataURL());return p.clearRect(0,0,i.width,i.height),p.fillText(a.apply(this,t),0,0),e===i.toDataURL()}function c(e){var t=a.createElement("script");t.src=e,t.defer=t.type="text/javascript",a.getElementsByTagName("head")[0].appendChild(t)}for(o=Array("flag","emoji"),t.supports={everything:!0,everythingExceptFlag:!0},r=0;r<o.length;r++)t.supports[o[r]]=function(e){if(!p||!p.fillText)return!1;switch(p.textBaseline="top",p.font="600 32px Arial",e){case"flag":return s([127987,65039,8205,9895,65039],[127987,65039,8203,9895,65039])?!1:!s([55356,56826,55356,56819],[55356,56826,8203,55356,56819])&&!s([55356,57332,56128,56423,56128,56418,56128,56421,56128,56430,56128,56423,56128,56447],[55356,57332,8203,56128,56423,8203,56128,56418,8203,56128,56421,8203,56128,56430,8203,56128,56423,8203,56128,56447]);case"emoji":return!s([129777,127995,8205,129778,127999],[129777,127995,8203,129778,127999])}return!1}(o[r]),t.supports.everything=t.supports.everything&&t.supports[o[r]],"flag"!==o[r]&&(t.supports.everythingExceptFlag=t.supports.everythingExceptFlag&&t.supports[o[r]]);t.supports.everythingExceptFlag=t.supports.everythingExceptFlag&&!t.supports.flag,t.DOMReady=!1,t.readyCallback=function(){t.DOMReady=!0},t.supports.everything||(n=function(){t.readyCallback()},a.addEventListener?(a.addEventListener("DOMContentLoaded",n,!1),e.addEventListener("load",n,!1)):(e.attachEvent("onload",n),a.attachEvent("onreadystatechange",function(){"complete"===a.readyState&&t.readyCallback()})),(e=t.source||{}).concatemoji?c(e.concatemoji):e.wpemoji&&e.twemoji&&(c(e.twemoji),c(e.wpemoji)))}(window,document,window._wpemojiSettings);
+</script>
+<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 0.07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+	<link rel='stylesheet' id='wp-block-library-css'  href='https://odhackathon.metro.tokyo.lg.jp/wp-includes/css/dist/block-library/style.min.css?ver=6.0.1' type='text/css' media='all' />
+<style id='global-styles-inline-css' type='text/css'>
+body{--wp--preset--color--black: #000000;--wp--preset--color--cyan-bluish-gray: #abb8c3;--wp--preset--color--white: #ffffff;--wp--preset--color--pale-pink: #f78da7;--wp--preset--color--vivid-red: #cf2e2e;--wp--preset--color--luminous-vivid-orange: #ff6900;--wp--preset--color--luminous-vivid-amber: #fcb900;--wp--preset--color--light-green-cyan: #7bdcb5;--wp--preset--color--vivid-green-cyan: #00d084;--wp--preset--color--pale-cyan-blue: #8ed1fc;--wp--preset--color--vivid-cyan-blue: #0693e3;--wp--preset--color--vivid-purple: #9b51e0;--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple: linear-gradient(135deg,rgba(6,147,227,1) 0%,rgb(155,81,224) 100%);--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan: linear-gradient(135deg,rgb(122,220,180) 0%,rgb(0,208,130) 100%);--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange: linear-gradient(135deg,rgba(252,185,0,1) 0%,rgba(255,105,0,1) 100%);--wp--preset--gradient--luminous-vivid-orange-to-vivid-red: linear-gradient(135deg,rgba(255,105,0,1) 0%,rgb(207,46,46) 100%);--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray: linear-gradient(135deg,rgb(238,238,238) 0%,rgb(169,184,195) 100%);--wp--preset--gradient--cool-to-warm-spectrum: linear-gradient(135deg,rgb(74,234,220) 0%,rgb(151,120,209) 20%,rgb(207,42,186) 40%,rgb(238,44,130) 60%,rgb(251,105,98) 80%,rgb(254,248,76) 100%);--wp--preset--gradient--blush-light-purple: linear-gradient(135deg,rgb(255,206,236) 0%,rgb(152,150,240) 100%);--wp--preset--gradient--blush-bordeaux: linear-gradient(135deg,rgb(254,205,165) 0%,rgb(254,45,45) 50%,rgb(107,0,62) 100%);--wp--preset--gradient--luminous-dusk: linear-gradient(135deg,rgb(255,203,112) 0%,rgb(199,81,192) 50%,rgb(65,88,208) 100%);--wp--preset--gradient--pale-ocean: linear-gradient(135deg,rgb(255,245,203) 0%,rgb(182,227,212) 50%,rgb(51,167,181) 100%);--wp--preset--gradient--electric-grass: linear-gradient(135deg,rgb(202,248,128) 0%,rgb(113,206,126) 100%);--wp--preset--gradient--midnight: linear-gradient(135deg,rgb(2,3,129) 0%,rgb(40,116,252) 100%);--wp--preset--duotone--dark-grayscale: url('#wp-duotone-dark-grayscale');--wp--preset--duotone--grayscale: url('#wp-duotone-grayscale');--wp--preset--duotone--purple-yellow: url('#wp-duotone-purple-yellow');--wp--preset--duotone--blue-red: url('#wp-duotone-blue-red');--wp--preset--duotone--midnight: url('#wp-duotone-midnight');--wp--preset--duotone--magenta-yellow: url('#wp-duotone-magenta-yellow');--wp--preset--duotone--purple-green: url('#wp-duotone-purple-green');--wp--preset--duotone--blue-orange: url('#wp-duotone-blue-orange');--wp--preset--font-size--small: 13px;--wp--preset--font-size--medium: 20px;--wp--preset--font-size--large: 36px;--wp--preset--font-size--x-large: 42px;}.has-black-color{color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-color{color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-color{color: var(--wp--preset--color--white) !important;}.has-pale-pink-color{color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-color{color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-color{color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-color{color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-color{color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-color{color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-color{color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-color{color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-color{color: var(--wp--preset--color--vivid-purple) !important;}.has-black-background-color{background-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-background-color{background-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-background-color{background-color: var(--wp--preset--color--white) !important;}.has-pale-pink-background-color{background-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-background-color{background-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-background-color{background-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-background-color{background-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-background-color{background-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-background-color{background-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-background-color{background-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-background-color{background-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-background-color{background-color: var(--wp--preset--color--vivid-purple) !important;}.has-black-border-color{border-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-border-color{border-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-border-color{border-color: var(--wp--preset--color--white) !important;}.has-pale-pink-border-color{border-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-border-color{border-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-border-color{border-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-border-color{border-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-border-color{border-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-border-color{border-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-border-color{border-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-border-color{border-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-border-color{border-color: var(--wp--preset--color--vivid-purple) !important;}.has-vivid-cyan-blue-to-vivid-purple-gradient-background{background: var(--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple) !important;}.has-light-green-cyan-to-vivid-green-cyan-gradient-background{background: var(--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan) !important;}.has-luminous-vivid-amber-to-luminous-vivid-orange-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange) !important;}.has-luminous-vivid-orange-to-vivid-red-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-orange-to-vivid-red) !important;}.has-very-light-gray-to-cyan-bluish-gray-gradient-background{background: var(--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray) !important;}.has-cool-to-warm-spectrum-gradient-background{background: var(--wp--preset--gradient--cool-to-warm-spectrum) !important;}.has-blush-light-purple-gradient-background{background: var(--wp--preset--gradient--blush-light-purple) !important;}.has-blush-bordeaux-gradient-background{background: var(--wp--preset--gradient--blush-bordeaux) !important;}.has-luminous-dusk-gradient-background{background: var(--wp--preset--gradient--luminous-dusk) !important;}.has-pale-ocean-gradient-background{background: var(--wp--preset--gradient--pale-ocean) !important;}.has-electric-grass-gradient-background{background: var(--wp--preset--gradient--electric-grass) !important;}.has-midnight-gradient-background{background: var(--wp--preset--gradient--midnight) !important;}.has-small-font-size{font-size: var(--wp--preset--font-size--small) !important;}.has-medium-font-size{font-size: var(--wp--preset--font-size--medium) !important;}.has-large-font-size{font-size: var(--wp--preset--font-size--large) !important;}.has-x-large-font-size{font-size: var(--wp--preset--font-size--x-large) !important;}
+</style>
+<link rel='stylesheet' id='contact-form-7-css'  href='https://odhackathon.metro.tokyo.lg.jp/wp-content/plugins/contact-form-7/includes/css/styles.css?ver=5.6.1' type='text/css' media='all' />
+<link rel="https://api.w.org/" href="https://odhackathon.metro.tokyo.lg.jp/wp-json/" /><link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://odhackathon.metro.tokyo.lg.jp/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="https://odhackathon.metro.tokyo.lg.jp/wp-includes/wlwmanifest.xml" /> 
+<meta name="generator" content="WordPress 6.0.1" />
+  </head>
+
+<body>
+
+
+
+<div class="btnFixedSimple2">
+  <a class="pci" href="https://odhackathon.metro.tokyo.lg.jp/entry"><img src="https://odhackathon.metro.tokyo.lg.jp/wp-content/themes/opendatahackathon/assets/images/btnFixedSimpleEntry.png" alt="Hackathonに応募する"></a>
+</div>
+<div class="btnFixedSimple">
+  <a class="pci" href="https://odhackathon.metro.tokyo.lg.jp/premeeting"><img src="https://odhackathon.metro.tokyo.lg.jp/wp-content/themes/opendatahackathon/assets/images/btnFixedSimplePremeeting.png" alt="プレミーティング詳細はこちら"></a>
+</div>
+<div class="btnFixedWrapperSp spi">
+  <div class="btnFixedWrapperSp__inner">
+    <a href="https://odhackathon.metro.tokyo.lg.jp/entry"><img src="https://odhackathon.metro.tokyo.lg.jp/wp-content/themes/opendatahackathon/assets/images/btnFixedSpHalfHackathon.png" alt="Hackathonに応募する"></a>
+    <a href="https://odhackathon.metro.tokyo.lg.jp/premeeting"><img src="https://odhackathon.metro.tokyo.lg.jp/wp-content/themes/opendatahackathon/assets/images/btnFixedSpHalfPremeeting.png" alt="募集イベントの詳細はこちら"></a>
+  </div>
+</div>
+<!--
+    --------------------------------------
+    --------------------------------------
+    --------------------------------------
+    ------------------- bodyWrap
+    --------------------------------------
+    --------------------------------------
+    --------------------------------------
+    -->
+<div class="bodyWrap bodyWrap--top">
+  <!--
+      --------------------------------------
+      ------------------- FV
+      --------------------------------------
+      -->
+  <section class="fv">
+    <video id="video" class="pci" src="https://odhackathon.metro.tokyo.lg.jp/wp-content/themes/opendatahackathon/assets/images/videoFv.mp4" autoplay="" loop="" muted="" playsinline="" poster="https://odhackathon.metro.tokyo.lg.jp/wp-content/themes/opendatahackathon/assets/images/ogp.jpg"></video>
+    <video id="video" class="spi" src="https://odhackathon.metro.tokyo.lg.jp/wp-content/themes/opendatahackathon/assets/images/videoFv_sp.mp4" autoplay="" loop="" muted="" playsinline="" poster="https://odhackathon.metro.tokyo.lg.jp/wp-content/themes/opendatahackathon/assets/images/thumbSp.jpg"></video>
+    <div class="fvBox pci">
+      <div class="fvBox__inner">
+        <div class="logoBox"><a href="https://www.metro.tokyo.lg.jp/" target="_blank"><img src="https://odhackathon.metro.tokyo.lg.jp/wp-content/themes/opendatahackathon/assets/images/logoTochoEn.png" alt="東京都ロゴ"></a></div>
+        <nav class="accesibilityNav">
+          <div class="languageChange"><a class="current" href="https://odhackathon.metro.tokyo.lg.jp">日本語</a><img src="https://odhackathon.metro.tokyo.lg.jp/wp-content/themes/opendatahackathon/assets/images/iconChange.png"><a class="en" href="https://odhackathon.metro.tokyo.lg.jp/en">English</a></div>
+              <form class="searchBox" action="https://odhackathon.metro.tokyo.lg.jp" method="get">
+        <input id="s-box" name="s" type="text" placeholder="キーワードを入力" />
+        <button type="submit" id="s-btn-area">
+            <div id="s-btn">検索</div>
+        </button>
+    </form>
+        </nav>
+        <nav class="gNav">
+          <ul class="navigation">
+            <li><a href="#features">FEATURES</a></li>
+            <li><a href="#about">ABOUT</a></li>
+            <li><a href="#schedule">SCHEDULE</a></li>
+            <li><a href="#faq">FAQ</a></li>
+          </ul>
+          <div class="btns"><a href="https://odhackathon.metro.tokyo.lg.jp/wp-content/themes/opendatahackathon/assets/pdf/youkou-2.pdf" target="_blank">募集要項</a><a href="https://odhackathon.metro.tokyo.lg.jp/entry">応募する</a></div>
+        </nav>
+      </div>
+    </div>
+  </section>
+
+
+  <div class="navWrapper spi">
+    <a href="https://www.metro.tokyo.lg.jp/" target="_blank">
+      <img src="https://odhackathon.metro.tokyo.lg.jp/wp-content/themes/opendatahackathon/assets/images/logoTochoEn.png" class="logo" alt="東京都ロゴ">
+    </a>
+    <div class="gnav-sp spi">
+      <p class="btn-gnavi">
+        <span></span>
+        <span></span>
+        <span></span>
+      </p>
+      <nav id="global-navi">
+        <ul class="menu">
+          <li><a href="#features">FEATURES</a></li>
+          <li><a href="#about">ABOUT</a></li>
+          <li><a href="#schedule">SCHEDULE</a></li>
+          <li><a href="#faq">FAQ</a></li>
+        </ul>
+        <div class="btns"><a href="https://odhackathon.metro.tokyo.lg.jp/wp-content/themes/opendatahackathon/assets/pdf/youkou-2.pdf" target="_blank">募集要項</a><a href="https://odhackathon.metro.tokyo.lg.jp/entry">応募する</a></div>
+      </nav>
+    </div>
+  </div>
+
+  <!--
+      --------------------------------------
+      ------------------- TOPICS
+      --------------------------------------
+      -->
+
+      <section class="sec topics" id="topics">
+      <div class="inner">
+        <div class="leadWrapper">
+          <h2 class="lead"><span>最新情報</span><span>TOPICS</span></h2>
+        </div>
+        <div class="sec__content">
+          <!--------------------- .topicsWrapper --------------------->
+          <ul class="topicsWrapper">
+            
+  
+  <li class="topicsItem">
+    <a href="https://odhackathon.metro.tokyo.lg.jp/topics/premeeting-day2/">
+      <div class="topicsItem__content">
+        <div class="topicsItem__content__meta">
+          <span class="topicsItem__content__meta__date">2022.07.06</span>
+          <span class="topicsItem__content__meta__cat">
+            イベント          </span>
+        </div>
+        <p class="topicsItem__content__title">
+          募集イベントDay2を開催しました！          <svg class="topicsItem__content__title__arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30.847 4.636">
+            <path d="M-6227.834-5801.787c.139.011,29.627,0,29.627,0l-3.834-3.775" transform="translate(6227.834 5805.918)" fill="none" stroke="#fff" stroke-width="1" />
+          </svg>
+        </p>
+      </div>
+    </a>
+  </li>
+
+
+
+  
+  <li class="topicsItem">
+    <a href="https://odhackathon.metro.tokyo.lg.jp/topics/premeeting-day1/">
+      <div class="topicsItem__content">
+        <div class="topicsItem__content__meta">
+          <span class="topicsItem__content__meta__date">2022.06.23</span>
+          <span class="topicsItem__content__meta__cat">
+            イベント          </span>
+        </div>
+        <p class="topicsItem__content__title">
+          募集イベントDay1を開催しました！          <svg class="topicsItem__content__title__arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30.847 4.636">
+            <path d="M-6227.834-5801.787c.139.011,29.627,0,29.627,0l-3.834-3.775" transform="translate(6227.834 5805.918)" fill="none" stroke="#fff" stroke-width="1" />
+          </svg>
+        </p>
+      </div>
+    </a>
+  </li>
+
+
+          </ul>
+          <!--------------------- moreボタン --------------------->
+                  </div>
+      </div>
+    </section>
+  
+  <!--
+      --------------------------------------
+      ------------------- FEATURES
+      --------------------------------------
+      -->
+  <section class="sec features" id="features">
+    <div class="inner">
+      <div class="leadWrapper">
+        <h2 class="lead"><span>本事業の特徴</span><span>FEATURES</span></h2>
+      </div>
+      <div class="sec__content">
+        <img src="https://odhackathon.metro.tokyo.lg.jp/wp-content/themes/opendatahackathon/assets/images/feature1.png" alt="参加を検討している人に向けた募集イベントを実施">
+        <img src="https://odhackathon.metro.tokyo.lg.jp/wp-content/themes/opendatahackathon/assets/images/feature2.png" alt="応募者間コミュニティを開設(応募後に参加可能)">
+        <img src="https://odhackathon.metro.tokyo.lg.jp/wp-content/themes/opendatahackathon/assets/images/feature3.png" alt="充実した講師陣 都職員も多数登壇">
+        <img src="https://odhackathon.metro.tokyo.lg.jp/wp-content/themes/opendatahackathon/assets/images/feature4.png" alt="プログラム(講義)をアーカイブ配信(参加者のみ視聴可)">
+        <img src="https://odhackathon.metro.tokyo.lg.jp/wp-content/themes/opendatahackathon/assets/images/feature5.png" alt="最終審査(Final Stage)で視聴者人気投票を実施">
+      </div>
+    </div>
+  </section>
+
+
+  <!--
+      --------------------------------------
+      ------------------- ABOUT
+      --------------------------------------
+      -->
+  <section class="sec about" id="about">
+    <div class="inner">
+      <div class="leadWrapper">
+        <h2 class="lead"><span>事業目的</span><span>ABOUT</span></h2>
+      </div>
+      <div class="sec__content"><img src="https://odhackathon.metro.tokyo.lg.jp/wp-content/themes/opendatahackathon/assets/images/logo.svg" alt="都知事杯OpenDataHackathonロゴ">
+        <div class="para">
+          <p>都は、行政が保有するデータを積極的に公開し、シビックテックや民間企業等が新たなサービスを創出することで、都民の利便性向上に繋げていく取り組みを進めています。</p>
+          <p>この取り組みを加速するため、この度、都のオープンデータを活用して行政課題の解決に向けたデジタルサービスの提案を行う「都知事杯オープンデータ・ハッカソン（※）」を実施いたします。</p>
+          <p>多様化する行政課題の解決に向け、シビックテックの力も取り込み、都民のQOL向上につながる新たなサービスを創出する官民協働スタイルを構築することを目指します。</p>
+          <p>（※都知事杯オープンデータ・ハッカソン：エンジニアやプランナーがそれぞれの技術やアイデアを持ち寄り、短期間に集中してアプリケーションなどを開発し、成果を競う開発イベントです。）</p>
+          <p><a href="https://portal.data.metro.tokyo.lg.jp/" target="_blank">東京都OpenDataカタログサイトはこちら</a></p>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!--
+      --------------------------------------
+      ------------------- SCHEDULE
+      --------------------------------------
+      -->
+  <section class="sec schedule schedule--top" id="schedule">
+    <div class="inner">
+      <div class="leadWrapper">
+        <h2 class="lead"><span>スケジュール</span><span>SCHEDULE</span></h2>
+      </div>
+      <div class="sec__content">
+
+        <!--------------------- SCHEDULE --------------------->
+        <ul class="scheduleWrapper">
+
+          <!--------------------- EVENT1 --------------------->
+          <li class="scheduleItem">
+            <!-- __head -->
+            <div class="scheduleItem__head">
+              <div class="scheduleItem__head__title">
+                <h3>Pre-Meeting</h3>
+                <p><span>ハッカソンが<br class="sp">100倍楽しくなる<br>募集イベント</span></p>
+              </div>
+              <a href="https://odhackathon.metro.tokyo.lg.jp/premeeting"><span>MORE</span></a>
+            </div>
+            <!-- __中身 -->
+            <div class="scheduleItem__content">
+              <!-- 開催日程 -->
+              <div class="scheduleItem__content__item scheduleItem__content__item--date">
+                <h4><span>開催日程</span></h4>
+                <div class="itemInner">
+                  <p>
+                    2022.6.23(木)
+                    <br>2022.7.6(水)
+                    <br>2022.7.21(木)
+                  </p>
+                  <p>
+                    (※3日程それぞれ異なるプログラム内容にて開催。)
+                  </p>
+                </div>
+              </div>
+              <!-- ゲスト -->
+              <div class="scheduleItem__content__item scheduleItem__content__item--guest">
+                <h4><span>登壇ゲスト</span></h4>
+                <div class="itemInner">
+                  <img class="pci" src="https://odhackathon.metro.tokyo.lg.jp/wp-content/themes/opendatahackathon/assets/images/peopleEvent1.png" alt="一般社団法人MA代表理事 伴野 智樹氏,デジタルサービス局 サービス開発担当部長 荻原 聡,2021年度ファイナリスト">
+                  <img class="spi" src="https://odhackathon.metro.tokyo.lg.jp/wp-content/themes/opendatahackathon/assets/images/person1.png" alt="一般社団法人MA代表理事 伴野 智樹氏">
+                  <img class="spi" src="https://odhackathon.metro.tokyo.lg.jp/wp-content/themes/opendatahackathon/assets/images/person2.png" alt="デジタルサービス局 サービス開発担当部長 荻原 聡">
+                  <img class="spi" src="https://odhackathon.metro.tokyo.lg.jp/wp-content/themes/opendatahackathon/assets/images/person3.png" alt="2021年度ファイナリスト">
+                </div>
+              </div>
+            </div>
+          </li>
+
+          <!--------------------- ENTRY --------------------->
+          <li class="scheduleItem">
+            <!-- __head -->
+            <div class="scheduleItem__head">
+              <div class="scheduleItem__head__title">
+                <h3>ENTRY</h3>
+                <p><span>募集締め切り日時：<br>2022.8.5(金)23:59</span></p>
+              </div>
+              <a href="https://odhackathon.metro.tokyo.lg.jp/entry"><span>応募する</span></a>
+            </div>
+          </li>
+
+          <!--------------------- EVENT2 --------------------->
+          <li class="scheduleItem">
+            <!-- __head -->
+            <div class="scheduleItem__head">
+              <div class="scheduleItem__head__title">
+                <h3>Hackathon</h3>
+                <p><span>東京都と共に<br>課題に向き合う６日間</span></p>
+              </div>
+              <a href="https://odhackathon.metro.tokyo.lg.jp/hackathon"><span>MORE</span></a>
+            </div>
+            <!-- __中身 -->
+            <div class="scheduleItem__content">
+              <!-- 開催日程 -->
+              <div class="scheduleItem__content__item scheduleItem__content__item--date">
+                <h4><span>開催日程</span></h4>
+                <div class="itemInner">
+                  <p>
+                    2022.8.23(火)
+                    <br>〜8.28(日)
+                  </p>
+                </div>
+              </div>
+              <!-- ゲスト -->
+              <div class="scheduleItem__content__item scheduleItem__content__item--guest">
+                <h4><span>登壇ゲスト</span></h4>
+                <div class="itemInner">
+                  <img class="pci" src="https://odhackathon.metro.tokyo.lg.jp/wp-content/themes/opendatahackathon/assets/images/peopleEvent2.png" alt="株式会社ペライチ 代表取締役社長 橋田 一秀氏,BASE株式会社 上級執行役員 SVP of Development 藤川 真一氏,株式会社Zaim 代表取締役 閑歳 孝子氏,株式会社グロービス VP of Engineering 末永 昌也氏">
+                  <img class="spi" src="https://odhackathon.metro.tokyo.lg.jp/wp-content/themes/opendatahackathon/assets/images/person4.png" alt="株式会社ペライチ 代表取締役社長 橋田 一秀氏">
+                  <img class="spi" src="https://odhackathon.metro.tokyo.lg.jp/wp-content/themes/opendatahackathon/assets/images/person5.png" alt="BASE株式会社 上級執行役員 SVP of Development 藤川 真一氏">
+                  <img class="spi" src="https://odhackathon.metro.tokyo.lg.jp/wp-content/themes/opendatahackathon/assets/images/person6.png" alt="株式会社Zaim 代表取締役 閑歳 孝子氏">
+                  <img class="spi" src="https://odhackathon.metro.tokyo.lg.jp/wp-content/themes/opendatahackathon/assets/images/person7.png" alt="株式会社グロービス VP of Engineering 末永 昌也氏">
+                </div>
+              </div>
+            </div>
+          </li>
+
+          <!--------------------- EVENT3 --------------------->
+          <li class="scheduleItem">
+            <!-- __head -->
+            <div class="scheduleItem__head">
+              <div class="scheduleItem__head__title">
+                <h3>First Stage</h3>
+                <p><span>全チームによるプレゼン大会</span></p>
+              </div>
+            </div>
+            <!-- __中身 -->
+            <div class="scheduleItem__content">
+              <!-- 開催日程 -->
+              <div class="scheduleItem__content__item scheduleItem__content__item--date">
+                <h4><span>開催日程</span></h4>
+                <div class="itemInner">
+                  <p>
+                    2022.9.18(日)
+                  </p>
+                </div>
+              </div>
+              <!-- ゲスト -->
+              <div class="scheduleItem__content__item scheduleItem__content__item--guest">
+                <h4><span>登壇ゲスト</span></h4>
+                <div class="itemInner">
+                  <img class="pci" src="https://odhackathon.metro.tokyo.lg.jp/wp-content/themes/opendatahackathon/assets/images/peopleEvent3.png" alt="東京都知事 宮坂学,一般社団法人コードフォー・ジャパン 代表理事 関治之氏,元株式会社アクティブラーニング副社長 パーソルキャリア株式会社テクノロジー本部サービス企画部エキスパート 得能絵里子氏,株式会社ココナラCo-Founder・エンジェル投資家 谷口明依氏,東京都デジタルサービス局局長 久我英男">
+                  <img class="spi" src="https://odhackathon.metro.tokyo.lg.jp/wp-content/themes/opendatahackathon/assets/images/person8.png" alt="東京都知事 宮坂学">
+                  <img class="spi" src="https://odhackathon.metro.tokyo.lg.jp/wp-content/themes/opendatahackathon/assets/images/person9.png" alt="一般社団法人コードフォー・ジャパン 代表理事 関治之氏">
+                  <img class="spi" src="https://odhackathon.metro.tokyo.lg.jp/wp-content/themes/opendatahackathon/assets/images/person10.png" alt="元株式会社アクティブラーニング副社長 パーソルキャリア株式会社テクノロジー本部サービス企画部エキスパート 得能絵里子氏">
+                  <img class="spi" src="https://odhackathon.metro.tokyo.lg.jp/wp-content/themes/opendatahackathon/assets/images/person11.png" alt="株式会社ココナラCo-Founder・エンジェル投資家 谷口明依氏">
+                  <img class="spi" src="https://odhackathon.metro.tokyo.lg.jp/wp-content/themes/opendatahackathon/assets/images/person12.png" alt="東京都デジタルサービス局局長 久我英男">
+                </div>
+              </div>
+            </div>
+          </li>
+
+          <!--------------------- EVENT4 --------------------->
+          <li class="scheduleItem">
+            <!-- __head -->
+            <div class="scheduleItem__head">
+              <div class="scheduleItem__head__title">
+                <h3>Final Stage</h3>
+                <p><span>第二回<br>都知事杯受賞者が決定！</span></p>
+              </div>
+            </div>
+            <!-- __中身 -->
+            <div class="scheduleItem__content">
+              <!-- 開催日程 -->
+              <div class="scheduleItem__content__item scheduleItem__content__item--date">
+                <h4><span>開催日程</span></h4>
+                <div class="itemInner">
+                  <p>
+                    2022.10.12(水)
+                  </p>
+                </div>
+              </div>
+              <!-- ゲスト -->
+              <div class="scheduleItem__content__item scheduleItem__content__item--guest">
+                <h4><span>登壇ゲスト</span></h4>
+                <div class="itemInner">
+                  <img class="pci" src="https://odhackathon.metro.tokyo.lg.jp/wp-content/themes/opendatahackathon/assets/images/peopleEvent3.png" alt="東京都知事 宮坂学,一般社団法人コードフォー・ジャパン 代表理事 関治之氏,元株式会社アクティブラーニング副社長 パーソルキャリア株式会社テクノロジー本部サービス企画部エキスパート 得能絵里子氏,株式会社ココナラCo-Founder・エンジェル投資家 谷口明依氏,東京都デジタルサービス局局長 久我英男">
+                  <img class="spi" src="https://odhackathon.metro.tokyo.lg.jp/wp-content/themes/opendatahackathon/assets/images/person8.png" alt="東京都知事 宮坂学">
+                  <img class="spi" src="https://odhackathon.metro.tokyo.lg.jp/wp-content/themes/opendatahackathon/assets/images/person9.png" alt="一般社団法人コードフォー・ジャパン 代表理事 関治之氏">
+                  <img class="spi" src="https://odhackathon.metro.tokyo.lg.jp/wp-content/themes/opendatahackathon/assets/images/person10.png" alt="元株式会社アクティブラーニング副社長 パーソルキャリア株式会社テクノロジー本部サービス企画部エキスパート 得能絵里子氏">
+                  <img class="spi" src="https://odhackathon.metro.tokyo.lg.jp/wp-content/themes/opendatahackathon/assets/images/person11.png" alt="株式会社ココナラCo-Founder・エンジェル投資家 谷口明依氏">
+                  <img class="spi" src="https://odhackathon.metro.tokyo.lg.jp/wp-content/themes/opendatahackathon/assets/images/person12.png" alt="東京都デジタルサービス局局長 久我英男">
+                </div>
+              </div>
+            </div>
+          </li>
+
+        </ul>
+
+      </div>
+    </div>
+  </section>
+  <!--
+      --------------------------------------
+      ------------------- MOVIE
+      --------------------------------------
+      -->
+  <section class="sec movie">
+    <div class="inner">
+      <div class="leadWrapper">
+        <h2 class="lead"><span>前年度の様子</span><span>MOVIE</span></h2>
+      </div>
+      <div class="sec__content">
+        <div class="movieRow">
+          <div class="movieWrap">
+            <h3>イベント全体</h3>
+            <div class="video">
+              <iframe src="https://www.youtube.com/embed/xc4Sn_SlhbI?rel=0" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+          </div>
+        </div>
+        <div class="movieRow">
+          <div class="movieWrap">
+            <h3>Final Stage</h3>
+            <div class="video">
+              <iframe src="https://www.youtube.com/embed/spOqw4ZUddw?rel=0" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+          </div>
+          <div class="movieWrap">
+            <h3>Demo Day</h3>
+            <div class="video">
+              <iframe src="https://www.youtube.com/embed/rLHNp7Pvt3M?rel=0" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!--
+      --------------------------------------
+      ------------------- VOICE
+      --------------------------------------
+      -->
+  <section class="sec voice">
+    <div class="inner">
+      <div class="leadWrapper">
+        <h2 class="lead"><span>昨年度参加者の声</span><span>VOICE</span></h2>
+      </div>
+      <div class="sec__content">
+        <img src="https://odhackathon.metro.tokyo.lg.jp/wp-content/themes/opendatahackathon/assets/images/voice1.png" alt="行政の中の人の声を聴きながらサービス開発をするという貴重な経験を得ることができた。">
+        <img src="https://odhackathon.metro.tokyo.lg.jp/wp-content/themes/opendatahackathon/assets/images/voice2.png" alt="最初は参加に不安があったが、プログラムの中の事務局のサポートが充実していて、無事サービスを開発することができた。">
+        <img src="https://odhackathon.metro.tokyo.lg.jp/wp-content/themes/opendatahackathon/assets/images/voice3.png" alt="自分の創ったサービスを、多くの人に見てもらうチャンスを得ることができた。また、自分の力を知る良いきっかけになった。">
+      </div>
+    </div>
+  </section>
+  <!--
+      --------------------------------------
+      ------------------- JOIN
+      --------------------------------------
+      -->
+  <section class="sec join">
+    <div class="inner">
+      <h2 class="leadAn"><span>当事業にご興味をお持ちの方へ</span><span>JOIN US</span></h2>
+      <div class="sec__content">
+        <div class="btns">
+          <div class="btns__01"><a href="https://odhackathon.metro.tokyo.lg.jp/wp-content/themes/opendatahackathon/assets/pdf/youkou-2.pdf">募集要項</a><a href="https://odhackathon.metro.tokyo.lg.jp/contact">お問い合わせ</a></div>
+          <div class="btns__02"><a href="https://odhackathon.metro.tokyo.lg.jp/entry">応募する</a></div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!--
+      --------------------------------------
+      ------------------- FAQ
+      --------------------------------------
+      -->
+  <section class="sec faq" id="faq">
+    <div class="inner">
+      <div class="leadWrapper">
+        <h2 class="lead"><span>よくある質問</span><span>FAQ</span></h2>
+      </div>
+      <div class="sec__content">
+        <h4 class="">【プログラム全般・応募について】</h4>
+        <ul class="faqContent ">
+
+          <li class="faqContent__item">
+            <input class="acd-check" type="checkbox" id="acd-check1">
+            <label class="faqContent__item__q acd-label" for="acd-check1">
+              <p>8月23日から8月28日に開催されるハッカソンプログラム（以下「プログラム」という）は、全日程参加が必要ですか？</p>
+            </label>
+            <div class="faqContent__item__a acd-content">
+              <p>全日程とも参加は任意です。</p>
+              <p>ただし、First Stageへの参加を希望する場合は、最終日(８月２８日)に行われる発表会には原則参加（オンライン可）いただきますようお願いいたします。（特別な事情がある場合を除く）詳しくはプログラム詳細をご覧ください。</p>
+            </div>
+          </li>
+
+          <li class="faqContent__item">
+            <input class="acd-check" type="checkbox" id="acd-check2">
+            <label class="faqContent__item__q acd-label" for="acd-check2">
+              <p>後日、参加できなかった講義内容を確認することはできますか。</p>
+            </label>
+            <div class="faqContent__item__a acd-content">
+              <p>プログラム期間中の講義については、後日アーカイブで配信する予定です。</p>
+              <p>※参加者のみ視聴可能</p>
+            </div>
+          </li>
+
+          <li class="faqContent__item">
+            <input class="acd-check" type="checkbox" id="acd-check3">
+            <label class="faqContent__item__q acd-label" for="acd-check3">
+              <p>オンラインでの参加は可能ですか？</p>
+            </label>
+            <div class="faqContent__item__a acd-content">
+              <p>オンラインでの参加も可能です。</p>
+            </div>
+          </li>
+
+          <li class="faqContent__item">
+            <input class="acd-check" type="checkbox" id="acd-check4">
+            <label class="faqContent__item__q acd-label" for="acd-check4">
+              <p>東京都以外からの参加は可能ですか？</p>
+            </label>
+            <div class="faqContent__item__a acd-content">
+              <p>東京都にお住まいの方以外でも参加は可能です。</p>
+              <p>なお、参加に係る交通費や宿泊費の費用は全て参加者の負担になります。</p>
+            </div>
+          </li>
+
+          <li class="faqContent__item">
+            <input class="acd-check" type="checkbox" id="acd-check5">
+            <label class="faqContent__item__q acd-label" for="acd-check5">
+              <p>サービス開発できるか不安です。アイデアのみでの参加も可能ですか？</p>
+            </label>
+            <div class="faqContent__item__a acd-content">
+              <p>開発の技術がなくても、ノーコードツールの使い方など、技術者がサポートさせて頂きますので安心してご参加ください。</p>
+            </div>
+          </li>
+
+          <li class="faqContent__item">
+            <input class="acd-check" type="checkbox" id="acd-check6">
+            <label class="faqContent__item__q acd-label" for="acd-check6">
+              <p>プログラムの開発はできるのですが、行政課題やオープンデータについてよくわからないという場合でも参加できますか？</p>
+            </label>
+            <div class="faqContent__item__a acd-content">
+              <p>参加できます。</p>
+              <p>参加者の中には、プログラムは書けないけどアイディアはたくさんある、という方がおりますので、ぜひチームビルディングにご参加ください。</p>
+            </div>
+          </li>
+
+          <li class="faqContent__item">
+            <input class="acd-check" type="checkbox" id="acd-check7">
+            <label class="faqContent__item__q acd-label" for="acd-check7">
+              <p>チームを組んで参加しなければいけないでしょうか？</p>
+            </label>
+            <div class="faqContent__item__a acd-content">
+              <p>個人一人での参加も可能です。</p>
+              <p>また、プログラム期間中にチームビルディングイベントがあり、途中でチームに参加すること（またはチームメンバーを変更すること）も可能です。</p>
+            </div>
+          </li>
+
+          <li class="faqContent__item">
+            <input class="acd-check" type="checkbox" id="acd-check8">
+            <label class="faqContent__item__q acd-label" for="acd-check8">
+              <p>昨年度ハッカソンに参加しましたが、今年度も似たテーマ・メンバーで参加することはできますか。</p>
+            </label>
+            <div class="faqContent__item__a acd-content">
+              <p>参加可能です。</p>
+              <p>なお、昨年度に都知事杯を受賞したチームについては、今年度同一のテーマ・内容で都知事杯を受賞することはできません。</p>
+            </div>
+          </li>
+
+        </ul>
+
+
+        <h4 class="">【First Stage、Final Stageについて】</h4>
+        <ul class="faqContent ">
+          <li class="faqContent__item">
+            <input class="acd-check" type="checkbox" id="acd-check9">
+            <label class="faqContent__item__q acd-label" for="acd-check9">
+              <p>First Stageに進出するチームメンバーは、いつまでに確定する必要がありますか？</p>
+            </label>
+            <div class="faqContent__item__a acd-content">
+              <p>プログラム最終日の発表会前までに確定していただく必要がございます。</p>
+            </div>
+          </li>
+          <li class="faqContent__item">
+            <input class="acd-check" type="checkbox" id="acd-check10">
+            <label class="faqContent__item__q acd-label" for="acd-check10">
+              <p>First Stageを通過した場合に、必ずFinal Stageに出席及びサービス実装支援を受けなくてはいけないでしょうか？</p>
+            </label>
+            <div class="faqContent__item__a acd-content">
+              <p>原則、First Stageを通過したチームは、Final Stageへの出席及びサービスリリースに向けたサービス実装支援を受けていただきます。</p>
+            </div>
+          </li>
+          <li class="faqContent__item">
+            <input class="acd-check" type="checkbox" id="acd-check11">
+            <label class="faqContent__item__q acd-label" for="acd-check11">
+              <p>First Stageで発表する内容は、一般に公開されますか？</p>
+            </label>
+            <div class="faqContent__item__a acd-content">
+              <p>案いただいたプロトタイプの内容については、プログラム最終日後に、ホームページ上で公表を予定しております。</p>
+              <p>しかし、事情により公表を希望しない場合は、事務局までご連絡ください。</p>
+            </div>
+          </li>
+          <li class="faqContent__item">
+            <input class="acd-check" type="checkbox" id="acd-check12">
+            <label class="faqContent__item__q acd-label" for="acd-check12">
+              <p>First Stageの後に、チームメンバーを変更して、Final Stageに参加することはできますか？</p>
+            </label>
+            <div class="faqContent__item__a acd-content">
+              <p>できません。</p>
+              <p>Final Stageは、First Stageと同一のメンバーでの参加をお願いいたします。なお、Final Stage終了後は、サービスリリースに向けて、メンバーの追加・変更等をしていただいても大丈夫です。</p>
+            </div>
+          </li>
+        </ul>
+
+
+        <h4 class="">【サービス実装支援について】</h4>
+        <ul class="faqContent ">
+          <li class="faqContent__item">
+            <input class="acd-check" type="checkbox" id="acd-check13">
+            <label class="faqContent__item__q acd-label" for="acd-check13">
+              <p>制作した作品の事業化へのサポートはどの程度してもらえるのでしょうか？</p>
+            </label>
+            <div class="faqContent__item__a acd-content">
+              <p>FirstStageを通過した10者のサービス案については、今年度末まで、デザインや使い勝手の良い機能のアドバイス、開発に必要なサポート等、実装に向けた支援をいたします。</p>
+            </div>
+          </li>
+          <li class="faqContent__item">
+            <input class="acd-check" type="checkbox" id="acd-check14">
+            <label class="faqContent__item__q acd-label" for="acd-check14">
+              <p>このハッカソンに参加すると、金銭的な支援を受けられるのでしょうか？</p>
+            </label>
+            <div class="faqContent__item__a acd-content">
+              <p>このハッカソンプログラムでは、具体的な金銭的支援はございません。</p>
+              <p>サービス実装期間中においても同様で、開発に必要なサポート（メンターからのアドバイスなど）はございますが、金銭的な支援は行いません。</p>
+            </div>
+          </li>
+        </ul>
+
+        <h4 class="">【その他】</h4>
+        <ul class="faqContent ">
+          <li class="faqContent__item">
+            <input class="acd-check" type="checkbox" id="acd-check15">
+            <label class="faqContent__item__q acd-label" for="acd-check15">
+              <p>どのような人が参加しますか？</p>
+            </label>
+            <div class="faqContent__item__a acd-content">
+              <p>シビックテックの取り組みを進めたい方、オープンデータの利活用に興味のある方、行政課題の解決に取り組みたい方、サービスリリースを目指している方、オープンデータを掛け合わせて今あるサービスをブラッシュアップさせたい方、自分の想い・誰かの想いをカタチにしたい方、ハッカソンに参加してみたい方（初参加もOK！）など、どなたでもご参加いただけます。</p>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!--
+      --------------------------------------
+      ------------------- FOOTER
+      --------------------------------------
+      -->
+<footer class="sec footer">
+  <div class="inner">
+    <div class="footer__01"><img src="https://odhackathon.metro.tokyo.lg.jp/wp-content/themes/opendatahackathon/assets/images/logo.svg" alt="都知事杯OpenDataHackathonロゴ"></div>
+    <div class="footer__02">
+      <div class="footerRow">
+        <div class="footerContent footerContent--contact">
+          <h3>問い合わせ先</h3>
+          <div class="footerContent__inner footerContent__inner--sideline">
+            <h4>本事業・応募に関するお問い合わせ</h4>
+            <p>都知事杯オープンデータ・ハッカソン運営事務局<br>（受託者：株式会社ボーンレックス）</p>
+            <p>TEL：<br><a href="tel:050-5534-0663">050-5534-0663</a></p>
+            <p>E-mail：<br><a href="mailto:opendata-hackathon.tokyo@bornrex.com">opendata-hackathon.tokyo@bornrex.com</a></p>
+            <h4>都のオープンデータの取組や<br>オープンデータカタログサイトに<br class="sp">関するお問い合わせ</h4>
+            <p><a href="https://www.shinsei.elg-front.jp/tokyo2/uketsuke/form.do?id=1490076764800" target="_blank">東京都オープンデータカタログサイト<br>（リクエストボックス）へ</a></p>
+          </div>
+        </div>
+        <div class="footerContent footerContent--sitemap">
+          <h3>SITEMAP</h3>
+          <div class="footerContent__inner footerContent__inner--sideline">
+            <ul class="navigation">
+              <li><a href="https://odhackathon.metro.tokyo.lg.jp">TOP</a></li>
+              <li><a href="https://odhackathon.metro.tokyo.lg.jp/premeeting">Pre-Meeting</a></li>
+              <li><a href="https://odhackathon.metro.tokyo.lg.jp/hackathon">Hackathon</a></li>
+              <li><a href="https://odhackathon.metro.tokyo.lg.jp/entry">ENTRY</a></li>
+              <li><a href="https://odhackathon.metro.tokyo.lg.jp/contact">CONTACT</a></li>
+            </ul>
+            <div class="btns"><a href="https://odhackathon.metro.tokyo.lg.jp/wp-content/themes/opendatahackathon/assets/pdf/youkou.pdf" target="_blank">募集要項</a><a href="https://odhackathon.metro.tokyo.lg.jp/entry">応募する</a></div>
+            <ul class="navigation">
+              <li><a href="https://odhackathon.metro.tokyo.lg.jp/en">English</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="footerRow">
+        <div class="footerContent footerContent--sns">
+          <h3>SNS</h3>
+          <div class="footerContent__inner"><a href="https://www.facebook.com/sharer/sharer.php?u= https://odhackathon.metro.tokyo.lg.jp" target="_blank"><img src="https://odhackathon.metro.tokyo.lg.jp/wp-content/themes/opendatahackathon/assets/images/btnSnsFb.png" alt="facebookシェア"></a><a href="https://twitter.com/share?url=https://odhackathon.metro.tokyo.lg.jp" target="_blank"><img src="https://odhackathon.metro.tokyo.lg.jp/wp-content/themes/opendatahackathon/assets/images/btnSnsTw.png" alt="twitterシェア"></a><a href="https://www.instagram.com/tocho_digitalservice_official/" target="_blank"><img src="https://odhackathon.metro.tokyo.lg.jp/wp-content/themes/opendatahackathon/assets/images/btnSnsInsta.png" alt="東京都デジタルサービス局Instagram"></a></div>
+        </div>
+      </div>
+      <div class="footerRow">
+        <div class="footerContent footerContent--links">
+          <h3>LINKS</h3>
+          <div class="footerContent__inner">
+            <div class="bannerLinks"><a href="https://www.digitalservice.metro.tokyo.lg.jp/" target="_blank"><img src="https://odhackathon.metro.tokyo.lg.jp/wp-content/themes/opendatahackathon/assets/images/linkDigitalservice.png" alt="東京都デジタルサービス局"></a><a href="https://portal.data.metro.tokyo.lg.jp/" target="_blank"><img src="https://odhackathon.metro.tokyo.lg.jp/wp-content/themes/opendatahackathon/assets/images/linkCatalog.png" alt="東京都オープンデータカタログサイト"></a><a href="https://tokyotokyo.jp/ja/home/" target="_blank"><img src="https://odhackathon.metro.tokyo.lg.jp/wp-content/themes/opendatahackathon/assets/images/linkTokyotokyo.png" alt="TokyoTokyo"></a><a href="https://www.kankyo.metro.tokyo.lg.jp/climate/tokyo_coolhome_coolbiz/index.html" target="_blank"><img src="https://odhackathon.metro.tokyo.lg.jp/wp-content/themes/opendatahackathon/assets/images/htt.jpg" alt="HTT tokyo"></a><a href="https://odhackathon.metro.tokyo.lg.jp/hackathon2021/index.html" target="_blank"><img src="https://odhackathon.metro.tokyo.lg.jp/wp-content/themes/opendatahackathon/assets/images/link2021hp.png" alt="2021年度都知事杯OpenDataHackathonホームページ"></a></div>
+            <ul class="textLinks">
+              <li><a href="https://odhackathon.metro.tokyo.lg.jp/site-policy">サイトポリシー</a></li>
+              <li><a href="https://odhackathon.metro.tokyo.lg.jp/accessibility-policy">アクセシビリティ</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="footerRow">
+        <div class="footerContent footerContent--copyright">
+          <div class="footerContent__inner">
+            <div class="copyright1"><span>主催：</span><img src="https://odhackathon.metro.tokyo.lg.jp/wp-content/themes/opendatahackathon/assets/images/logoTochoJa.png" alt="東京都ロゴ"></div>
+            <p>Copyright ©TOKYO METROPOLITAN GOVERNMENT ALL RIGHTS RESERVED.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+</div>
+<script src="https://odhackathon.metro.tokyo.lg.jp/wp-content/themes/opendatahackathon/assets/js/jquery-3.1.0.min.js" defer></script>
+<script src="https://odhackathon.metro.tokyo.lg.jp/wp-content/themes/opendatahackathon/assets/js/jquery.inview.js" defer></script>
+<script src="https://odhackathon.metro.tokyo.lg.jp/wp-content/themes/opendatahackathon/assets/js/jquery.easing.js" defer></script>
+<script src="https://odhackathon.metro.tokyo.lg.jp/wp-content/themes/opendatahackathon/assets/js/lazysizes.min.js" defer></script>
+<script src="https://odhackathon.metro.tokyo.lg.jp/wp-content/themes/opendatahackathon/assets/js/ls.unveilhooks.min.js" defer></script>
+<script src="https://odhackathon.metro.tokyo.lg.jp/wp-content/themes/opendatahackathon/assets/js/common.js?20220719-2117" defer></script>
+<script type='text/javascript' src='https://odhackathon.metro.tokyo.lg.jp/wp-includes/js/dist/vendor/regenerator-runtime.min.js?ver=0.13.9' id='regenerator-runtime-js'></script>
+<script type='text/javascript' src='https://odhackathon.metro.tokyo.lg.jp/wp-includes/js/dist/vendor/wp-polyfill.min.js?ver=3.15.0' id='wp-polyfill-js'></script>
+<script type='text/javascript' id='contact-form-7-js-extra'>
+/* <![CDATA[ */
+var wpcf7 = {"api":{"root":"https:\/\/odhackathon.metro.tokyo.lg.jp\/wp-json\/","namespace":"contact-form-7\/v1"},"cached":"1"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://odhackathon.metro.tokyo.lg.jp/wp-content/plugins/contact-form-7/includes/js/index.js?ver=5.6.1' id='contact-form-7-js'></script>
+
+</body>
+
+</html>
