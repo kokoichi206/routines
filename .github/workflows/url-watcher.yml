@@ -9,6 +9,10 @@ jobs:
   checker:
     runs-on: ubuntu-latest
     environment: production
+    defaults:
+      run:
+        shell: bash
+        working-directory: ./url_watcher/odhackathon/
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -16,9 +20,9 @@ jobs:
       - name: Check if diff found
         id: diff-check
         run: |
-          curl https://odhackathon.metro.tokyo.lg.jp/ > url_watcher/odhackathon/latest.txt
+          curl https://odhackathon.metro.tokyo.lg.jp/ > latest.txt
           set +e
-          diff url_watcher/odhackathon/latest.txt url_watcher/odhackathon/index.txt
+          diff latest.txt index.txt
           STATUS_CODE=$?
           set -e
           result=false
@@ -30,7 +34,7 @@ jobs:
       - name: Push if diff found
         if: ${{ diff-check.outputs.diff }}
         run: |
-          mv url_watcher/odhackathon/index.txt url_watcher/odhackathon/latest.txt
+          mv index.txt latest.txt
           git config user.name kokoichi206
           git config user.email tt.300607@gmail.com
           git add .
