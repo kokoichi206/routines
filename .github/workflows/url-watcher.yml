@@ -1,4 +1,5 @@
-name: action_checker
+name: url_watcher_odhackathon
+
 on:
   workflow_dispatch:
   schedule:
@@ -32,17 +33,23 @@ jobs:
           echo "::set-output name=diff::$(echo ${result})"
 
       - name: Push if diff found
-        if: ${{ diff-check.outputs.diff }}
+        if: ${{ steps.diff-check.outputs.diff }}
         run: |
-          mv index.txt latest.txt
+          mv latest.txt index.txt
           git config user.name kokoichi206
           git config user.email tt.300607@gmail.com
           git add .
-          git commit -m "$(date +%m-%d)更新分"
+          git commit -F- << EOS
+          $(date +%m-%d)更新分
+
+          * 監視対象: https://odhackathon.metro.tokyo.lg.jp/
+          EOS
+
           git push
+          git log
 
       - name: Notify if diff found
-        if: ${{ diff-check.outputs.diff }}
+        if: ${{ steps.diff-check.outputs.diff }}
         run: |
           curl -X POST 'https://slack.com/api/chat.postMessage' \
             -d "token=${{ secrets.SLACK_API_TOKEN_HACKATHON }}" \
