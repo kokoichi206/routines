@@ -1,0 +1,46 @@
+name: action_checker
+on:
+  workflow_dispatch:
+  schedule:
+    # 日本時間23時00分
+    - cron: "0 14 * * *"
+
+jobs:
+  checker:
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Check if diff found
+        id: diff-check
+        run: |
+          curl https://odhackathon.metro.tokyo.lg.jp/ > url_watcher/odhackathon/latest.txt
+          set +e
+          diff url_watcher/odhackathon/latest.txt url_watcher/odhackathon/index.txt
+          STATUS_CODE=$?
+          set -e
+          result=false
+          if [ "${MY_STATUS_CODE}" -eq 0 ]; then
+            result=true
+          fi
+          echo "::set-output name=diff::$(echo ${result})"
+
+      - name: Push if diff found
+        if: ${{ diff-check.outputs.diff }}
+        run: |
+          mv url_watcher/odhackathon/index.txt url_watcher/odhackathon/latest.txt
+          git config user.name kokoichi206
+          git config user.email tt.300607@gmail.com
+          git add .
+          git commit -m "$(date +%m-%d)更新分"
+          git push
+
+      - name: Notify if diff found
+        if: ${{ diff-check.outputs.diff }}
+        run: |
+          curl -X POST 'https://slack.com/api/chat.postMessage' \
+            -d "token=${{ secrets.SLACK_API_TOKEN_HACKATHON }}" \
+            -d 'channel=#times_tominaga' \
+            -d 'text=HPの更新を検知しました。 https://github.com/kokoichi206/routines/commits/main'
