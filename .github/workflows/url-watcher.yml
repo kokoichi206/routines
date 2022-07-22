@@ -10,6 +10,9 @@ jobs:
   checker:
     runs-on: ubuntu-latest
     environment: production
+    env:
+      NEW_FILE_NAME: latest.txt
+      OLD_FILE_NAME: index.txt
     defaults:
       run:
         shell: bash
@@ -21,13 +24,22 @@ jobs:
       - name: Diff check
         id: diff-check
         run: |
-          curl https://odhackathon.metro.tokyo.lg.jp/ > latest.txt
+          curl https://odhackathon.metro.tokyo.lg.jp/ > "${NEW_FILE_NAME}"
+          # 以下のパターンは更新検知の対象から削除する。
+          excluded_patterns=("style.min.css\?[0-9]*-[0-9]*" "common.js\?[0-9]*-[0-9]*")
+
+          for pattern in "${excluded_patterns[@]}"; do
+            echo "$pattern"
+            # Delete the specified pattern
+            sed -i -E "s@$pattern@@g" "${NEW_FILE_NAME}"
+            sed -i -E "s@$pattern@@g" "${OLD_FILE_NAME}"
+          done
           set +e
-          diff latest.txt index.txt
+          diff "${NEW_FILE_NAME}" "${OLD_FILE_NAME}"
           STATUS_CODE=$?
           set -e
           result=false
-          if [ "${MY_STATUS_CODE}" -eq 0 ]; then
+          if [ "${STATUS_CODE}" -gt 0 ]; then
             result=true
           fi
           echo "::set-output name=diff::$(echo ${result})"
@@ -35,10 +47,10 @@ jobs:
       - name: Commit and push if diff found
         if: ${{ steps.diff-check.outputs.diff }}
         run: |
-          mv latest.txt index.txt
+          mv "${NEW_FILE_NAME}" "${OLD_FILE_NAME}"
           git config user.name kokoichi206
           git config user.email tt.300607@gmail.com
-          git add .
+          git add "${OLD_FILE_NAME}"
           # 複数行のコミットメッセージ
           git commit -F- << EOS
           $(date +%m-%d)更新分
