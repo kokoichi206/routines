@@ -48,8 +48,8 @@ jobs:
         if: ${{ steps.diff-check.outputs.diff }}
         run: |
           mv "${NEW_FILE_NAME}" "${OLD_FILE_NAME}"
-          git config user.name kokoichi206
-          git config user.email tt.300607@gmail.com
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
           git add "${OLD_FILE_NAME}"
           # 複数行のコミットメッセージ
           git commit -F- << EOS
