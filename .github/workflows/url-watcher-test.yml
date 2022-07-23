@@ -16,9 +16,15 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Check my action
+        id: check-my-action
         uses: kokoichi206/action-URL-watcher@main
         with:
           url: https://odhackathon.metro.tokyo.lg.jp/
           excluded-patterns: '"style.min.css\?[0-9]*-[0-9]*";"common.js\?[0-9]*-[0-9]*"'
           save-dir: ./url_watcher/odhackathon
           save-file: index.txt
+
+      - name: Action when diff found
+        if: ${{ steps.check-my-action.outputs.diff }}
+        run: |
+          echo "Diff found! Diff found!"
