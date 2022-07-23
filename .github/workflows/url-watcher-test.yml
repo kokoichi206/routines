@@ -1,0 +1,24 @@
+name: Test
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  action-check:
+    name: Action-check-with-name
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Check my action
+        uses: kokoichi206/action-URL-watcher@main
+        with:
+          url: https://odhackathon.metro.tokyo.lg.jp/
+          excluded-patterns: '"style.min.css\?[0-9]*-[0-9]*";"common.js\?[0-9]*-[0-9]*"'
+          save-dir: ./url_watcher/odhackathon
+          save-file: index.txt
