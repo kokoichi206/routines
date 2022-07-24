@@ -10,9 +10,6 @@ jobs:
   checker:
     runs-on: ubuntu-latest
     environment: production
-    env:
-      NEW_FILE_NAME: latest.txt
-      OLD_FILE_NAME: index.txt
     defaults:
       run:
         shell: bash
@@ -23,74 +20,19 @@ jobs:
 
       - name: Diff check
         id: diff-check
-        run: |
-          curl https://odhackathon.metro.tokyo.lg.jp/ > "${NEW_FILE_NAME}"
-          # 以下のパターンは更新検知の対象から削除する。
+        uses: kokoichi206/action-URL-watcher@v0.1.0-alpha
+        with:
+          url: https://odhackathon.metro.tokyo.lg.jp/
+          excluded-patterns: 'style.min.css\?[0-9]*-[0-9]*;common.js\?[0-9]*-[0-9]*'
+          save-dir: ./url_watcher/odhackathon
+          save-file: index.txt
 
-          # save the current field separator to restore lator
-          old_IFS=$IFS
-          # new field separator
-          echo $IFS
-          IFS=";"
-          excluded_patterns='style.min.css\?[0-9]*-[0-9]*;common.js\?[0-9]*-[0-9]*'
-          read -ra excluded_patterns_array <<< "$excluded_patterns"
-          IFS=$old_IFS
-          echo $IFS
-
-          # for pattern in "${excluded_patterns_array[@]}"; do
-          #   echo "$pattern"
-          #   # Delete the specified pattern
-          #   sed -i -E "s@$pattern@@g" "${{ inputs.save-file }}_now"
-          #   sed -i -E "s@$pattern@@g" "${{ inputs.save-file }}"
-          # done
-          # excluded_patterns=("style.min.css\?[0-9]*-[0-9]*" "common.js\?[0-9]*-[0-9]*")
-
-          echo '<script src="https://odhackathon.metro.tokyo.lg.jp/wp-content/themes/opendatahackathon/assets/js/common.js?20220724-0545" defer></script>' > "${NEW_FILE_NAME}"
-          echo '<script src="https://odhackathon.metro.tokyo.lg.jp/wp-content/themes/opendatahackathon/assets/js/common.js?20220724-0545" defer></script>' > "${OLD_FILE_NAME}"
-
-          for pattern in "${excluded_patterns_array[@]}"; do
-            echo "$pattern"
-            # Delete the specified pattern
-            echo sed -i -E "s@$pattern@@g" "${NEW_FILE_NAME}"
-            sed -i -E "s@$pattern@@g" "${NEW_FILE_NAME}"
-            echo sed -i -E "s@$pattern@@g" "${OLD_FILE_NAME}"
-            sed -i -E "s@$pattern@@g" "${OLD_FILE_NAME}"
-          done
-          cat "${OLD_FILE_NAME}"
-          cat "${NEW_FILE_NAME}"
-          set +e
-          diff "${NEW_FILE_NAME}" "${OLD_FILE_NAME}"
-          STATUS_CODE=$?
-          set -e
-          result=false
-          if [ "${STATUS_CODE}" -gt 0 ]; then
-            result=true
-          fi
-          echo "::set-output name=diff::$(echo ${result})"
-
-      - name: Commit and push if diff found
+      - name: Notify if diff found
         if: ${{ steps.diff-check.outputs.diff }}
         run: |
-          mv "${NEW_FILE_NAME}" "${OLD_FILE_NAME}"
-          git config --local user.email "github-actions[bot]@users.noreply.github.com"
-          git config --local user.name "github-actions[bot]"
-          git add "${OLD_FILE_NAME}"
-          # 複数行のコミットメッセージ
-          git commit -F- << EOS
-          $(date +%m-%d)更新分
-
-          * 監視対象: https://odhackathon.metro.tokyo.lg.jp/
-          EOS
-
-          git push
-          git log
-
-      # - name: Notify if diff found
-      #   if: ${{ steps.diff-check.outputs.diff }}
-      #   run: |
-      #     # Slack API を使って通知
-      #     ## see: https://api.slack.com/methods/chat.postMessage
-      #     curl -X POST 'https://slack.com/api/chat.postMessage' \
-      #       -d "token=${{ secrets.SLACK_API_TOKEN_HACKATHON }}" \
-      #       -d 'channel=#times_tominaga' \
-      #       -d 'text=HPの更新を検知しました。 https://github.com/kokoichi206/routines/commits/main'
+          # Slack API を使って通知
+          ## see: https://api.slack.com/methods/chat.postMessage
+          curl -X POST 'https://slack.com/api/chat.postMessage' \
+            -d "token=${{ secrets.SLACK_API_TOKEN_HACKATHON }}" \
+            -d 'channel=#times_tominaga' \
+            -d 'text=HPの更新を検知しました。 https://github.com/kokoichi206/routines/commits/main'
