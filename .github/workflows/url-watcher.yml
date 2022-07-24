@@ -20,7 +20,7 @@ jobs:
 
       - name: Diff check
         id: diff-check
-        uses: kokoichi206/action-URL-watcher@v0.1.0-alpha
+        uses: kokoichi206/action-URL-watcher@main
         with:
           url: https://odhackathon.metro.tokyo.lg.jp/
           excluded-patterns: 'style.min.css\?[0-9]*-[0-9]*;common.js\?[0-9]*-[0-9]*'
