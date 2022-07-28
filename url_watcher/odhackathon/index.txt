@@ -534,6 +534,17 @@ body{--wp--preset--color--black: #000000;--wp--preset--color--cyan-bluish-gray: 
         <ul class="faqContent ">
 
           <li class="faqContent__item">
+            <input class="acd-check" type="checkbox" id="acd-check0">
+            <label class="faqContent__item__q acd-label" for="acd-check0">
+              <p>仕事との両立が不安なのですが、どうすればいいですか？</p>
+            </label>
+            <div class="faqContent__item__a acd-content">
+              <p>ハッカソンプログラムは全日程とも参加は任意です。お仕事との調整が可能な範囲で参加いただけます。どうぞ安心してご参加ください。</p>
+              <p>また、プログラム期間中の講義は、アーカイブで配信いたしますので、ご都合に合わせてご視聴いただけます。（参加者のみに公開） </p>
+            </div>
+          </li>
+
+          <li class="faqContent__item">
             <input class="acd-check" type="checkbox" id="acd-check1">
             <label class="faqContent__item__q acd-label" for="acd-check1">
               <p>8月23日から8月28日に開催されるハッカソンプログラム（以下「プログラム」という）は、全日程参加が必要ですか？</p>
@@ -562,6 +573,17 @@ body{--wp--preset--color--black: #000000;--wp--preset--color--cyan-bluish-gray: 
             </label>
             <div class="faqContent__item__a acd-content">
               <p>オンラインでの参加も可能です。</p>
+            </div>
+          </li>
+
+          <li class="faqContent__item">
+            <input class="acd-check" type="checkbox" id="acd-check3-2">
+            <label class="faqContent__item__q acd-label" for="acd-check3-2">
+              <p>8/28のハッカソンプログラム最終日やFirst Stageで発表する成果物はどの程度のものを想定すればよいですか？</p>
+            </label>
+            <div class="faqContent__item__a acd-content">
+              <p>サービスの概要がわかるプロトタイプ作成を目指していただきたいと思っておりますが、参加者のみなさまのチームの状況や仕事の兼ね合い等を踏まえて、できる範囲で作成いただければと思います。</p>
+              <p>なお、プログラム最終日の発表会及びFirst Stageは、基本プレゼンテーションスライドを用いて発表いただくことを予定しております。</p>
             </div>
           </li>
 
@@ -701,6 +723,140 @@ body{--wp--preset--color--black: #000000;--wp--preset--color--cyan-bluish-gray: 
           </li>
         </ul>
       </div>
+    </div>
+  </section>
+
+  <!--
+      --------------------------------------
+      ------------------- 問い合わせ
+      --------------------------------------
+      -->
+  <section class="sec contact" id="contact">
+    <div class="inner">
+      <div class="leadWrapper">
+        <h2 class="lead"><span>お問い合わせ</span><span>CONTACT</span></h2>
+      </div>
+      <!--
+      --------------------------------------
+      ------------------- contact
+      --------------------------------------
+      -->
+      <div class="sec__content">
+        <p class="description">
+          以下必要事項をご記入の上、<br>フォームの送信を完了させてください。
+          <br>(<b class="red">※</b>は入力必須項目です)
+        </p>
+        <div role="form" class="wpcf7" id="wpcf7-f37-o1" lang="ja" dir="ltr">
+<div class="screen-reader-response"><p role="status" aria-live="polite" aria-atomic="true"></p> <ul></ul></div>
+<form action="/#wpcf7-f37-o1" method="post" class="wpcf7-form init" novalidate="novalidate" data-status="init">
+<div style="display: none;">
+<input type="hidden" name="_wpcf7" value="37" />
+<input type="hidden" name="_wpcf7_version" value="5.6.1" />
+<input type="hidden" name="_wpcf7_locale" value="ja" />
+<input type="hidden" name="_wpcf7_unit_tag" value="wpcf7-f37-o1" />
+<input type="hidden" name="_wpcf7_container_post" value="0" />
+<input type="hidden" name="_wpcf7_posted_data_hash" value="" />
+</div>
+<div class="entry-section">
+
+
+          <div class="entry-element">
+            <label for="your-name">
+              <h5>お名前<span class="red">※</span></h5>
+            </label>
+            <div class="inputWrapper">
+              <span class="wpcf7-form-control-wrap" data-name="your-name"><input type="text" name="your-name" value="" size="40" class="wpcf7-form-control wpcf7-text wpcf7-validates-as-required" id="your-name" aria-required="true" aria-invalid="false" placeholder="（例）山田　太郎" /></span>
+            </div>
+          </div>
+
+
+          <div class="entry-element">
+            <label for="email-139">
+              <h5>メールアドレス<span class="red">※</span></h5>
+            </label>
+            <div class="inputWrapper">
+              <span class="wpcf7-form-control-wrap" data-name="email-139"><input type="email" name="email-139" value="" size="40" class="wpcf7-form-control wpcf7-text wpcf7-email wpcf7-validates-as-required wpcf7-validates-as-email" id="e-mail" aria-required="true" aria-invalid="false" placeholder="(例)taro.yamada@mail.com" /></span>
+            </div>
+          </div>
+
+          <div class="entry-element">
+            <label for="tel-105">
+              <h5>電話番号<span class="red">※</span></h5>
+            </label>
+            <div class="inputWrapper">
+              <span class="wpcf7-form-control-wrap" data-name="tel-105"><input type="tel" name="tel-105" value="" size="40" class="wpcf7-form-control wpcf7-text wpcf7-tel wpcf7-validates-as-required wpcf7-validates-as-tel" id="tel-105" aria-required="true" aria-invalid="false" placeholder="(例)090-1234-5678" /></span>
+            </div>
+          </div>
+
+
+          <div class="entry-element">
+            <label for="tel-105">
+              <h5>ご所属</h5>
+            </label>
+            <div class="inputWrapper">
+              <span class="wpcf7-form-control-wrap" data-name="belongs-to"><input type="text" name="belongs-to" value="" size="40" class="wpcf7-form-control wpcf7-text" id="belongs-to" aria-invalid="false" /></span>
+            </div>
+          </div>
+
+          <div class="entry-element entry-element--wide">
+            <label for="where2">
+              <h5>お問い合わせ内容<span class="red">※</span></h5>
+            </label>
+            <span class="wpcf7-form-control-wrap" data-name="contact-body"><textarea name="contact-body" cols="40" rows="10" class="wpcf7-form-control wpcf7-textarea" id="contact-body" aria-invalid="false"></textarea></span>
+          </div>
+
+
+
+          <div class="entry-element entry-element--agree">
+            <h5>個人情報の取扱いについて <span class="red">※</span></h5>
+             <p>以下内容をご確認後、<br>「同意する」をチェックの上送信してください。</p>
+<div class="agreeText">
+当サイトでは、提供するサービス（ホームページによる情報提供、各種ご意見の受付等）の円滑な運営に必要な範囲で、当サイトを利用される皆様の情報を収集しています。情報の収集・利用・管理について、「東京都個人情報の保護に関する条例（平成2年12月21日 条例第113号）」（以下「条例」という。）に基づき、次のとおり適切に取り扱うとともに、皆様に安心して利用していただけるホームページづくりに努めていきます。
+<br>
+<br>１　個人情報とは
+<br>
+<br>当サイトを通じて東京都が提供を受けた、住所、氏名、電話番号、E-mailアドレス等、特定の個人を識別できる情報をいいます。
+<br>
+<br>２　適用範囲について
+<br>
+<br>本方針は、当サイトにおいてのみ適用され、当サイトにリンクされている他のサイトについては適用されません。リンク先における情報の取扱いについては、それぞれの組織の責任において行われることになります。
+<br>
+<br>３　個人情報の収集について
+<br>
+<br>当サイトを通じて東京都が個人情報を収集する際は、利用者ご本人の意思による情報の提供(登録)を原則とします。
+<br>
+<br>個人情報の収集にあたっては、その収集目的を明示いたします。
+<br>
+<br>個人情報の収集は、明示した目的を達成するために必要な範囲内でこれを行います。
+<br>
+<br>４　個人情報の利用制限
+<br>
+<br>皆様から提供(登録)いただいた個人情報は、あらかじめ明示した収集目的の範囲内で利用いたします。個人情報の収集目的を越えた当該実施機関(※)内における利用及び当該実施機関以外の者への提供は、条例で定める場合を除き、一切いたしません。
+<br>
+<br>ただし、統計的に処理された利用者属性等の情報については、個人情報を一切含まないものに限り、公表することがあります。
+<br>
+<br>※「実施機関」とは、個人情報を取り扱う東京都の知事、行政委員会、公営企業管理者及び消防総監並びに東京都規則で定める行政機関の長をいいます。
+<br>
+<br>５　個人情報の管理
+<br>
+<br>収集しました個人情報については、ホームページ管理者が厳重に管理し、漏洩、不正流用、改ざん等の防止に適切な対策を講じます。
+<br>
+<br>なお、本サイトの運用については外部に委託することがありますが、委託先においても同様に適切な対策を講じます。
+<br>
+<br>６　個人情報を含まない利用者の情報について
+<br>
+<br>当サイトでは、インターネットドメイン名、ＩＰアドレス、本サイトの閲覧環境等の情報（以下「利用者の情報」という。）を自動的に収集します。
+<br>
+<br>収集する利用者の情報は、本サイトのユーザビリティーの向上を目的とする内容に限定するものであり、また、その範囲内でのみ利用いたします。ただし、統計的に処理された本サイトのアクセス情報、閲覧環境等の情報については公表することがあります。
+</div>
+            <div class="inputWrapper inputWrapper--checkbox">
+<span class="wpcf7-form-control-wrap" data-name="agree"><span class="wpcf7-form-control wpcf7-acceptance"><span class="wpcf7-list-item"><label><input type="checkbox" name="agree" value="1" aria-invalid="false" /><span class="wpcf7-list-item-label">同意する</span></label></span></span></span>
+            </div>
+       </div>
+    </div><!--/.entry-section-->
+    <div class="entry-section--button entry-section--button--contact">
+        <label class="input-submit"><input type="submit" value="送信" class="wpcf7-form-control has-spinner wpcf7-submit" /></label>
+    </div><div class="wpcf7-response-output" aria-hidden="true"></div></form></div>      </div>
     </div>
   </section>
 
