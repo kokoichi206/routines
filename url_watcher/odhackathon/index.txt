@@ -70,13 +70,13 @@ body{--wp--preset--color--black: #000000;--wp--preset--color--cyan-bluish-gray: 
 
 
 
-<a class="btnFixed pci" href="https://odhackathon.metro.tokyo.lg.jp/entry"><img src="https://odhackathon.metro.tokyo.lg.jp/wp-content/themes/opendatahackathon/assets/images/btnFixedEntry2.png" alt="都知事杯OpenDataHackathonに応募する"></a>
+<!-- <a class="btnFixed pci" href="https://odhackathon.metro.tokyo.lg.jp/entry"><img src="https://odhackathon.metro.tokyo.lg.jp/wp-content/themes/opendatahackathon/assets/images/btnFixedEntry2.png" alt="都知事杯OpenDataHackathonに応募する"></a>
 
 <div class="btnFixedWrapperSpPremeeting spi">
   <div class="btnFixedWrapperSpPremeeting__inner">
     <a href="https://odhackathon.metro.tokyo.lg.jp/entry"><img src="https://odhackathon.metro.tokyo.lg.jp/wp-content/themes/opendatahackathon/assets/images/btnFixedEntry2_sp.png" alt="Hackathonに応募する"></a>
   </div>
-</div>
+</div> -->
 <!--
     --------------------------------------
     --------------------------------------
@@ -114,7 +114,10 @@ body{--wp--preset--color--black: #000000;--wp--preset--color--cyan-bluish-gray: 
             <li><a href="#schedule">SCHEDULE</a></li>
             <li><a href="#faq">FAQ</a></li>
           </ul>
-          <div class="btns"><a href="https://odhackathon.metro.tokyo.lg.jp/wp-content/themes/opendatahackathon/assets/pdf/youkou-2.pdf" target="_blank">募集要項</a><a href="https://odhackathon.metro.tokyo.lg.jp/entry">応募する</a></div>
+          <div class="btns">
+            <a href="https://odhackathon.metro.tokyo.lg.jp/wp-content/themes/opendatahackathon/assets/pdf/youkou-2.pdf" target="_blank">募集要項</a>
+            <!-- <a href="https://odhackathon.metro.tokyo.lg.jp/entry">応募する</a> -->
+          </div>
         </nav>
       </div>
     </div>
@@ -138,7 +141,10 @@ body{--wp--preset--color--black: #000000;--wp--preset--color--cyan-bluish-gray: 
           <li><a href="#schedule">SCHEDULE</a></li>
           <li><a href="#faq">FAQ</a></li>
         </ul>
-        <div class="btns"><a href="https://odhackathon.metro.tokyo.lg.jp/wp-content/themes/opendatahackathon/assets/pdf/youkou-2.pdf" target="_blank">募集要項</a><a href="https://odhackathon.metro.tokyo.lg.jp/entry">応募する</a></div>
+        <div class="btns">
+          <a href="https://odhackathon.metro.tokyo.lg.jp/wp-content/themes/opendatahackathon/assets/pdf/youkou-2.pdf" target="_blank">募集要項</a>
+          <!-- <a href="https://odhackathon.metro.tokyo.lg.jp/entry">応募する</a> -->
+        </div>
       </nav>
     </div>
   </div>
@@ -333,9 +339,9 @@ body{--wp--preset--color--black: #000000;--wp--preset--color--cyan-bluish-gray: 
             <div class="scheduleItem__head">
               <div class="scheduleItem__head__title">
                 <h3>ENTRY</h3>
-                <p><span>募集締め切り日時：<br>2022.8.5(金)23:59</span></p>
+                <p><span>募集締め切り日時：<br><span class="uchikeshi">2022.8.5(金)23:59</span><br class="sp"> 募集終了しました</span></p>
               </div>
-              <a href="https://odhackathon.metro.tokyo.lg.jp/entry"><span>応募する</span></a>
+              <!-- <a href="https://odhackathon.metro.tokyo.lg.jp/entry"><span>応募する</span></a> -->
             </div>
           </li>
 
@@ -514,7 +520,6 @@ body{--wp--preset--color--black: #000000;--wp--preset--color--cyan-bluish-gray: 
       <div class="sec__content">
         <div class="btns">
           <div class="btns__01"><a href="https://odhackathon.metro.tokyo.lg.jp/wp-content/themes/opendatahackathon/assets/pdf/youkou-2.pdf">募集要項</a><a href="https://odhackathon.metro.tokyo.lg.jp/contact">お問い合わせ</a></div>
-          <div class="btns__02"><a href="https://odhackathon.metro.tokyo.lg.jp/entry">応募する</a></div>
         </div>
       </div>
     </div>
@@ -888,10 +893,13 @@ body{--wp--preset--color--black: #000000;--wp--preset--color--cyan-bluish-gray: 
               <li><a href="https://odhackathon.metro.tokyo.lg.jp">TOP</a></li>
               <li><a href="https://odhackathon.metro.tokyo.lg.jp/premeeting">Pre-Meeting</a></li>
               <li><a href="https://odhackathon.metro.tokyo.lg.jp/hackathon">Hackathon</a></li>
-              <li><a href="https://odhackathon.metro.tokyo.lg.jp/entry">ENTRY</a></li>
+              <!-- <li><a href="https://odhackathon.metro.tokyo.lg.jp/entry">ENTRY</a></li> -->
               <li><a href="https://odhackathon.metro.tokyo.lg.jp/contact">CONTACT</a></li>
             </ul>
-            <div class="btns"><a href="https://odhackathon.metro.tokyo.lg.jp/wp-content/themes/opendatahackathon/assets/pdf/youkou.pdf" target="_blank">募集要項</a><a href="https://odhackathon.metro.tokyo.lg.jp/entry">応募する</a></div>
+            <div class="btns">
+              <a href="https://odhackathon.metro.tokyo.lg.jp/wp-content/themes/opendatahackathon/assets/pdf/youkou.pdf" target="_blank">募集要項</a>
+              <!-- <a href="https://odhackathon.metro.tokyo.lg.jp/entry">応募する</a> -->
+            </div>
             <ul class="navigation">
               <li><a href="https://odhackathon.metro.tokyo.lg.jp/en">English</a></li>
             </ul>
