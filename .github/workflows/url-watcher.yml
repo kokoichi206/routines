@@ -28,7 +28,7 @@ jobs:
           save-file: index.txt
 
       - name: Notify if diff found
-        if: ${{ steps.diff-check.outputs.diff == true }}
+        if: ${{ steps.diff-check.outputs.diff == 'true' }}
         run: |
           # Slack API を使って通知
           ## see: https://api.slack.com/methods/chat.postMessage
