@@ -116,7 +116,7 @@ class NotionManager(BookFetcher, BookUploader):
                                     url=self._get_request_url("pages"),
                                     headers=self.headers, data=json.dumps(body))
 
-        return response.status_code == 200
+        return HTTPStatus.OK.__eq__(response.status_code)
 
     def _make_request_body(self, book: BookItem) -> Dict[str, any]:
         """Make request body for post a page.
