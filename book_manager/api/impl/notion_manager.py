@@ -149,7 +149,7 @@ class NotionManager(BookFetcher, BookUploader):
                 }
             }]
         }
-        properties["tag"] = tags
+        properties["Tag"] = tags
 
         body = {
             "parent": {
