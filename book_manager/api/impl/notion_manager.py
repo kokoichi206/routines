@@ -35,12 +35,27 @@ class NotionManager(BookFetcher, BookUploader):
             formatted date (List[:class:`BookItem`]): Data about books.
         """
 
-        response = requests.request("POST",
-                                    url=self._get_request_url(
-                                        f"databases/{self.database_id}/query"),
-                                    headers=self.headers)
-        results = response.json()["results"]
+        book_items = []
 
+        res_json = {}
+        while True:
+            next_cursor = res_json.get("next_cursor", None)
+            body = {"start_cursor": next_cursor} if next_cursor else {}
+            response = requests.request("POST",
+                                        url=self._get_request_url(
+                                            f"databases/{self.database_id}/query"),
+                                        headers=self.headers, data=json.dumps(body))
+            res_json = response.json()
+            results = res_json["results"]
+
+            book_items.extend(self._extract_book_data(results))
+
+            if not res_json["has_more"]:
+                break
+
+        return book_items
+
+    def _extract_book_data(self, results: Dict[str, any]) -> List[BookItem]:
         book_items = []
         for result in results:
             props = result.get("properties")
@@ -66,7 +81,6 @@ class NotionManager(BookFetcher, BookUploader):
                         tags=tags,
                     )
                 )
-
         return book_items
 
     def upload(self, books: List[BookItem]) -> bool:
