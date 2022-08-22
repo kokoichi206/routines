@@ -35,27 +35,27 @@ class NotionManager(BookFetcher, BookUploader):
             formatted date (List[:class:`BookItem`]): Data about books.
         """
 
-        response = requests.request('POST',
+        response = requests.request("POST",
                                     url=self._get_request_url(
-                                        f'databases/{self.database_id}/query'),
+                                        f"databases/{self.database_id}/query"),
                                     headers=self.headers)
-        results = response.json()['results']
+        results = response.json()["results"]
 
         book_items = []
         for result in results:
-            props = result.get('properties')
+            props = result.get("properties")
 
-            title_props = props.get('title', {}).get('title', [])
+            title_props = props.get("title", {}).get("title", [])
             # If title is undefined @Notion, [] will be returned.
             if len(title_props) == 1:
-                title = title_props[0].get('text', {}).get('content')
+                title = title_props[0].get("text", {}).get("content")
 
-            url = props.get('url', {}).get('url')
+            url = props.get("url", {}).get("url")
 
-            tag_props = props.get('tag', {}).get('rich_text')
+            tag_props = props.get("tag", {}).get("rich_text")
             tags = []
             for tag in tag_props:
-                tags.append(tag.get('text').get('content'))
+                tags.append(tag.get("text").get("content"))
 
             # If both url and title are set, append book information.
             if url and title:
@@ -155,7 +155,7 @@ class NotionManager(BookFetcher, BookUploader):
             URL (str): URL from which manager will fetch pdf data.
         """
 
-        return f'https://api.notion.com/v1/{end_point}'
+        return f"https://api.notion.com/v1/{end_point}"
 
     def db_connection_check(self) -> bool:
         """Connetion check whether the database_id and api_key are correct.
@@ -164,8 +164,8 @@ class NotionManager(BookFetcher, BookUploader):
             result (bool): whether the database access is possible.
         """
 
-        response = requests.request('GET',
+        response = requests.request("GET",
                                     url=self._get_request_url(
-                                        f'databases/{self.database_id}'),
+                                        f"databases/{self.database_id}"),
                                     headers=self.headers)
         return HTTPStatus.OK.__eq__(response.status_code)
