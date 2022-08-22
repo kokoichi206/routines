@@ -52,7 +52,7 @@ class NotionManager(BookFetcher, BookUploader):
 
             url = props.get("url", {}).get("url")
 
-            tag_props = props.get("tag", {}).get("rich_text")
+            tag_props = props.get("tag", {}).get("rich_text", {})
             tags = []
             for tag in tag_props:
                 tags.append(tag.get("text").get("content"))
