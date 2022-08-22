@@ -82,7 +82,7 @@ class DriveManager(BookFetcher):
 
                 for inner_div in inner_divs:
                     # Collect only pdf files.
-                    if inner_div.text[-4:] == ".pdf":
+                    if inner_div.text[:6] != "ダウンロード" and inner_div.text[-4:] == ".pdf":
                         title = inner_div.text
                         book = BookItem(title=title, url=pdf_url)
                         result.append(book)
