@@ -1,0 +1,33 @@
+name: update books information
+
+on:
+  workflow_dispatch:
+  schedule:
+    # 日本時間23時00分
+    - cron: "0 14 * * *"
+
+jobs:
+  update-books:
+    runs-on: ubuntu-latest
+    environment: production
+    env:
+      DATABASE_ID: ${{ secrets.DATABASE_ID }}
+      NOTION_API_SECRET: ${{ secrets.NOTION_API_SECRET }}
+      GOOGLE_DRIVE_URL: ${{ secrets.GOOGLE_DRIVE_URL }}
+    defaults:
+      run:
+        shell: bash
+        working-directory: ./book_manager/
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - uses: actions/setup-python@v2
+        with:
+          python-version: "3.9"
+          architecture: "x64"
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+      - name: Install chrome and driver
+        run: bash scripts/setup_chrome.sh
+      - name: Run main code
+        run: python3 main.py
