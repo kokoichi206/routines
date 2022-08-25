@@ -78,9 +78,10 @@ def counts_today(username: str):
     for detail in details:
         if detail.has_attr('data-count'):
             counts.append(detail.attrs['data-count'])
-            print(counts)
             if detail.attrs['data-date'] == formatted_date:
                 today = int(detail.attrs['data-count'])
+
+    print(counts)
     if today == 0:
         result = 0
         for cnt in counts[::-1]:
