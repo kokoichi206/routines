@@ -4,6 +4,7 @@ import datetime
 import requests
 import sys
 from bs4 import BeautifulSoup
+from urllib.error import HTTPError, URLError
 
 
 class LINENotifyBot:
@@ -97,9 +98,27 @@ def counts_today(username: str):
 # Github に写真を保存したくないため、都度ダウンロードする
 def init_images(steps):
     BASE_URL = "https://kokoichi0206.mydns.jp/imgs/github-events"
+
+    img_saved_errs = {}
     for step in steps:
-        urllib.request.urlretrieve(
-            f'{BASE_URL}/{step}.png', f"{step}.png")
+        try:
+            data = urllib.request.urlopen(f"{BASE_URL}/{step}.png").read()
+            with open(f"{step}.png", mode="wb") as f:
+                f.write(data)
+            img_saved_errs[step] = None
+        except HTTPError as e:
+            print("error:", e)
+            img_saved_errs[step] = e
+        except URLError as e:
+            img_saved_errs[step] = e
+    
+    return img_saved_errs
+
+def decide_message(user, counts, zero_days):
+    if counts == 0:
+        return f'{user}の本日の活動数は{counts}です。このまま今日を終えると{zero_days}日連続で No contributions になります\n本当によろしいですか？'
+    else:
+        return f'{user}の本日の活動数は{counts}です。'
 
 
 if __name__ == "__main__":
@@ -117,7 +136,8 @@ if __name__ == "__main__":
     LINE_NOTIFY_TOKEN = sys.argv[1]
     users = sys.argv[2].split(ARG_SEPARATOR)
     steps = list(map(int, sys.argv[3].split(ARG_SEPARATOR)))
-    init_images(steps)
+
+    img_saved_errs = init_images(steps)
     # のちのループのために上限値を作る
     steps.append(99999)
 
@@ -125,16 +145,29 @@ if __name__ == "__main__":
     for user in users:
         counts, zero_days = counts_today(user)
 
+        message = decide_message(user, counts, zero_days)
+
         print(counts)
-        if counts == 0:
+
+        step = 0
+        for i in range(1, len(steps)):
+            if steps[i] <= counts < steps[i+1]:
+                step = steps[i]                
+
+        img_err = img_saved_errs[step]
+        if not img_err:
             bot.send(
-                message = f'{user}の本日の活動数は{counts}です。このまま今日を終えると{zero_days}日連続で No contributions になります\n本当によろしいですか？',
-                image = '0.png',
+                message = message,
+                image = f'{step}.png',
             )
-        else:
-            for i in range(1, len(steps)):
-                if steps[i] <= counts < steps[i+1]: 
-                    bot.send(
-                        message = f'{user}の本日の活動数は{counts}です。',
-                        image = f'{steps[i]}.png',
-                    )
+        elif img_err:
+            bot.send(
+                message = message,
+                image = f'NOT_FOUND.png',
+            )
+
+    # 画像サーバー側がおかしい場合
+    if all([type(err) for err in img_saved_errs]):
+        bot.send(
+            message = "画像を取得する設定がおかしいようです..."
+        )
