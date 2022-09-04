@@ -151,7 +151,7 @@ if __name__ == "__main__":
             )
 
     # 画像サーバー側がおかしい場合
-    if all([type(err) for err in img_saved_errs]):
+    if all([type(err) is URLError for err in img_saved_errs.values()]):
         bot.send(
             message="画像を取得する設定がおかしいようです..."
         )
