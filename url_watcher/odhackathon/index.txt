@@ -166,6 +166,26 @@ body{--wp--preset--color--black: #000000;--wp--preset--color--cyan-bluish-gray: 
             
   
   <li class="topicsItem">
+    <a href="https://odhackathon.metro.tokyo.lg.jp/topics/announcement-log/">
+      <div class="topicsItem__content">
+        <div class="topicsItem__content__meta">
+          <span class="topicsItem__content__meta__date">2022.09.12</span>
+          <span class="topicsItem__content__meta__cat">
+            お知らせ          </span>
+        </div>
+        <p class="topicsItem__content__title">
+          ハッカソン 開催ログを追加しました          <svg class="topicsItem__content__title__arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30.847 4.636">
+            <path d="M-6227.834-5801.787c.139.011,29.627,0,29.627,0l-3.834-3.775" transform="translate(6227.834 5805.918)" fill="none" stroke="#fff" stroke-width="1" />
+          </svg>
+        </p>
+      </div>
+    </a>
+  </li>
+
+
+
+  
+  <li class="topicsItem">
     <a href="https://odhackathon.metro.tokyo.lg.jp/topics/online-meeting/">
       <div class="topicsItem__content">
         <div class="topicsItem__content__meta">
@@ -195,26 +215,6 @@ body{--wp--preset--color--black: #000000;--wp--preset--color--cyan-bluish-gray: 
         </div>
         <p class="topicsItem__content__title">
           募集イベントDay3を開催しました！          <svg class="topicsItem__content__title__arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30.847 4.636">
-            <path d="M-6227.834-5801.787c.139.011,29.627,0,29.627,0l-3.834-3.775" transform="translate(6227.834 5805.918)" fill="none" stroke="#fff" stroke-width="1" />
-          </svg>
-        </p>
-      </div>
-    </a>
-  </li>
-
-
-
-  
-  <li class="topicsItem">
-    <a href="https://odhackathon.metro.tokyo.lg.jp/topics/location-change-day3/">
-      <div class="topicsItem__content">
-        <div class="topicsItem__content__meta">
-          <span class="topicsItem__content__meta__date">2022.07.20</span>
-          <span class="topicsItem__content__meta__cat">
-            お知らせ          </span>
-        </div>
-        <p class="topicsItem__content__title">
-          7/21募集イベントDay3の完全オンライン開催について          <svg class="topicsItem__content__title__arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30.847 4.636">
             <path d="M-6227.834-5801.787c.139.011,29.627,0,29.627,0l-3.834-3.775" transform="translate(6227.834 5805.918)" fill="none" stroke="#fff" stroke-width="1" />
           </svg>
         </p>
@@ -302,7 +302,9 @@ body{--wp--preset--color--black: #000000;--wp--preset--color--cyan-bluish-gray: 
                 <h3>Pre-Meeting</h3>
                 <p><span>ハッカソンが<br class="sp">100倍楽しくなる<br>募集イベント</span></p>
               </div>
-              <a href="https://odhackathon.metro.tokyo.lg.jp/premeeting"><span>MORE</span></a>
+              <div class="scheduleItem__head__btnWrapper">
+                <a href="https://odhackathon.metro.tokyo.lg.jp/premeeting"><span>イベント詳細</span></a>
+              </div>
             </div>
             <!-- __中身 -->
             <div class="scheduleItem__content">
@@ -353,7 +355,10 @@ body{--wp--preset--color--black: #000000;--wp--preset--color--cyan-bluish-gray: 
                 <h3>Hackathon</h3>
                 <p><span>東京都と共に<br>課題に向き合う６日間</span></p>
               </div>
-              <a href="https://odhackathon.metro.tokyo.lg.jp/hackathon"><span>MORE</span></a>
+              <div class="scheduleItem__head__btnWrapper">
+                <a href="https://odhackathon.metro.tokyo.lg.jp/hackathon"><span>イベント詳細</span></a>
+                <a href="https://odhackathon.metro.tokyo.lg.jp/log-hackathon"><span>開催ログ</span></a>
+              </div>
             </div>
             <!-- __中身 -->
             <div class="scheduleItem__content">
@@ -940,6 +945,7 @@ body{--wp--preset--color--black: #000000;--wp--preset--color--cyan-bluish-gray: 
 <script src="https://odhackathon.metro.tokyo.lg.jp/wp-content/themes/opendatahackathon/assets/js/jquery.inview.js" defer></script>
 <script src="https://odhackathon.metro.tokyo.lg.jp/wp-content/themes/opendatahackathon/assets/js/jquery.easing.js" defer></script>
 <script src="https://odhackathon.metro.tokyo.lg.jp/wp-content/themes/opendatahackathon/assets/js/lazysizes.min.js" defer></script>
+<script src="https://odhackathon.metro.tokyo.lg.jp/wp-content/themes/opendatahackathon/assets/js/sticky-kit.min.js" defer></script>
 <script src="https://odhackathon.metro.tokyo.lg.jp/wp-content/themes/opendatahackathon/assets/js/ls.unveilhooks.min.js" defer></script>
 <script src="https://odhackathon.metro.tokyo.lg.jp/wp-content/themes/opendatahackathon/assets/js/" defer></script>
 <script type='text/javascript' src='https://odhackathon.metro.tokyo.lg.jp/wp-content/plugins/contact-form-7/includes/swv/js/index.js?ver=5.6.3' id='swv-js'></script>
