@@ -394,6 +394,9 @@ body{--wp--preset--color--black: #000000;--wp--preset--color--cyan-bluish-gray: 
                 <h3>First Stage</h3>
                 <p><span>全チームによるプレゼン大会</span></p>
               </div>
+              <div class="scheduleItem__head__btnWrapper">
+                <a href="https://odhackathon.metro.tokyo.lg.jp/challengers"><span>参加チーム一覧</span></a>
+              </div>
             </div>
             <!-- __中身 -->
             <div class="scheduleItem__content">
