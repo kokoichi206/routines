@@ -95,6 +95,8 @@ def init_images(steps):
         except URLError as e:
             img_saved_errs[step] = e
 
+    print(f"steps: {steps}")
+    print(f"img_saved_errs: {img_saved_errs}")
     return img_saved_errs
 
 
@@ -140,11 +142,13 @@ if __name__ == "__main__":
 
         img_err = img_saved_errs[step]
         if not img_err:
+            print("normal image")
             bot.send(
                 message=message,
                 image=f"{step}.png",
             )
         elif img_err:
+            print("not found image")
             bot.send(
                 message=message,
                 image='NOT_FOUND.png',
