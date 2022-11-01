@@ -1,4 +1,5 @@
 import datetime
+import os
 import sys
 import urllib.parse
 import urllib.request
@@ -77,23 +78,45 @@ def counts_today(username: str):
     return -1, -1
 
 
-def init_images(steps):
+def init_images(steps, username):
     """
     Github に写真を保存したくないため、都度ダウンロードする。
     """
     BASE_URL = 'https://kokoichi0206.mydns.jp/imgs/github-events'
 
+    os.makedirs(username, exist_ok=True)
+    print("===== init_images =====")
     img_saved_errs = {}
     for step in steps:
         try:
-            data = urllib.request.urlopen(f"{BASE_URL}/{step}.png").read()
-            with open(f"{step}.png", mode="wb") as f:
+            data = urllib.request.urlopen(f"{BASE_URL}/{username}/{step}.png").read()
+            with open(f"{username}/{step}.png", mode="wb") as f:
                 f.write(data)
             img_saved_errs[step] = None
         except HTTPError as e:
             img_saved_errs[step] = e
         except URLError as e:
             img_saved_errs[step] = e
+
+    # 証明書の有効期限切れ等で CERTIFICATE_VERIFY_FAILED が出ることがある。
+    # see: https://end0tknr.hateblo.jp/entry/20210312/1615498434
+    if all([type(err) == URLError for err in img_saved_errs.values()]):
+
+        print("===== Retry with default SSL certificate =====")
+        # デフォルトの証明書を付けてリトライ
+        import ssl
+        ssl._create_default_https_context = ssl._create_unverified_context
+
+        for step in steps:
+            try:
+                data = urllib.request.urlopen(f"{BASE_URL}/{username}/{step}.png").read()
+                with open(f"{username}/{step}.png", mode="wb") as f:
+                    f.write(data)
+                img_saved_errs[step] = None
+            except HTTPError as e:
+                img_saved_errs[step] = e
+            except URLError as e:
+                img_saved_errs[step] = e
 
     print(f"steps: {steps}")
     print(f"img_saved_errs: {img_saved_errs}")
@@ -123,7 +146,11 @@ if __name__ == "__main__":
     users = sys.argv[2].split(ARG_SEPARATOR)
     steps = list(map(int, sys.argv[3].split(ARG_SEPARATOR)))
 
-    img_saved_errs = init_images(steps)
+    img_saved_errs = {}
+    # 人ごとに写真を変更する。
+    for user in users:
+        img_saved_errs[user] = init_images(steps, user)
+
     # のちのループのために上限値を作る
     steps.append(99999)
 
@@ -140,12 +167,12 @@ if __name__ == "__main__":
             if steps[i] <= counts < steps[i+1]:
                 step = steps[i]
 
-        img_err = img_saved_errs[step]
+        img_err = img_saved_errs[user][step]
         if not img_err:
             print("normal image")
             bot.send(
                 message=message,
-                image=f"{step}.png",
+                image=f"{user}/{step}.png",
             )
         elif img_err:
             print("not found image")
@@ -154,8 +181,8 @@ if __name__ == "__main__":
                 image='NOT_FOUND.png',
             )
 
-    # 画像サーバー側がおかしい場合
-    if all([type(err) is URLError for err in img_saved_errs.values()]):
-        bot.send(
-            message="画像を取得する設定がおかしいようです..."
-        )
+    # # 画像サーバー側がおかしい場合
+    # if all([type(err) is URLError for err in img_saved_errs.values()]):
+    #     bot.send(
+    #         message="画像を取得する設定がおかしいようです..."
+    #     )
