@@ -56,6 +56,13 @@ Github REST API を使う。
 - [定期実行 yml ファイル](.github/workflows/url-watcher.yml)
 - [最新版 HTML 保存先](./url_watcher/)
 
+## Book manager
+
+Google Drive の情報と Notion の情報をリンクさせる。
+
+- [Google Drive から情報取得](./book_manager/api/impl/drive_manager.py)
+- [Notion API で情報をアップロード](./book_manager/api/impl/notion_manager.py)
+
 ## サブアカウントの草の成長状況監視
 
 毎日 23 時に、サブアカウントの草がきちんと成長しているかを描画し、ラインに通知する。
