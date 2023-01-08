@@ -1,5 +1,6 @@
 import datetime
 import os
+import re
 import sys
 import urllib.parse
 import urllib.request
@@ -38,6 +39,8 @@ class LINENotifyBot:
 now = datetime.datetime.now()
 formatted_date = now.strftime("%Y-%m-%d")
 
+# 『1 contribution on January 8, 2023』の形
+contribution_regex = re.compile(r'\d*')
 
 def counts_today(username: str):
     """
@@ -47,7 +50,10 @@ def counts_today(username: str):
 
     TOP_URL = f'https://github.com/{username}'
 
-    headers = {'User-Agent': 'Mozilla/5.0'}
+    headers = {
+        'User-Agent': 'Mozilla/5.0',
+        "Accept-Language": "en"
+    }
 
     soup = BeautifulSoup(
         requests.get(TOP_URL, headers=headers).content, 'html.parser')
@@ -59,10 +65,15 @@ def counts_today(username: str):
     # 本日の草
     today = 0
     for detail in details:
-        if detail.has_attr('data-count'):
-            counts.append(detail.attrs['data-count'])
+        m = contribution_regex.match(detail.text)
+        if m.group():
+            contributions = int(m.group())
+            counts.append(contributions)
             if detail.attrs['data-date'] == formatted_date:
-                today = int(detail.attrs['data-count'])
+                today = int(contributions)
+        else:
+            # No contributionos on January 8, 2023 のように表示される。
+            counts.append(0)
 
     print(counts)
     if today == 0:
