@@ -2,6 +2,7 @@ import datetime
 import os
 import re
 import sys
+import time
 import urllib.parse
 import urllib.request
 from urllib.error import HTTPError, URLError
@@ -36,11 +37,14 @@ class LINENotifyBot:
         )
 
 
+DATE_FORMAT = "%Y-%m-%d"
 now = datetime.datetime.now()
-formatted_date = now.strftime("%Y-%m-%d")
+formatted_date = now.strftime(DATE_FORMAT)
+date_today = time.strptime(formatted_date, DATE_FORMAT)
 
 # 『1 contribution on January 8, 2023』の形
 contribution_regex = re.compile(r'\d*')
+
 
 def counts_today(username: str):
     """
@@ -65,11 +69,18 @@ def counts_today(username: str):
     # 本日の草
     today = 0
     for detail in details:
+        if 'data-date' not in detail.attrs:
+            continue
+
+        date = time.strptime(detail.attrs['data-date'], DATE_FORMAT)
+        if date > date_today:
+            continue
+
         m = contribution_regex.match(detail.text)
         if m.group():
             contributions = int(m.group())
             counts.append(contributions)
-            if detail.attrs['data-date'] == formatted_date:
+            if date == date_today:
                 today = int(contributions)
         else:
             # No contributionos on January 8, 2023 のように表示される。
@@ -79,8 +90,7 @@ def counts_today(username: str):
     if today == 0:
         result = 0
         for cnt in counts[::-1]:
-            print(cnt)
-            if cnt == "0":
+            if cnt == 0:
                 result += 1
             else:
                 return today, result
@@ -100,7 +110,8 @@ def init_images(steps, username):
     img_saved_errs = {}
     for step in steps:
         try:
-            data = urllib.request.urlopen(f"{BASE_URL}/{username}/{step}.png").read()
+            data = urllib.request.urlopen(
+                f"{BASE_URL}/{username}/{step}.png").read()
             with open(f"{username}/{step}.png", mode="wb") as f:
                 f.write(data)
             img_saved_errs[step] = None
@@ -120,7 +131,8 @@ def init_images(steps, username):
 
         for step in steps:
             try:
-                data = urllib.request.urlopen(f"{BASE_URL}/{username}/{step}.png").read()
+                data = urllib.request.urlopen(
+                    f"{BASE_URL}/{username}/{step}.png").read()
                 with open(f"{username}/{step}.png", mode="wb") as f:
                     f.write(data)
                 img_saved_errs[step] = None
