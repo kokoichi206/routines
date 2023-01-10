@@ -94,9 +94,15 @@ def counts_today(username: str):
                 result += 1
             else:
                 return today, result
+        return today, -1
     else:
-        return today, 0
-    return -1, -1
+        result = 0
+        for cnt in counts[::-1]:
+            if cnt > 0:
+                result += 1
+            else:
+                return today, result
+        return today, -1
 
 
 def init_images(steps, username):
@@ -146,11 +152,11 @@ def init_images(steps, username):
     return img_saved_errs
 
 
-def decide_message(user, counts, zero_days):
+def decide_message(user, counts, continue_days):
     if counts == 0:
-        return f"{user}の本日の活動数は{counts}です。このまま今日を終えると{zero_days}日連続で No contributions になります\n本当によろしいですか？"
+        return f"{user}の本日の活動数は{counts}です。\nこのまま今日を終えると{continue_days}日連続で No contributions になります\n本当によろしいですか？"
     else:
-        return f"{user}の本日の活動数は{counts}です。"
+        return f"{user}の本日の活動数は{counts}です。\n{continue_days}日連続 contributions 偉い！"
 
 
 if __name__ == "__main__":
@@ -179,11 +185,12 @@ if __name__ == "__main__":
 
     bot = LINENotifyBot(access_token=LINE_NOTIFY_TOKEN)
     for user in users:
-        counts, zero_days = counts_today(user)
+        counts, continue_days = counts_today(user)
+        print(counts, continue_days)
 
-        message = decide_message(user, counts, zero_days)
+        message = decide_message(user, counts, continue_days)
 
-        print(counts)
+        print(message)
 
         step = 0
         for i in range(1, len(steps)):
