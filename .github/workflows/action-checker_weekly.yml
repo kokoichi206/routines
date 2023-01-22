@@ -1,4 +1,4 @@
-name: action_checker
+name: action_checker_weekly
 on:
   # 手動実行できるようにする！
   workflow_dispatch:
