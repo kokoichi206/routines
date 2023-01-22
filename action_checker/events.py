@@ -2,10 +2,11 @@ import datetime
 import os
 import re
 import sys
-import time
 import urllib.parse
 import urllib.request
 from urllib.error import HTTPError, URLError
+from datetime import datetime, timedelta
+import logging
 
 import requests
 from bs4 import BeautifulSoup
@@ -38,18 +39,19 @@ class LINENotifyBot:
 
 
 DATE_FORMAT = "%Y-%m-%d"
-now = datetime.datetime.now()
+now = datetime.now()
 formatted_date = now.strftime(DATE_FORMAT)
-date_today = time.strptime(formatted_date, DATE_FORMAT)
+# datetime.date 型として扱う
+date_today = datetime.strptime(formatted_date, DATE_FORMAT).date()
 
 # 『1 contribution on January 8, 2023』の形
 contribution_regex = re.compile(r'\d*')
 
 
-def counts_today(username: str):
+def fetch_counts(username: str):
     """
-    本日の活動量を、html の草から直接取得
-    (今日のカウント, 0日連続日数) を返却
+    活動量を、html の草から直接取得
+    {""}
     """
 
     TOP_URL = f'https://github.com/{username}'
@@ -65,44 +67,71 @@ def counts_today(username: str):
     details = soup.findAll('rect', class_='ContributionCalendar-day')
 
     # 過去の草一覧
-    counts = []
-    # 本日の草
-    today = 0
+    counts = {}
     for detail in details:
         if 'data-date' not in detail.attrs:
             continue
 
-        date = time.strptime(detail.attrs['data-date'], DATE_FORMAT)
-        if date > date_today:
+        d = datetime.strptime(detail.attrs['data-date'], DATE_FORMAT).date()
+        # 2023-01-20
+        if d > date_today:
             continue
 
         m = contribution_regex.match(detail.text)
         if m.group():
             contributions = int(m.group())
-            counts.append(contributions)
-            if date == date_today:
-                today = int(contributions)
+            counts[d] = contributions
         else:
             # No contributionos on January 8, 2023 のように表示される。
-            counts.append(0)
+            counts[d] = 0
 
-    print(counts)
+    return counts
+
+
+def today_count(counts):
+    # (today_counts, continuous_days) で返却
+    today = counts[date_today]
+    d = date_today
+    continued = 0
     if today == 0:
-        result = 0
-        for cnt in counts[::-1]:
-            if cnt == 0:
-                result += 1
-            else:
-                return today, result
-        return today, -1
-    else:
-        result = 0
-        for cnt in counts[::-1]:
+        while True:
+            d = d - timedelta(days=1)
+            cnt = counts.get(d, None)
+            if not cnt:
+                logging.info("予期しない事象が発生しました。", "counts: ", counts, "d: ", d)
+                return today, continued
+
             if cnt > 0:
-                result += 1
+                continued += 1
             else:
-                return today, result
-        return today, -1
+                return today, continued
+    else:
+        while True:
+            d = d - timedelta(days=1)
+            cnt = counts.get(d, None)
+            if not cnt:
+                logging.info("予期しない事象が発生しました。", "counts: ", counts, "d: ", d)
+                return today, continued
+
+            if cnt > 0:
+                continued += 1
+            else:
+                return today, continued
+
+
+def should_send_extra_message():
+    # 6 means Sunday!
+    return date_today.weekday() == 6
+
+
+def sum_weekly_counts(counts):
+    total = 0
+    d = date_today
+    # 1週間分のコントリビューションを計算
+    for _ in range(7):
+        total += counts[d]
+        d = d - timedelta(days=1)
+    return total
 
 
 def init_images(steps, username):
@@ -159,6 +188,10 @@ def decide_message(user, counts, continue_days):
         return f"{user}の本日の活動数は{counts}です。\n{continue_days}日連続 contributions 偉い！"
 
 
+def weekly_message(user, counts):
+    return f"{user}の今週の活動数は{counts}でした。1週間お疲れ様でした。"
+
+
 if __name__ == "__main__":
 
     ARG_SEPARATOR = "/"
@@ -185,16 +218,15 @@ if __name__ == "__main__":
 
     bot = LINENotifyBot(access_token=LINE_NOTIFY_TOKEN)
     for user in users:
-        counts, continue_days = counts_today(user)
-        print(counts, continue_days)
+        counts = fetch_counts(user)
+        today, continued = today_count(counts)
+        print(today, continued)
 
-        message = decide_message(user, counts, continue_days)
-
-        print(message)
+        message = decide_message(user, today, continued)
 
         step = 0
         for i in range(1, len(steps)):
-            if steps[i] <= counts < steps[i+1]:
+            if steps[i] <= today < steps[i+1]:
                 step = steps[i]
 
         img_err = img_saved_errs[user][step]
@@ -209,6 +241,14 @@ if __name__ == "__main__":
             bot.send(
                 message=message,
                 image='NOT_FOUND.png',
+            )
+
+        # daily 以外にメッセージを送りたい場合。
+        if should_send_extra_message():
+            print("Today is Sunday, so lets send extra message")
+            weekly_counts = sum_weekly_counts(counts)
+            bot.send(
+                message=weekly_message(user=user, counts=weekly_counts),
             )
 
     # # 画像サーバー側がおかしい場合
