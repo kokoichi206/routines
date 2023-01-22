@@ -1,12 +1,12 @@
 import datetime
+import logging
 import os
 import re
 import sys
 import urllib.parse
 import urllib.request
-from urllib.error import HTTPError, URLError
 from datetime import datetime, timedelta
-import logging
+from urllib.error import HTTPError, URLError
 
 import requests
 from bs4 import BeautifulSoup
