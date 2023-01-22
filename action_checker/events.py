@@ -6,46 +6,28 @@ import sys
 import urllib.parse
 import urllib.request
 from datetime import datetime, timedelta
+from typing import Tuple
 from urllib.error import HTTPError, URLError
 
 import requests
 from bs4 import BeautifulSoup
 from dateutil import tz
-
-
-class LINENotifyBot:
-    API_URL = 'https://notify-api.line.me/api/notify'
-
-    def __init__(self, access_token):
-        self.__headers = {'Authorization': 'Bearer ' + access_token}
-
-    def send(
-            self, message,
-            image=None, sticker_package_id=None, sticker_id=None,
-    ):
-        payload = {
-            'message': message,
-            'stickerPackageId': sticker_package_id,
-            'stickerId': sticker_id,
-        }
-        files = {}
-        if image != None:
-            files = {'imageFile': open(image, 'rb')}
-        r = requests.post(
-            LINENotifyBot.API_URL,
-            headers=self.__headers,
-            data=payload,
-            files=files,
-        )
+from line import LINENotifyBot
 
 
 class ActionChecker:
+    """Class for checking GitHub actions."""
 
     DATE_FORMAT = "%Y-%m-%d"
     # 『1 contribution on January 8, 2023』の形
     contribution_regex = re.compile(r'\d*')
 
-    def __init__(self, user: str):
+    def __init__(self, user: str) -> None:
+        """Initialize instance variables.
+
+        Args:
+            user (str): GitHub username.
+        """
         self.user = user
 
         self.date_today = ActionChecker.get_today()
@@ -53,7 +35,12 @@ class ActionChecker:
         self.counts = {}
 
     @classmethod
-    def get_today(cls):
+    def get_today(cls) -> datetime.date:
+        """Get date of today (JST).
+
+        Returns:
+            datetime.date object
+        """
         JST = tz.gettz('Asia/Tokyo')
         now = datetime.now().astimezone(JST)
         print(f"now: {now}")
@@ -61,14 +48,13 @@ class ActionChecker:
         # datetime.date 型として扱う
         return datetime.strptime(formatted_date, ActionChecker.DATE_FORMAT).date()
 
-    def fetch_counts(self):
-        """
-        活動量を、html の草から直接取得
-        self.counts で保持する。
+    def fetch_counts(self) -> None:
+        """Get contributions directly from html object.
+        
+        Save them as a instance variable: self.counts
         """
 
         TOP_URL = f'https://github.com/{self.user}'
-
         headers = {
             'User-Agent': 'Mozilla/5.0',
             "Accept-Language": "en"
@@ -98,8 +84,15 @@ class ActionChecker:
                 # No contributionos on January 8, 2023 のように表示される。
                 self.counts[d] = 0
 
-    def today_count(self):
-        # (today_counts, continuous_days) で返却
+    def today_count(self) -> Tuple[int, int]:
+        """Get today's contributions and continued days.
+
+        The values are calculated using self.counts
+
+        Returns:
+            (today_counts, continuous_days)
+        """
+        #  で返却
         today = self.counts[self.date_today]
         d =self. date_today
         continued = 0
@@ -128,7 +121,14 @@ class ActionChecker:
                 else:
                     return today, continued
 
-    def sum_weekly_counts(self):
+    def sum_weekly_counts(self) -> int:
+        """Calculate weekly contrubutions of last week.
+
+        This method is expected to call on Mondays.
+
+        Returns:
+            (today_counts, continuous_days)
+        """
         total = 0
         d = self.date_today
         # 月曜朝実行されるとし、先週分のコントリビューションを計算
@@ -138,14 +138,14 @@ class ActionChecker:
             d = d - timedelta(days=1)
         return total
 
-    def daily_message(self, counts, continue_days):
+    def daily_message(self, counts, continue_days) -> str:
         if counts == 0:
             return f"{user}の本日の活動数は{counts}です。\nこのまま今日を終えると{continue_days}日連続で No contributions になります\n本当によろしいですか？"
         else:
             return f"{user}の本日の活動数は{counts}です。\n{continue_days}日連続 contributions 偉い！"
 
-    def weekly_message(self, counts: int):
-        return f"{self.user}の先週のの活動数は{counts}でした。今週も頑張りましょう！"
+    def weekly_message(self, counts: int) -> str:
+        return f"{self.user}の先週の活動数は{counts}でした。今週も頑張りましょう！"
 
 
 def init_images(steps, username):
