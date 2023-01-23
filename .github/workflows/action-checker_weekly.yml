@@ -33,7 +33,7 @@ jobs:
 
       - name: Run script for server-side kotlin
         run: |
-          python events.py \
+          python weekly.py \
             "${{ secrets.LINE_NOTIFY_TOKEN_TO_SERVER_SIDE_KOTLIN }}" \
             "${{ secrets.CHECK_USERS_SERVER_SIDE_KOTLIN }}"
 
