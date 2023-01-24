@@ -112,7 +112,7 @@ class ActionChecker:
             while True:
                 d = d - timedelta(days=1)
                 cnt = self.counts.get(d, None)
-                if not cnt:
+                if cnt is None:
                     logging.info("予期しない事象が発生しました。", "counts: ", self.counts, "d: ", d)
                     return today, continued
 
