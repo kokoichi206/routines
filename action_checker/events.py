@@ -95,7 +95,7 @@ class ActionChecker:
         #  で返却
         today = self.counts[self.date_today]
         d =self. date_today
-        continued = 0
+        continued = 1
         if today == 0:
             while True:
                 d = d - timedelta(days=1)
