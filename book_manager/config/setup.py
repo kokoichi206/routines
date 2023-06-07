@@ -19,10 +19,12 @@ def load_notion_config() -> NotionAPIConfig:
 
     database_id = os.getenv("DATABASE_ID")
     if not database_id:
+        print("not found DATABASE_ID")
         database_id = notion_config.DATABASE_ID
 
     secret = os.getenv("NOTION_API_SECRET")
     if not secret:
+        print("not found NOTION_API_SECRET")
         secret = notion_config.NOTION_API_SECRET
 
     return NotionAPIConfig(
