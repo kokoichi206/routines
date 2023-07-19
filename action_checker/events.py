@@ -63,7 +63,7 @@ class ActionChecker:
         soup = BeautifulSoup(
             requests.get(TOP_URL, headers=headers).content, 'html.parser')
 
-        details = soup.findAll('rect', class_='ContributionCalendar-day')
+        details = soup.findAll('td', class_='ContributionCalendar-day')
 
         self.counts = {}
         # 過去の草一覧
