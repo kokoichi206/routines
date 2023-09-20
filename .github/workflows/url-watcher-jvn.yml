@@ -1,0 +1,36 @@
+name: url_watcher_jvn
+
+on:
+  workflow_dispatch:
+  schedule:
+    # 日本時間23時00分
+    - cron: "0 14 * * *"
+
+jobs:
+  checker:
+    runs-on: ubuntu-latest
+    environment: production
+    defaults:
+      run:
+        shell: bash
+        working-directory: ./url_watcher/jvn/
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Diff check
+        id: diff-check
+        uses: kokoichi206/action-URL-watcher@main
+        with:
+          url: https://jvn.jp/rss/jvn.rdf
+          excluded-patterns: 'style.min.css\?[0-9]*-[0-9]*;common.js\?[0-9]*-[0-9]*'
+          save-dir: ./url_watcher/jvn
+          save-file: index.txt
+
+      - name: Notify if diff found
+        if: ${{ steps.diff-check.outputs.diff == 'true' }}
+        run: |
+          curl -X POST \
+            -H 'Authorization: Bearer ${{ secrets.LINE_NOTIFY_TOKEN }}' \
+            -F "message=JVN の更新を検知しました。 https://jvn.jp/index.html" \
+            'https://notify-api.line.me/api/notify'
