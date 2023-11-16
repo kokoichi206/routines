@@ -63,26 +63,31 @@ class ActionChecker:
         soup = BeautifulSoup(
             requests.get(TOP_URL, headers=headers).content, 'html.parser')
 
-        details = soup.findAll('td', class_='ContributionCalendar-day')
+        tds = soup.findAll('td', class_='ContributionCalendar-day')
+        tool_tips = soup.findAll('tool-tip', class_='sr-only')
+        
+        for_to_contributions = {}
+        for tool_tip in tool_tips:
+            key_for = tool_tip.attrs['for']
+            m = ActionChecker.contribution_regex.match(tool_tip.text)
+            if m.group():
+                contributions = int(m.group())
+                for_to_contributions[key_for] = contributions
+            else:
+                for_to_contributions[key_for] = 0
 
         self.counts = {}
         # 過去の草一覧
-        for detail in details:
-            if 'data-date' not in detail.attrs:
+        for td in tds:
+            if 'data-date' not in td.attrs:
                 continue
 
-            d = datetime.strptime(detail.attrs['data-date'], ActionChecker.DATE_FORMAT).date()
+            d = datetime.strptime(td.attrs['data-date'], ActionChecker.DATE_FORMAT).date()
             # 2023-01-20
             if d > self.date_today:
                 continue
 
-            m = ActionChecker.contribution_regex.match(detail.text)
-            if m.group():
-                contributions = int(m.group())
-                self.counts[d] = contributions
-            else:
-                # No contributionos on January 8, 2023 のように表示される。
-                self.counts[d] = 0
+            self.counts[d] = for_to_contributions[td.attrs['id']]
 
     def today_count(self) -> Tuple[int, int]:
         """Get today's contributions and continued days.
@@ -94,7 +99,7 @@ class ActionChecker:
         """
         #  で返却
         today = self.counts[self.date_today]
-        d =self. date_today
+        d =self.date_today
         continued = 1
         if today == 0:
             while True:
