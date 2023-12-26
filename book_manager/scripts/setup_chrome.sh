@@ -1,18 +1,17 @@
 #!/bin/sh
 #
 # Description:
-#   Setup the initial Android project.
-#   You can setup ci and version setting.
 #
 set -eu
 
 # Install Chrome
-wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | apt-key add - \
-    && echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" | tee /etc/apt/sources.list.d/google.list \
-    && apt-get update \
-    && apt-get install -y -qq google-chrome-stable \
-    && google-chrome --version
+wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | sudo apt-key add - \
+    && echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" | sudo tee /etc/apt/sources.list.d/google.list \
+    && sudo apt-get update \
+    && sudo apt-get install -y -qq google-chrome-stable
 
+google-chrome -h
+google-chrome --version
 # Install ChromeDriver from Chrome for Testing
 # https://googlechromelabs.github.io/chrome-for-testing/
 CHROME_VERSION="$(google-chrome)"
