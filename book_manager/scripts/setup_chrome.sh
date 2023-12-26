@@ -14,10 +14,12 @@ google-chrome -h
 google-chrome --version
 # Install ChromeDriver from Chrome for Testing
 # https://googlechromelabs.github.io/chrome-for-testing/
-CHROME_VERSION="$(google-chrome)"
+CHROME_VERSION="$(google-chrome --version | awk -F '[ .]' '{print $3"."$4"."$5"."$6}')"
 echo "CHROME_VERSION: $CHROME_VERSION"
 echo 'start wget'
-wget -qO /tmp/chromedriver_linux64.zip https://edgedl.me.gvt1.com/edgedl/chrome/chrome-for-testing/$CHROME_VERSION/linux64/chromedriver-linux64.zip
+STABLE_DRIVER_VERSION="$(curl -s https://googlechromelabs.github.io/chrome-for-testing/\#stable | grep -zoE 'id=stable.+?Version: <code>.+?</' | grep -Eo '\d+\.\d+\.\d+\.\d+')"
+echo "STABLE_DRIVER_VERSION: $STABLE_DRIVER_VERSION"
+wget -qO /tmp/chromedriver_linux64.zip https://edgedl.me.gvt1.com/edgedl/chrome/chrome-for-testing/$STABLE_DRIVER_VERSION/linux64/chromedriver-linux64.zip
 echo 'unzip chromedriver'
 unzip -q /tmp/chromedriver_linux64.zip -d /opt \
     && rm /tmp/chromedriver-linux64.zip \
