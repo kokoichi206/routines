@@ -30,8 +30,7 @@ STABLE_DRIVER_VERSION="$(curl -s https://googlechromelabs.github.io/chrome-for-t
 echo "STABLE_DRIVER_VERSION: $STABLE_DRIVER_VERSION"
 wget -qO /tmp/chromedriver-linux64.zip https://edgedl.me.gvt1.com/edgedl/chrome/chrome-for-testing/$STABLE_DRIVER_VERSION/linux64/chromedriver-linux64.zip
 echo 'unzip chromedriver'
-unzip -q /tmp/chromedriver-linux64.zip -d /opt \
-    && rm /tmp/chromedriver-linux64.zip \
+unzip -q /tmp/chromedriver-linux64.zip -d /opt
 echo 'move chromedriver'
 chmod 755 /opt/chromedriver-linux64/chromedriver \
     && mv /opt/chromedriver-linux64/chromedriver ./config # Supposed in book_manager folder
