@@ -17,6 +17,14 @@ google-chrome --version
 CHROME_VERSION="$(google-chrome --version | awk -F '[ .]' '{print $3"."$4"."$5"."$6}')"
 echo "CHROME_VERSION: $CHROME_VERSION"
 echo 'start wget'
+curl -s https://googlechromelabs.github.io/chrome-for-testing/\#stable
+sleep 1
+echo 'start grep'
+grep --version
+curl -s https://googlechromelabs.github.io/chrome-for-testing/\#stable | grep -oE 'id=stable.+?Version: <code>.+?</'
+sleep 1
+curl -s https://googlechromelabs.github.io/chrome-for-testing/\#stable | grep -oE 'id=stable.+?Version: <code>.+?</' | grep -Eo '\d+\.\d+\.\d+\.\d+'
+
 STABLE_DRIVER_VERSION="$(curl -s https://googlechromelabs.github.io/chrome-for-testing/\#stable | grep -oE 'id=stable.+?Version: <code>.+?</' | grep -Eo '\d+\.\d+\.\d+\.\d+')"
 echo "STABLE_DRIVER_VERSION: $STABLE_DRIVER_VERSION"
 wget -qO /tmp/chromedriver_linux64.zip https://edgedl.me.gvt1.com/edgedl/chrome/chrome-for-testing/$STABLE_DRIVER_VERSION/linux64/chromedriver-linux64.zip
