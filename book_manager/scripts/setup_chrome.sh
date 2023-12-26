@@ -15,7 +15,7 @@ wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | apt-key add - \
 
 # Install ChromeDriver from Chrome for Testing
 # https://googlechromelabs.github.io/chrome-for-testing/
-CHROME_VERSION=`google-chrome --version | awk -F '[ .]' '{print $3"."$4"."$5}'`
+CHROME_VERSION="$(google-chrome)"
 echo "CHROME_VERSION: $CHROME_VERSION"
 echo 'start wget'
 wget -qO /tmp/chromedriver_linux64.zip https://edgedl.me.gvt1.com/edgedl/chrome/chrome-for-testing/$CHROME_VERSION/linux64/chromedriver-linux64.zip
