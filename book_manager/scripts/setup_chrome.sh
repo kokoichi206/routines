@@ -21,11 +21,12 @@ curl -s https://googlechromelabs.github.io/chrome-for-testing/\#stable
 sleep 1
 echo 'start grep'
 grep --version
-curl -s https://googlechromelabs.github.io/chrome-for-testing/\#stable | grep -oE 'id=stable.+?Version: <code>.+?</'
+# なぜか gh-actions の grep では -E オプションの +? だと最短一致にならなかった。。。
+curl -s https://googlechromelabs.github.io/chrome-for-testing/\#stable | grep -oP 'id=stable.+?Version: <code>.+?</'
 sleep 1
-curl -s https://googlechromelabs.github.io/chrome-for-testing/\#stable | grep -oE 'id=stable.+?Version: <code>.+?</' | grep -Eo '\d+\.\d+\.\d+\.\d+'
+curl -s https://googlechromelabs.github.io/chrome-for-testing/\#stable | grep -oP 'id=stable.+?Version: <code>.+?</' | grep -Po '\d+\.\d+\.\d+\.\d+'
 
-STABLE_DRIVER_VERSION="$(curl -s https://googlechromelabs.github.io/chrome-for-testing/\#stable | grep -oE 'id=stable.+?Version: <code>.+?</' | grep -Eo '\d+\.\d+\.\d+\.\d+')"
+STABLE_DRIVER_VERSION="$(curl -s https://googlechromelabs.github.io/chrome-for-testing/\#stable | grep -oP 'id=stable.+?Version: <code>.+?</' | grep -Po '\d+\.\d+\.\d+\.\d+')"
 echo "STABLE_DRIVER_VERSION: $STABLE_DRIVER_VERSION"
 wget -qO /tmp/chromedriver_linux64.zip https://edgedl.me.gvt1.com/edgedl/chrome/chrome-for-testing/$STABLE_DRIVER_VERSION/linux64/chromedriver-linux64.zip
 echo 'unzip chromedriver'
