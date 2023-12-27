@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rdf:RDF
+  xmlns="http://purl.org/rss/1.0/"
+  xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+  xmlns:dc="http://purl.org/dc/elements/1.1/"
+  xmlns:dcterms="http://purl.org/dc/terms/"
+  xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+  xml:lang="ja">
+
+ <channel rdf:about="https://jvn.jp/rss/jvn.rdf">
+  <title>JVNRSS Feed - Update Entry</title>
+  <link>https://jvn.jp/</link>
+  <description>JVN サイト新着ならびに更新情報</description>
+    <dc:publisher>JVN</dc:publisher>
+
+    <dc:creator>jvn@jvn.jp</dc:creator>
+    <dc:date>2023-12-26T13:47:52+09:00</dc:date>
+    <dcterms:issued>2023-12-26T13:47:52+09:00</dcterms:issued>
+    <dcterms:modified>2023-12-26T13:47:52+09:00</dcterms:modified>
+  <items>
+   <rdf:Seq>
+          <rdf:li rdf:resource="https://jvn.jp/ta/JVNTA95077890/" />
+          <rdf:li rdf:resource="https://jvn.jp/jp/JVN32646742/" />
+          <rdf:li rdf:resource="https://jvn.jp/jp/JVN23771490/" />
+          <rdf:li rdf:resource="https://jvn.jp/vu/JVNVU96089700/" />
+          <rdf:li rdf:resource="https://jvn.jp/vu/JVNVU97943829/" />
+          <rdf:li rdf:resource="https://jvn.jp/vu/JVNVU92152057/" />
+          <rdf:li rdf:resource="https://jvn.jp/vu/JVNVU91213144/" />
+          <rdf:li rdf:resource="https://jvn.jp/vu/JVNVU92617675/" />
+          <rdf:li rdf:resource="https://jvn.jp/vu/JVNVU94591712/" />
+          <rdf:li rdf:resource="https://jvn.jp/vu/JVNVU92156020/" />
+          <rdf:li rdf:resource="https://jvn.jp/vu/JVNVU96286477/" />
+          <rdf:li rdf:resource="https://jvn.jp/vu/JVNVU95344542/" />
+          <rdf:li rdf:resource="https://jvn.jp/vu/JVNVU91654304/" />
+          <rdf:li rdf:resource="https://jvn.jp/vu/JVNVU91399683/" />
+          <rdf:li rdf:resource="https://jvn.jp/vu/JVNVU97015296/" />
+          <rdf:li rdf:resource="https://jvn.jp/vu/JVNVU98271228/" />
+          <rdf:li rdf:resource="https://jvn.jp/vu/JVNVU90214301/" />
+          <rdf:li rdf:resource="https://jvn.jp/vu/JVNVU97876221/" />
+          <rdf:li rdf:resource="https://jvn.jp/vu/JVNVU92303821/" />
+          <rdf:li rdf:resource="https://jvn.jp/jp/JVN18715935/" />
+        </rdf:Seq>
+  </items>
+ </channel>
+
+  <item rdf:about="https://jvn.jp/ta/JVNTA95077890/">
+  <title>SSH接続の安全性を低下させる攻撃手法Terrapin Attackについて</title>
+  <link>https://jvn.jp/ta/JVNTA95077890/</link>
+  <description>SSH接続においてハンドシェイク中にシーケンス番号の操作を可能とする攻撃手法「Terrapin Attack」が報告されています。</description>
+  <dc:publisher>JVN</dc:publisher>
+  <dc:creator>jvn@jvn.jp</dc:creator>
+  <dc:identifier>JVNTA#95077890</dc:identifier>
+  <dc:relation>https://jvn.jp/ta/JVNTA95077890/</dc:relation>
+  <dc:date>2023-12-26T14:00:00+09:00</dc:date>
+  <dcterms:issued>2023-12-26T14:00:00+09:00</dcterms:issued>
+  <dcterms:modified>2023-12-26T14:00:00+09:00</dcterms:modified>
+ </item>
+  <item rdf:about="https://jvn.jp/jp/JVN32646742/">
+  <title>PowerCMS における複数の脆弱性</title>
+  <link>https://jvn.jp/jp/JVN32646742/</link>
+  <description>アルファサード株式会社が提供する PowerCMS には、複数の脆弱性が存在します。</description>
+  <dc:publisher>JVN</dc:publisher>
+  <dc:creator>jvn@jvn.jp</dc:creator>
+  <dc:identifier>JVN#32646742</dc:identifier>
+  <dc:relation>https://jvn.jp/jp/JVN32646742/</dc:relation>
+  <dc:date>2023-12-26T12:00:15+09:00</dc:date>
+  <dcterms:issued>2023-12-26T12:00:15+09:00</dcterms:issued>
+  <dcterms:modified>2023-12-26T12:00:15+09:00</dcterms:modified>
+ </item>
+  <item rdf:about="https://jvn.jp/jp/JVN23771490/">
+  <title>バッファロー製 VR-S1000 における複数の脆弱性</title>
+  <link>https://jvn.jp/jp/JVN23771490/</link>
+  <description>株式会社バッファローが提供する VR-S1000 には、複数の脆弱性が存在します。</description>
+  <dc:publisher>JVN</dc:publisher>
+  <dc:creator>jvn@jvn.jp</dc:creator>
+  <dc:identifier>JVN#23771490</dc:identifier>
+  <dc:relation>https://jvn.jp/jp/JVN23771490/</dc:relation>
+  <dc:date>2023-12-26T12:00:00+09:00</dc:date>
+  <dcterms:issued>2023-12-26T12:00:00+09:00</dcterms:issued>
+  <dcterms:modified>2023-12-26T12:00:00+09:00</dcterms:modified>
+ </item>
+  <item rdf:about="https://jvn.jp/vu/JVNVU96089700/">
+  <title>QNAP製VioStor NVRにおけるOSコマンドインジェクションの脆弱性</title>
+  <link>https://jvn.jp/vu/JVNVU96089700/</link>
+  <description>QNAPが提供するVioStor NVRには、OSコマンドインジェクションの脆弱性が存在します。</description>
+  <dc:publisher>JVN</dc:publisher>
+  <dc:creator>jvn@jvn.jp</dc:creator>
+  <dc:identifier>JVNVU#96089700</dc:identifier>
+  <dc:relation>https://jvn.jp/vu/JVNVU96089700/</dc:relation>
+  <dc:date>2023-12-22T11:30:00+09:00</dc:date>
+  <dcterms:issued>2023-12-22T11:30:00+09:00</dcterms:issued>
+  <dcterms:modified>2023-12-22T11:30:00+09:00</dcterms:modified>
+ </item>
+  <item rdf:about="https://jvn.jp/vu/JVNVU97943829/">
+  <title>ブラザー製iPrint&amp;Scan Desktop for Windowsにおけるファイルアクセス時のリンク解釈が不適切な脆弱性</title>
+  <link>https://jvn.jp/vu/JVNVU97943829/</link>
+  <description>ブラザー工業株式会社が提供するiPrint&amp;amp;Scan Desktop for Windowsには、ファイルアクセス時のリンク解釈が不適切な脆弱性が存在します。</description>
+  <dc:publisher>JVN</dc:publisher>
+  <dc:creator>jvn@jvn.jp</dc:creator>
+  <dc:identifier>JVNVU#97943829</dc:identifier>
+  <dc:relation>https://jvn.jp/vu/JVNVU97943829/</dc:relation>
+  <dc:date>2023-12-22T10:00:00+09:00</dc:date>
+  <dcterms:issued>2023-12-22T10:00:00+09:00</dcterms:issued>
+  <dcterms:modified>2023-12-22T10:00:00+09:00</dcterms:modified>
+ </item>
+  <item rdf:about="https://jvn.jp/vu/JVNVU92152057/">
+  <title>FXC製無線LANルータ「AE1021PE」および「AE1021」におけるOSコマンドインジェクションの脆弱性</title>
+  <link>https://jvn.jp/vu/JVNVU92152057/</link>
+  <description>FXC株式会社が提供する無線LANルータ「AE1021PE」および「AE1021」には、OSコマンドインジェクションの脆弱性が存在します。</description>
+  <dc:publisher>JVN</dc:publisher>
+  <dc:creator>jvn@jvn.jp</dc:creator>
+  <dc:identifier>JVNVU#92152057</dc:identifier>
+  <dc:relation>https://jvn.jp/vu/JVNVU92152057/</dc:relation>
+  <dc:date>2023-12-22T09:30:00+09:00</dc:date>
+  <dcterms:issued>2023-12-06T10:00:00+09:00</dcterms:issued>
+  <dcterms:modified>2023-12-22T09:30:00+09:00</dcterms:modified>
+ </item>
+  <item rdf:about="https://jvn.jp/vu/JVNVU91213144/">
+  <title>OpenSSLに複数の脆弱性</title>
+  <link>https://jvn.jp/vu/JVNVU91213144/</link>
+  <description>OpenSSLには、複数の脆弱性が存在します。</description>
+  <dc:publisher>JVN</dc:publisher>
+  <dc:creator>jvn@jvn.jp</dc:creator>
+  <dc:identifier>JVNVU#91213144</dc:identifier>
+  <dc:relation>https://jvn.jp/vu/JVNVU91213144/</dc:relation>
+  <dc:date>2023-12-21T15:00:00+09:00</dc:date>
+  <dcterms:issued>2023-02-08T14:30:15+09:00</dcterms:issued>
+  <dcterms:modified>2023-12-21T15:00:00+09:00</dcterms:modified>
+ </item>
+  <item rdf:about="https://jvn.jp/vu/JVNVU92617675/">
+  <title>Subnet Solutions Inc.製PowerSYSTEM Centerにおける引用符で囲まれていない検索パスの脆弱性</title>
+  <link>https://jvn.jp/vu/JVNVU92617675/</link>
+  <description>Subnet Solutions Inc.が提供するPowerSYSTEM Centerには、引用符で囲まれていない検索パスの脆弱性が存在します。</description>
+  <dc:publisher>JVN</dc:publisher>
+  <dc:creator>jvn@jvn.jp</dc:creator>
+  <dc:identifier>JVNVU#92617675</dc:identifier>
+  <dc:relation>https://jvn.jp/vu/JVNVU92617675/</dc:relation>
+  <dc:date>2023-12-20T11:30:45+09:00</dc:date>
+  <dcterms:issued>2023-12-20T11:30:45+09:00</dcterms:issued>
+  <dcterms:modified>2023-12-20T11:30:45+09:00</dcterms:modified>
+ </item>
+  <item rdf:about="https://jvn.jp/vu/JVNVU94591712/">
+  <title>EFACEC製BCU 500およびUC 500Eにおける複数の脆弱性</title>
+  <link>https://jvn.jp/vu/JVNVU94591712/</link>
+  <description>EFACECが提供するBCU 500およびUC 500Eには、複数の脆弱性が存在します。</description>
+  <dc:publisher>JVN</dc:publisher>
+  <dc:creator>jvn@jvn.jp</dc:creator>
+  <dc:identifier>JVNVU#94591712</dc:identifier>
+  <dc:relation>https://jvn.jp/vu/JVNVU94591712/</dc:relation>
+  <dc:date>2023-12-20T11:30:30+09:00</dc:date>
+  <dcterms:issued>2023-12-20T11:30:30+09:00</dcterms:issued>
+  <dcterms:modified>2023-12-20T11:30:30+09:00</dcterms:modified>
+ </item>
+  <item rdf:about="https://jvn.jp/vu/JVNVU92156020/">
+  <title>Open Design Alliance製Drawing SDKにおける複数の脆弱性</title>
+  <link>https://jvn.jp/vu/JVNVU92156020/</link>
+  <description>Open Design Allianceが提供するDrawing SDKには、複数の脆弱性が存在します。</description>
+  <dc:publisher>JVN</dc:publisher>
+  <dc:creator>jvn@jvn.jp</dc:creator>
+  <dc:identifier>JVNVU#92156020</dc:identifier>
+  <dc:relation>https://jvn.jp/vu/JVNVU92156020/</dc:relation>
+  <dc:date>2023-12-20T11:30:15+09:00</dc:date>
+  <dcterms:issued>2023-12-20T11:30:15+09:00</dcterms:issued>
+  <dcterms:modified>2023-12-20T11:30:15+09:00</dcterms:modified>
+ </item>
+  <item rdf:about="https://jvn.jp/vu/JVNVU96286477/">
+  <title>EuroTel製ETL3100における複数の脆弱性</title>
+  <link>https://jvn.jp/vu/JVNVU96286477/</link>
+  <description>EuroTelが提供するETL3100には、複数の脆弱性が存在します。</description>
+  <dc:publisher>JVN</dc:publisher>
+  <dc:creator>jvn@jvn.jp</dc:creator>
+  <dc:identifier>JVNVU#96286477</dc:identifier>
+  <dc:relation>https://jvn.jp/vu/JVNVU96286477/</dc:relation>
+  <dc:date>2023-12-20T11:30:00+09:00</dc:date>
+  <dcterms:issued>2023-12-20T11:30:00+09:00</dcterms:issued>
+  <dcterms:modified>2023-12-20T11:30:00+09:00</dcterms:modified>
+ </item>
+  <item rdf:about="https://jvn.jp/vu/JVNVU95344542/">
+  <title>Johnson Controls製の複数のビルディングオートメーション製品におけるリソースの枯渇の脆弱性</title>
+  <link>https://jvn.jp/vu/JVNVU95344542/</link>
+  <description>Johnson Controlsが提供する複数のビルディングオートメーション製品には、リソースの枯渇の脆弱性が存在します。</description>
+  <dc:publisher>JVN</dc:publisher>
+  <dc:creator>jvn@jvn.jp</dc:creator>
+  <dc:identifier>JVNVU#95344542</dc:identifier>
+  <dc:relation>https://jvn.jp/vu/JVNVU95344542/</dc:relation>
+  <dc:date>2023-12-20T10:00:00+09:00</dc:date>
+  <dcterms:issued>2023-12-08T14:30:20+09:00</dcterms:issued>
+  <dcterms:modified>2023-12-20T10:00:00+09:00</dcterms:modified>
+ </item>
+  <item rdf:about="https://jvn.jp/vu/JVNVU91654304/">
+  <title>Cambium Networks製ePMP Force 300-25におけるコードインジェクションの脆弱性</title>
+  <link>https://jvn.jp/vu/JVNVU91654304/</link>
+  <description>Cambium Networksが提供するePMP Force 300-25には、コードインジェクションの脆弱性が存在します。</description>
+  <dc:publisher>JVN</dc:publisher>
+  <dc:creator>jvn@jvn.jp</dc:creator>
+  <dc:identifier>JVNVU#91654304</dc:identifier>
+  <dc:relation>https://jvn.jp/vu/JVNVU91654304/</dc:relation>
+  <dc:date>2023-12-15T11:45:30+09:00</dc:date>
+  <dcterms:issued>2023-12-15T11:45:30+09:00</dcterms:issued>
+  <dcterms:modified>2023-12-15T11:45:30+09:00</dcterms:modified>
+ </item>
+  <item rdf:about="https://jvn.jp/vu/JVNVU91399683/">
+  <title>Kantech Gen1 ioSmartカードリーダーにおける有効期間後のメモリ解放の欠如の脆弱性</title>
+  <link>https://jvn.jp/vu/JVNVU91399683/</link>
+  <description>Kantech Gen1 ioSmartカードリーダーには、有効期間後のメモリ解放の欠如の脆弱性が存在します。</description>
+  <dc:publisher>JVN</dc:publisher>
+  <dc:creator>jvn@jvn.jp</dc:creator>
+  <dc:identifier>JVNVU#91399683</dc:identifier>
+  <dc:relation>https://jvn.jp/vu/JVNVU91399683/</dc:relation>
+  <dc:date>2023-12-15T11:45:15+09:00</dc:date>
+  <dcterms:issued>2023-12-15T11:45:15+09:00</dcterms:issued>
+  <dcterms:modified>2023-12-15T11:45:15+09:00</dcterms:modified>
+ </item>
+  <item rdf:about="https://jvn.jp/vu/JVNVU97015296/">
+  <title>Unitronics製VisiLogicにおけるデフォルトの管理パスワード利用の脆弱性</title>
+  <link>https://jvn.jp/vu/JVNVU97015296/</link>
+  <description>Unitronicsが提供するVisiLogicには、デフォルトの管理パスワード利用の脆弱性が存在します。</description>
+  <dc:publisher>JVN</dc:publisher>
+  <dc:creator>jvn@jvn.jp</dc:creator>
+  <dc:identifier>JVNVU#97015296</dc:identifier>
+  <dc:relation>https://jvn.jp/vu/JVNVU97015296/</dc:relation>
+  <dc:date>2023-12-15T11:45:00+09:00</dc:date>
+  <dcterms:issued>2023-12-15T11:45:00+09:00</dcterms:issued>
+  <dcterms:modified>2023-12-15T11:45:00+09:00</dcterms:modified>
+ </item>
+  <item rdf:about="https://jvn.jp/vu/JVNVU98271228/">
+  <title>Siemens製品に対するアップデート（2023年12月）</title>
+  <link>https://jvn.jp/vu/JVNVU98271228/</link>
+  <description>Siemensから各製品向けのアップデートが公開されました。</description>
+  <dc:publisher>JVN</dc:publisher>
+  <dc:creator>jvn@jvn.jp</dc:creator>
+  <dc:identifier>JVNVU#98271228</dc:identifier>
+  <dc:relation>https://jvn.jp/vu/JVNVU98271228/</dc:relation>
+  <dc:date>2023-12-15T11:00:15+09:00</dc:date>
+  <dcterms:issued>2023-12-13T13:00:00+09:00</dcterms:issued>
+  <dcterms:modified>2023-12-15T11:00:15+09:00</dcterms:modified>
+ </item>
+  <item rdf:about="https://jvn.jp/vu/JVNVU90214301/">
+  <title>複数の Philips 製品に脆弱性</title>
+  <link>https://jvn.jp/vu/JVNVU90214301/</link>
+  <description>Philips 社が提供する複数の製品には、脆弱性が存在します。</description>
+  <dc:publisher>JVN</dc:publisher>
+  <dc:creator>jvn@jvn.jp</dc:creator>
+  <dc:identifier>JVNVU#90214301</dc:identifier>
+  <dc:relation>https://jvn.jp/vu/JVNVU90214301/</dc:relation>
+  <dc:date>2023-12-15T11:00:00+09:00</dc:date>
+  <dcterms:issued>2020-09-15T10:30:00+09:00</dcterms:issued>
+  <dcterms:modified>2023-12-15T11:00:00+09:00</dcterms:modified>
+ </item>
+  <item rdf:about="https://jvn.jp/vu/JVNVU97876221/">
+  <title>WordPress用プラグインMW WP Formに任意のファイルをアップロードされる脆弱性</title>
+  <link>https://jvn.jp/vu/JVNVU97876221/</link>
+  <description>株式会社Webの相談所が提供するMW WP Formには、任意のファイルをアップロードされる脆弱性が存在します。</description>
+  <dc:publisher>JVN</dc:publisher>
+  <dc:creator>jvn@jvn.jp</dc:creator>
+  <dc:identifier>JVNVU#97876221</dc:identifier>
+  <dc:relation>https://jvn.jp/vu/JVNVU97876221/</dc:relation>
+  <dc:date>2023-12-14T09:30:00+09:00</dc:date>
+  <dcterms:issued>2023-12-14T09:30:00+09:00</dcterms:issued>
+  <dcterms:modified>2023-12-14T09:30:00+09:00</dcterms:modified>
+ </item>
+  <item rdf:about="https://jvn.jp/vu/JVNVU92303821/">
+  <title>Schneider Electric製Easy UPS Online Monitoring Softwareにおけるパストラバーサルの脆弱性</title>
+  <link>https://jvn.jp/vu/JVNVU92303821/</link>
+  <description>Schneider Electricが提供するEasy UPS Online Monitoring Softwareには、パストラバーサルの脆弱性が存在します。</description>
+  <dc:publisher>JVN</dc:publisher>
+  <dc:creator>jvn@jvn.jp</dc:creator>
+  <dc:identifier>JVNVU#92303821</dc:identifier>
+  <dc:relation>https://jvn.jp/vu/JVNVU92303821/</dc:relation>
+  <dc:date>2023-12-14T09:00:00+09:00</dc:date>
+  <dcterms:issued>2023-12-14T09:00:00+09:00</dcterms:issued>
+  <dcterms:modified>2023-12-14T09:00:00+09:00</dcterms:modified>
+ </item>
+  <item rdf:about="https://jvn.jp/jp/JVN18715935/">
+  <title>GROWI における複数の脆弱性</title>
+  <link>https://jvn.jp/jp/JVN18715935/</link>
+  <description>株式会社WESEEK が提供する GROWI には、複数の脆弱性が存在します。</description>
+  <dc:publisher>JVN</dc:publisher>
+  <dc:creator>jvn@jvn.jp</dc:creator>
+  <dc:identifier>JVN#18715935</dc:identifier>
+  <dc:relation>https://jvn.jp/jp/JVN18715935/</dc:relation>
+  <dc:date>2023-12-13T14:00:00+09:00</dc:date>
+  <dcterms:issued>2023-12-13T14:00:00+09:00</dcterms:issued>
+  <dcterms:modified>2023-12-13T14:00:00+09:00</dcterms:modified>
+ </item>
+ </rdf:RDF>
