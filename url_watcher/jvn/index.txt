@@ -14,11 +14,13 @@
     <dc:publisher>JVN</dc:publisher>
 
     <dc:creator>jvn@jvn.jp</dc:creator>
-    <dc:date>2023-12-26T13:47:52+09:00</dc:date>
-    <dcterms:issued>2023-12-26T13:47:52+09:00</dcterms:issued>
-    <dcterms:modified>2023-12-26T13:47:52+09:00</dcterms:modified>
+    <dc:date>2024-01-05T11:18:07+09:00</dc:date>
+    <dcterms:issued>2024-01-05T11:18:07+09:00</dcterms:issued>
+    <dcterms:modified>2024-01-05T11:18:07+09:00</dcterms:modified>
   <items>
    <rdf:Seq>
+          <rdf:li rdf:resource="https://jvn.jp/vu/JVNVU92008538/" />
+          <rdf:li rdf:resource="https://jvn.jp/vu/JVNVU97015296/" />
           <rdf:li rdf:resource="https://jvn.jp/ta/JVNTA95077890/" />
           <rdf:li rdf:resource="https://jvn.jp/jp/JVN32646742/" />
           <rdf:li rdf:resource="https://jvn.jp/jp/JVN23771490/" />
@@ -33,16 +35,38 @@
           <rdf:li rdf:resource="https://jvn.jp/vu/JVNVU95344542/" />
           <rdf:li rdf:resource="https://jvn.jp/vu/JVNVU91654304/" />
           <rdf:li rdf:resource="https://jvn.jp/vu/JVNVU91399683/" />
-          <rdf:li rdf:resource="https://jvn.jp/vu/JVNVU97015296/" />
           <rdf:li rdf:resource="https://jvn.jp/vu/JVNVU98271228/" />
           <rdf:li rdf:resource="https://jvn.jp/vu/JVNVU90214301/" />
           <rdf:li rdf:resource="https://jvn.jp/vu/JVNVU97876221/" />
           <rdf:li rdf:resource="https://jvn.jp/vu/JVNVU92303821/" />
-          <rdf:li rdf:resource="https://jvn.jp/jp/JVN18715935/" />
         </rdf:Seq>
   </items>
  </channel>
 
+  <item rdf:about="https://jvn.jp/vu/JVNVU92008538/">
+  <title>Rockwell Automation製FactoryTalk Activation Managerにおける複数の境界外書き込みの脆弱性</title>
+  <link>https://jvn.jp/vu/JVNVU92008538/</link>
+  <description>Rockwell Automationが提供するFactoryTalk Activation Managerには、複数の境界外書き込みの脆弱性が存在します。</description>
+  <dc:publisher>JVN</dc:publisher>
+  <dc:creator>jvn@jvn.jp</dc:creator>
+  <dc:identifier>JVNVU#92008538</dc:identifier>
+  <dc:relation>https://jvn.jp/vu/JVNVU92008538/</dc:relation>
+  <dc:date>2024-01-05T11:30:00+09:00</dc:date>
+  <dcterms:issued>2024-01-05T11:30:00+09:00</dcterms:issued>
+  <dcterms:modified>2024-01-05T11:30:00+09:00</dcterms:modified>
+ </item>
+  <item rdf:about="https://jvn.jp/vu/JVNVU97015296/">
+  <title>Unitronics製VisiLogicにおけるデフォルトの管理パスワード利用の脆弱性</title>
+  <link>https://jvn.jp/vu/JVNVU97015296/</link>
+  <description>Unitronicsが提供するVisiLogicには、デフォルトの管理パスワード利用の脆弱性が存在します。</description>
+  <dc:publisher>JVN</dc:publisher>
+  <dc:creator>jvn@jvn.jp</dc:creator>
+  <dc:identifier>JVNVU#97015296</dc:identifier>
+  <dc:relation>https://jvn.jp/vu/JVNVU97015296/</dc:relation>
+  <dc:date>2024-01-05T10:45:00+09:00</dc:date>
+  <dcterms:issued>2023-12-15T11:45:00+09:00</dcterms:issued>
+  <dcterms:modified>2024-01-05T10:45:00+09:00</dcterms:modified>
+ </item>
   <item rdf:about="https://jvn.jp/ta/JVNTA95077890/">
   <title>SSH接続の安全性を低下させる攻撃手法Terrapin Attackについて</title>
   <link>https://jvn.jp/ta/JVNTA95077890/</link>
@@ -211,18 +235,6 @@
   <dcterms:issued>2023-12-15T11:45:15+09:00</dcterms:issued>
   <dcterms:modified>2023-12-15T11:45:15+09:00</dcterms:modified>
  </item>
-  <item rdf:about="https://jvn.jp/vu/JVNVU97015296/">
-  <title>Unitronics製VisiLogicにおけるデフォルトの管理パスワード利用の脆弱性</title>
-  <link>https://jvn.jp/vu/JVNVU97015296/</link>
-  <description>Unitronicsが提供するVisiLogicには、デフォルトの管理パスワード利用の脆弱性が存在します。</description>
-  <dc:publisher>JVN</dc:publisher>
-  <dc:creator>jvn@jvn.jp</dc:creator>
-  <dc:identifier>JVNVU#97015296</dc:identifier>
-  <dc:relation>https://jvn.jp/vu/JVNVU97015296/</dc:relation>
-  <dc:date>2023-12-15T11:45:00+09:00</dc:date>
-  <dcterms:issued>2023-12-15T11:45:00+09:00</dcterms:issued>
-  <dcterms:modified>2023-12-15T11:45:00+09:00</dcterms:modified>
- </item>
   <item rdf:about="https://jvn.jp/vu/JVNVU98271228/">
   <title>Siemens製品に対するアップデート（2023年12月）</title>
   <link>https://jvn.jp/vu/JVNVU98271228/</link>
@@ -270,17 +282,5 @@
   <dc:date>2023-12-14T09:00:00+09:00</dc:date>
   <dcterms:issued>2023-12-14T09:00:00+09:00</dcterms:issued>
   <dcterms:modified>2023-12-14T09:00:00+09:00</dcterms:modified>
- </item>
-  <item rdf:about="https://jvn.jp/jp/JVN18715935/">
-  <title>GROWI における複数の脆弱性</title>
-  <link>https://jvn.jp/jp/JVN18715935/</link>
-  <description>株式会社WESEEK が提供する GROWI には、複数の脆弱性が存在します。</description>
-  <dc:publisher>JVN</dc:publisher>
-  <dc:creator>jvn@jvn.jp</dc:creator>
-  <dc:identifier>JVN#18715935</dc:identifier>
-  <dc:relation>https://jvn.jp/jp/JVN18715935/</dc:relation>
-  <dc:date>2023-12-13T14:00:00+09:00</dc:date>
-  <dcterms:issued>2023-12-13T14:00:00+09:00</dcterms:issued>
-  <dcterms:modified>2023-12-13T14:00:00+09:00</dcterms:modified>
  </item>
  </rdf:RDF>
