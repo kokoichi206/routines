@@ -19,8 +19,18 @@ class ActionChecker:
     """Class for checking GitHub actions."""
 
     DATE_FORMAT = "%Y-%m-%d"
-    # 『1 contribution on January 8, 2023』の形
+    # 『1 contribution on January 8, 2023』の形。
     contribution_regex = re.compile(r'\d*')
+    # contribution の年を指定するためのリンクの id。『year-link-2023』の形。
+    year_atag_id_regex = re.compile(r'year-link-\d{4}')
+
+    headers = {
+        'User-Agent': 'Mozilla/5.0',
+        "Accept-Language": "en",
+        "Time-Zone": "Asia/Tokyo",
+        "TZ": "Asia/Tokyo",
+        "Cookie": "tz=Asia%2FTokyo",
+    }
 
     def __init__(self, user: str) -> None:
         """Initialize instance variables.
@@ -48,20 +58,38 @@ class ActionChecker:
         # datetime.date 型として扱う
         return datetime.strptime(formatted_date, ActionChecker.DATE_FORMAT).date()
 
-    def fetch_counts(self) -> None:
-        """Get contributions directly from html object.
+    def fetch_year_separated_urls(self) -> list:
+        """Get urls to contributions of each year.
+
+        Returns:
+            list: urls to contributions of each year.
+        """
+
+        TOP_URL = f'https://github.com/{self.user}'
+
+        soup = BeautifulSoup(
+            requests.get(TOP_URL, headers=ActionChecker.headers).content, 'html.parser')
+
+        year_separated_urls = []
+
+        atags = soup.findAll('a', class_='js-year-link')
+        for atag in atags:
+            id = atag.attrs['id']
+            m = ActionChecker.year_atag_id_regex.match(id)
+            if m.group():
+                href = atag.attrs['href']
+                year_separated_urls.append(f'https://github.com/{href}')
+
+        return year_separated_urls
+
+    def fetch_counts(self, url: str) -> None:
+        """Get contributions directly from html object of the specific year's overview url.
         
         Save them as a instance variable: self.counts
         """
 
-        TOP_URL = f'https://github.com/{self.user}'
-        headers = {
-            'User-Agent': 'Mozilla/5.0',
-            "Accept-Language": "en"
-        }
-
         soup = BeautifulSoup(
-            requests.get(TOP_URL, headers=headers).content, 'html.parser')
+            requests.get(url, headers=ActionChecker.headers).content, 'html.parser')
 
         tds = soup.findAll('td', class_='ContributionCalendar-day')
         tool_tips = soup.findAll('tool-tip', class_='sr-only')
@@ -76,7 +104,6 @@ class ActionChecker:
             else:
                 for_to_contributions[key_for] = 0
 
-        self.counts = {}
         # 過去の草一覧
         for td in tds:
             if 'data-date' not in td.attrs:
@@ -99,7 +126,7 @@ class ActionChecker:
         """
         #  で返却
         today = self.counts[self.date_today]
-        d =self.date_today
+        d = self.date_today
         continued = 1
         if today == 0:
             while True:
@@ -227,7 +254,10 @@ if __name__ == "__main__":
     bot = LINENotifyBot(access_token=LINE_NOTIFY_TOKEN)
     for user in users:
         checker = ActionChecker(user=user)
-        checker.fetch_counts()
+        urls = checker.fetch_year_separated_urls()
+        for url in urls:
+            checker.fetch_counts(url)
+
         today, continued = checker.today_count()
         print(today, continued)
 
