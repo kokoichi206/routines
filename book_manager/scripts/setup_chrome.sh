@@ -28,7 +28,7 @@ curl -s https://googlechromelabs.github.io/chrome-for-testing/\#stable | grep -o
 
 STABLE_DRIVER_VERSION="$(curl -s https://googlechromelabs.github.io/chrome-for-testing/\#stable | grep -oP 'id=stable.+?Version: <code>.+?</' | grep -Po '\d+\.\d+\.\d+\.\d+')"
 echo "STABLE_DRIVER_VERSION: $STABLE_DRIVER_VERSION"
-wget -qO /tmp/chromedriver-linux64.zip https://edgedl.me.gvt1.com/edgedl/chrome/chrome-for-testing/$STABLE_DRIVER_VERSION/linux64/chromedriver-linux64.zip
+wget -qO /tmp/chromedriver-linux64.zip https://storage.googleapis.com/chrome-for-testing-public/$STABLE_DRIVER_VERSION/linux64/chromedriver-linux64.zip
 echo 'unzip chromedriver'
 unzip -q /tmp/chromedriver-linux64.zip -d /opt
 echo 'move chromedriver'
