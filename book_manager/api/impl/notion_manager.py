@@ -116,6 +116,10 @@ class NotionManager(BookFetcher, BookUploader):
                                     url=self._get_request_url("pages"),
                                     headers=self.headers, data=json.dumps(body))
 
+        print(f'uploading {book.title}...')
+        if HTTPStatus.OK.__ne__(response.status_code):
+            print(response.status_code)
+            print(response.json())
         return HTTPStatus.OK.__eq__(response.status_code)
 
     def _make_request_body(self, book: BookItem) -> Dict[str, any]:
