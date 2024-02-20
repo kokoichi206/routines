@@ -43,3 +43,6 @@ class LINENotifyBot:
             data=payload,
             files=files,
         )
+        print(f'api_url: {url}')
+        print(f'status_code: {r.status_code}')
+        print(f'response: {r.text}')
