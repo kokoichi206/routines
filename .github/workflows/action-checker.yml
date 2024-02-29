@@ -30,7 +30,8 @@ jobs:
           python events.py \
             "${{ secrets.LINE_NOTIFY_TOKEN }}" \
             "${{ secrets.CHECK_USERS }}" \
-            "${{ secrets.CHECK_STEPS }}"
+            "${{ secrets.CHECK_STEPS }}" \
+            "${{ secrets.CHECK_IMG_BASE_URL }}"
 
       - name: Report if checker hadn't worked.
         if: failure()

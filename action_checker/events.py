@@ -180,11 +180,10 @@ class ActionChecker:
         return f"{self.user}の先週の活動数は{counts}でした。今週も頑張りましょう！"
 
 
-def init_images(steps, username):
+def init_images(base_url, steps, username):
     """
     Github に写真を保存したくないため、都度ダウンロードする。
     """
-    BASE_URL = 'https://kokoichi0206.mydns.jp/imgs/github-events'
 
     os.makedirs(username, exist_ok=True)
     print("===== init_images =====")
@@ -192,7 +191,7 @@ def init_images(steps, username):
     for step in steps:
         try:
             data = urllib.request.urlopen(
-                f"{BASE_URL}/{username}/{step}.png").read()
+                f"{base_url}/{username}/{step}.png").read()
             with open(f"{username}/{step}.png", mode="wb") as f:
                 f.write(data)
             img_saved_errs[step] = None
@@ -213,7 +212,7 @@ def init_images(steps, username):
         for step in steps:
             try:
                 data = urllib.request.urlopen(
-                    f"{BASE_URL}/{username}/{step}.png").read()
+                    f"{base_url}/{username}/{step}.png").read()
                 with open(f"{username}/{step}.png", mode="wb") as f:
                     f.write(data)
                 img_saved_errs[step] = None
@@ -236,17 +235,19 @@ if __name__ == "__main__":
     #      - 渡す際の区切り文字に注意
     # 3. 画像の切り替えを行う活動数(ARG_SEPARATOR 区切り)
     #      - 渡す際の区切り文字に注意
-    if len(sys.argv) < 3:
+    # 4. 画像が保存されてる URL
+    if len(sys.argv) < 4:
         sys.exit()
 
     LINE_NOTIFY_TOKEN = sys.argv[1]
     users = sys.argv[2].split(ARG_SEPARATOR)
     steps = list(map(int, sys.argv[3].split(ARG_SEPARATOR)))
+    base_url = sys.argv[4]
 
     img_saved_errs = {}
     # 人ごとに写真を変更する。
     for user in users:
-        img_saved_errs[user] = init_images(steps, user)
+        img_saved_errs[user] = init_images(base_url, steps, user)
 
     # のちのループのために上限値を作る
     steps.append(99999)
