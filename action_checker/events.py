@@ -10,9 +10,13 @@ from typing import Tuple
 from urllib.error import HTTPError, URLError
 
 import requests
+from selenium import webdriver
 from bs4 import BeautifulSoup
 from dateutil import tz
 from line import LINENotifyBot
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.by import By
 
 
 class ActionChecker:
@@ -39,6 +43,7 @@ class ActionChecker:
             user (str): GitHub username.
         """
         self.user = user
+        self.DRIVER_PATH = "./chromedriver"
 
         self.date_today = ActionChecker.get_today()
         # {datetime.date(2022, 7, 25): 6, ...} の形式で活動数を保持する。
@@ -65,10 +70,18 @@ class ActionChecker:
             list: urls to contributions of each year.
         """
 
-        TOP_URL = f'https://github.com/{self.user}'
+        # js を動作させ DOM が揃うのを待つために selenium を使用。
+        options = webdriver.ChromeOptions()
+        options.add_argument("--headless")
+        driver = webdriver.Chrome(self.DRIVER_PATH, options=options)
+        wait = WebDriverWait(driver=driver, timeout=60)
 
-        soup = BeautifulSoup(
-            requests.get(TOP_URL, headers=ActionChecker.headers).content, 'html.parser')
+        TOP_URL = f'https://github.com/{self.user}'
+        driver.get(TOP_URL)
+        wait.until(EC.presence_of_element_located((By.CLASS_NAME, 'js-year-link')))
+
+        html = driver.page_source.encode("utf-8")
+        soup = BeautifulSoup(html, 'html.parser')
 
         year_separated_urls = []
 
@@ -88,8 +101,18 @@ class ActionChecker:
         Save them as a instance variable: self.counts
         """
 
-        soup = BeautifulSoup(
-            requests.get(url, headers=ActionChecker.headers).content, 'html.parser')
+        # js を動作させ DOM が揃うのを待つために selenium を使用。
+        # TODO: TOP_URL のページを持ったままボタン押下で遷移させる。
+        options = webdriver.ChromeOptions()
+        options.add_argument("--headless")
+        driver = webdriver.Chrome(self.DRIVER_PATH, options=options)
+        wait = WebDriverWait(driver=driver, timeout=60)
+
+        driver.get(url)
+        wait.until(EC.presence_of_element_located((By.CLASS_NAME, 'js-year-link')))
+
+        html = driver.page_source.encode("utf-8")
+        soup = BeautifulSoup(html, 'html.parser')
 
         tds = soup.findAll('td', class_='ContributionCalendar-day')
         tool_tips = soup.findAll('tool-tip', class_='sr-only')
