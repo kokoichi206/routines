@@ -9,7 +9,6 @@ from datetime import datetime, timedelta
 from typing import Tuple
 from urllib.error import HTTPError, URLError
 
-import requests
 from selenium import webdriver
 from bs4 import BeautifulSoup
 from dateutil import tz
@@ -45,7 +44,7 @@ class ActionChecker:
         self.user = user
         self.DRIVER_PATH = "./chromedriver"
 
-        self.date_today = ActionChecker.get_today()
+        self.date_today = ActionChecker.get_today() - timedelta(days=1)
         # {datetime.date(2022, 7, 25): 6, ...} の形式で活動数を保持する。
         self.counts = {}
 
@@ -93,6 +92,7 @@ class ActionChecker:
                 href = atag.attrs['href']
                 year_separated_urls.append(f'https://github.com/{href}')
 
+        print(f"year_separated_urls: {year_separated_urls}")
         return year_separated_urls
 
     def fetch_counts(self, url: str) -> None:
@@ -148,6 +148,7 @@ class ActionChecker:
             (today_counts, continuous_days)
         """
         #  で返却
+        print(self.counts)
         today = self.counts[self.date_today]
         d = self.date_today
         continued = 1
@@ -277,12 +278,14 @@ if __name__ == "__main__":
 
     bot = LINENotifyBot(access_token=LINE_NOTIFY_TOKEN)
     for user in users:
+        print(f"===== {user} =====")
         checker = ActionChecker(user=user)
         urls = checker.fetch_year_separated_urls()
         for url in urls:
             checker.fetch_counts(url)
 
         today, continued = checker.today_count()
+        # today = 18
         print(today, continued)
 
         message = checker.daily_message(today, continued)
@@ -302,10 +305,10 @@ if __name__ == "__main__":
             )
         elif img_err:
             print("not found image")
-            bot.send(
-                message=message,
-                image='NOT_FOUND.png',
-            )
+            # bot.send(
+            #     message=message,
+            #     image='NOT_FOUND.png',
+            # )
 
     # # 画像サーバー側がおかしい場合
     # if all([type(err) is URLError for err in img_saved_errs.values()]):
