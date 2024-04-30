@@ -8,6 +8,7 @@ import urllib.request
 from datetime import datetime, timedelta
 from typing import Tuple
 from urllib.error import HTTPError, URLError
+import base64
 
 from selenium import webdriver
 from bs4 import BeautifulSoup
@@ -204,7 +205,7 @@ class ActionChecker:
         return f"{self.user}の先週の活動数は{counts}でした。今週も頑張りましょう！"
 
 
-def init_images(base_url, steps, username):
+def init_images(base_url, steps, username, basic_auth_user=None, basic_auth_pass=None):
     """
     Github に写真を保存したくないため、都度ダウンロードする。
     """
@@ -212,12 +213,18 @@ def init_images(base_url, steps, username):
     os.makedirs(username, exist_ok=True)
     print("===== init_images =====")
     img_saved_errs = {}
+    headers = {
+        'User-Agent': 'Action Checker (run in github actions)',
+    }
+
+    if basic_auth_user and basic_auth_pass:
+        encoded = base64.b64encode(f"{basic_auth_user}:{basic_auth_pass}".encode("utf-8")).decode("utf-8")
+        headers['Authorization'] = f"Basic {encoded}"
+
     for step in steps:
         req = urllib.request.Request(
             url=f"{base_url}/{username}/{step}.png",
-            headers={
-                'User-Agent': 'Action Checker (run in github actions)',
-            },
+            headers=headers,
         )
         try:
             data = urllib.request.urlopen(req).read()
@@ -265,6 +272,8 @@ if __name__ == "__main__":
     # 3. 画像の切り替えを行う活動数(ARG_SEPARATOR 区切り)
     #      - 渡す際の区切り文字に注意
     # 4. 画像が保存されてる URL
+    # 5. Basic 認証のユーザー名
+    # 6. Basic 認証のパスワード
     if len(sys.argv) < 4:
         sys.exit()
 
@@ -272,11 +281,20 @@ if __name__ == "__main__":
     users = sys.argv[2].split(ARG_SEPARATOR)
     steps = list(map(int, sys.argv[3].split(ARG_SEPARATOR)))
     base_url = sys.argv[4]
+    basic_auth_user = None
+    basic_auth_pass = None
+    print(len(sys.argv))
+    if len(sys.argv) >= 7:
+        basic_auth_user = sys.argv[5]
+        basic_auth_pass = sys.argv[6]
 
     img_saved_errs = {}
     # 人ごとに写真を変更する。
     for user in users:
-        img_saved_errs[user] = init_images(base_url, steps, user)
+        img_saved_errs[user] = init_images(
+            base_url, steps, user,
+            basic_auth_user=basic_auth_user,
+            basic_auth_pass=basic_auth_pass)
 
     # のちのループのために上限値を作る
     steps.append(99999)

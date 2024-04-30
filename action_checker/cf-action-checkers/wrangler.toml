@@ -1,16 +1,18 @@
 name = "cf-action-checkers"
 compatibility_date = "2023-12-01"
 
-# [vars]
+[vars]
 # MY_VAR = "my-variable"
+USERNAME = "zzz"
+PASSWORD = "aaa"
 
 # [[kv_namespaces]]
 # binding = "MY_KV_NAMESPACE"
 # id = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
 
-# [[r2_buckets]]
-# binding = "MY_BUCKET"
-# bucket_name = "my-bucket"
+[[r2_buckets]]
+binding = "MY_BUCKET"
+bucket_name = "yyy"
 
 # [[d1_databases]]
 # binding = "DB"

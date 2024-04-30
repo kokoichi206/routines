@@ -1,4 +1,5 @@
 import { Hono } from "hono";
+import { basicAuth } from "hono/basic-auth";
 import { stream } from "hono/streaming";
 
 // https://hono.dev/getting-started/cloudflare-workers#bindings
@@ -9,6 +10,14 @@ type Bindings = {
 };
 
 const app = new Hono<{ Bindings: Bindings }>();
+
+app.all("/*", async (c, next) => {
+  const auth = basicAuth({
+    username: c.env.USERNAME,
+    password: c.env.PASSWORD,
+  });
+  return auth(c, next);
+});
 
 app.get("/imgs/:username/:step", async (c, next) => {
   const key = `${c.req.param("username")}/${c.req.param("step")}`;
