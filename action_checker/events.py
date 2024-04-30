@@ -213,9 +213,14 @@ def init_images(base_url, steps, username):
     print("===== init_images =====")
     img_saved_errs = {}
     for step in steps:
+        req = urllib.request.Request(
+            url=f"{base_url}/{username}/{step}.png",
+            headers={
+                'User-Agent': 'Action Checker (run in github actions)',
+            },
+        )
         try:
-            data = urllib.request.urlopen(
-                f"{base_url}/{username}/{step}.png").read()
+            data = urllib.request.urlopen(req).read()
             with open(f"{username}/{step}.png", mode="wb") as f:
                 f.write(data)
             img_saved_errs[step] = None
