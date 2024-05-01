@@ -45,7 +45,7 @@ class ActionChecker:
         self.user = user
         self.DRIVER_PATH = "./chromedriver"
 
-        self.date_today = ActionChecker.get_today() - timedelta(days=1)
+        self.date_today = ActionChecker.get_today()
         # {datetime.date(2022, 7, 25): 6, ...} の形式で活動数を保持する。
         self.counts = {}
 
