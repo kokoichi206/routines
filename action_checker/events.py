@@ -13,7 +13,7 @@ import base64
 from selenium import webdriver
 from bs4 import BeautifulSoup
 from dateutil import tz
-from line import LINENotifyBot
+from discord import DiscordNotifyBot
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
@@ -43,8 +43,6 @@ class ActionChecker:
             user (str): GitHub username.
         """
         self.user = user
-        self.DRIVER_PATH = "./chromedriver"
-
         self.date_today = ActionChecker.get_today()
         # {datetime.date(2022, 7, 25): 6, ...} の形式で活動数を保持する。
         self.counts = {}
@@ -73,7 +71,7 @@ class ActionChecker:
         # js を動作させ DOM が揃うのを待つために selenium を使用。
         options = webdriver.ChromeOptions()
         options.add_argument("--headless")
-        driver = webdriver.Chrome(self.DRIVER_PATH, options=options)
+        driver = webdriver.Chrome(options=options)
         wait = WebDriverWait(driver=driver, timeout=60)
 
         TOP_URL = f'https://github.com/{self.user}'
@@ -106,7 +104,7 @@ class ActionChecker:
         # TODO: TOP_URL のページを持ったままボタン押下で遷移させる。
         options = webdriver.ChromeOptions()
         options.add_argument("--headless")
-        driver = webdriver.Chrome(self.DRIVER_PATH, options=options)
+        driver = webdriver.Chrome(options=options)
         wait = WebDriverWait(driver=driver, timeout=60)
 
         driver.get(url)
@@ -197,9 +195,9 @@ class ActionChecker:
 
     def daily_message(self, counts, continue_days) -> str:
         if counts == 0:
-            return f"{user}の本日の活動数は{counts}です。\nこのまま今日を終えると{continue_days}日連続で No contributions になります\n本当によろしいですか？"
+            return f"{self.user}の本日の活動数は{counts}です。\nこのまま今日を終えると{continue_days}日連続で No contributions になります\n本当によろしいですか？"
         else:
-            return f"{user}の本日の活動数は{counts}です。\n{continue_days}日連続 contributions 偉い！"
+            return f"{self.user}の本日の活動数は{counts}です。\n{continue_days}日連続 contributions 偉い！"
 
     def weekly_message(self, counts: int) -> str:
         return f"{self.user}の先週の活動数は{counts}でした。今週も頑張りましょう！"
@@ -217,6 +215,7 @@ def init_images(base_url, steps, username, basic_auth_user=None, basic_auth_pass
         'User-Agent': 'Action Checker (run in github actions)',
     }
 
+    # Basic認証情報をヘッダーに設定
     if basic_auth_user and basic_auth_pass:
         encoded = base64.b64encode(f"{basic_auth_user}:{basic_auth_pass}".encode("utf-8")).decode("utf-8")
         headers['Authorization'] = f"Basic {encoded}"
@@ -247,8 +246,11 @@ def init_images(base_url, steps, username, basic_auth_user=None, basic_auth_pass
 
         for step in steps:
             try:
-                data = urllib.request.urlopen(
-                    f"{base_url}/{username}/{step}.png").read()
+                req = urllib.request.Request(
+                    url=f"{base_url}/{username}/{step}.png",
+                    headers=headers,
+                )
+                data = urllib.request.urlopen(req).read()
                 with open(f"{username}/{step}.png", mode="wb") as f:
                     f.write(data)
                 img_saved_errs[step] = None
@@ -266,7 +268,7 @@ if __name__ == "__main__":
 
     ARG_SEPARATOR = "/"
     # 引数に必要な情報を渡す
-    # 1. LINE notify の token
+    # 1. Discord Webhook URL
     # 2. 監視対象のgithub名(ARG_SEPARATOR 区切り)
     #      - 渡す際の区切り文字に注意
     # 3. 画像の切り替えを行う活動数(ARG_SEPARATOR 区切り)
@@ -277,7 +279,7 @@ if __name__ == "__main__":
     if len(sys.argv) < 4:
         sys.exit()
 
-    LINE_NOTIFY_TOKEN = sys.argv[1]
+    DISCORD_WEBHOOK_URL = sys.argv[1]
     users = sys.argv[2].split(ARG_SEPARATOR)
     steps = list(map(int, sys.argv[3].split(ARG_SEPARATOR)))
     base_url = sys.argv[4]
@@ -299,7 +301,7 @@ if __name__ == "__main__":
     # のちのループのために上限値を作る
     steps.append(99999)
 
-    bot = LINENotifyBot(access_token=LINE_NOTIFY_TOKEN)
+    bot = DiscordNotifyBot(webhook_url=DISCORD_WEBHOOK_URL)
     for user in users:
         print(f"===== {user} =====")
         checker = ActionChecker(user=user)
@@ -328,9 +330,10 @@ if __name__ == "__main__":
             )
         elif img_err:
             print("not found image")
-            # bot.send(
-            #     message=message,
-            #     image='NOT_FOUND.png',
+            # bot.send_embed(
+            #     title="エラー",
+            #     description=message,
+            #     color=0xFF0000,  # 赤色
             # )
 
     # # 画像サーバー側がおかしい場合

@@ -32,7 +32,7 @@ jobs:
       - name: Run script
         run: |
           python events.py \
-            "${{ secrets.LINE_NOTIFY_TOKEN }}" \
+            "${{ secrets.CHECK_DISCORD_WEBHOOK_URL }}" \
             "${{ secrets.CHECK_USERS }}" \
             "${{ secrets.CHECK_STEPS }}" \
             "${{ secrets.CHECK_IMG_BASE_URL }}" \
@@ -43,6 +43,6 @@ jobs:
         if: failure()
         run: |
           curl -X POST \
-            -H 'Authorization: Bearer ${{ secrets.LINE_NOTIFY_TOKEN }}' \
-            -F "message=contributionsの確認が正常に行えませんでした..." \
-            'https://notify-api.line.me/api/notify'
+            -H "Content-Type: application/json" \
+            -d '{"content": "contributionsの確認が正常に行えませんでした..."}' \
+            "${{ secrets.CHECK_DISCORD_WEBHOOK_URL }}"
