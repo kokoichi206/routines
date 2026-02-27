@@ -72,6 +72,8 @@ class ActionChecker:
         options = webdriver.ChromeOptions()
         options.add_argument("--headless")
         driver = webdriver.Chrome(options=options)
+        # GitHub はブラウザのタイムゾーンに応じて日付を表示するため、日本時間に設定する。
+        driver.execute_cdp_cmd('Emulation.setTimezoneOverride', {'timezoneId': 'Asia/Tokyo'})
         wait = WebDriverWait(driver=driver, timeout=60)
 
         TOP_URL = f'https://github.com/{self.user}'
@@ -105,6 +107,8 @@ class ActionChecker:
         options = webdriver.ChromeOptions()
         options.add_argument("--headless")
         driver = webdriver.Chrome(options=options)
+        # GitHub はブラウザのタイムゾーンに応じて日付を表示するため、日本時間に設定する。
+        driver.execute_cdp_cmd('Emulation.setTimezoneOverride', {'timezoneId': 'Asia/Tokyo'})
         wait = WebDriverWait(driver=driver, timeout=60)
 
         driver.get(url)
