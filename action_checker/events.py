@@ -83,7 +83,8 @@ class ActionChecker:
         html = driver.page_source.encode("utf-8")
         soup = BeautifulSoup(html, 'html.parser')
 
-        year_separated_urls = []
+        # デフォルトページ（当年分のデータを含む）を最初に追加する。
+        year_separated_urls = [TOP_URL]
 
         atags = soup.findAll('a', class_='js-year-link')
         for atag in atags:
@@ -91,7 +92,7 @@ class ActionChecker:
             m = ActionChecker.year_atag_id_regex.match(id)
             if m.group():
                 href = atag.attrs['href']
-                year_separated_urls.append(f'https://github.com/{href}')
+                year_separated_urls.append(f'https://github.com{href}')
 
         print(f"year_separated_urls: {year_separated_urls}")
         return year_separated_urls
