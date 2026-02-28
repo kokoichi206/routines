@@ -73,15 +73,13 @@ class ActionChecker:
         options.add_argument("--headless=new")
         driver = webdriver.Chrome(options=options)
         driver.execute_cdp_cmd('Emulation.setTimezoneOverride', {'timezoneId': 'Asia/Tokyo'})
-        # GitHub はサーバーサイドで tz cookie から日付を決定する。
-        # CDP Network.setCookie はナビゲーション前に効かないため、一度 github.com を開いて cookie をセットする。
-        driver.get('https://github.com')
-        driver.add_cookie({'name': 'tz', 'value': 'Asia%2FTokyo'})
         wait = WebDriverWait(driver=driver, timeout=60)
 
         TOP_URL = f'https://github.com/{self.user}'
+        # GitHub はサーバーサイドで tz cookie から日付を決定する。
+        # 初回ロードで JS がブラウザの TZ を検出し tz cookie をセット → 2回目で JST 描画される。
         driver.get(TOP_URL)
-        print(f"browser timezone: {driver.execute_script('return Intl.DateTimeFormat().resolvedOptions().timeZone')}")
+        driver.get(TOP_URL)
         wait.until(EC.presence_of_element_located((By.CLASS_NAME, 'js-year-link')))
 
         html = driver.page_source.encode("utf-8")
@@ -112,13 +110,11 @@ class ActionChecker:
         options.add_argument("--headless=new")
         driver = webdriver.Chrome(options=options)
         driver.execute_cdp_cmd('Emulation.setTimezoneOverride', {'timezoneId': 'Asia/Tokyo'})
-        # GitHub はサーバーサイドで tz cookie から日付を決定する。
-        driver.get('https://github.com')
-        driver.add_cookie({'name': 'tz', 'value': 'Asia%2FTokyo'})
         wait = WebDriverWait(driver=driver, timeout=60)
 
+        # 初回ロードで JS が tz cookie をセット → 2回目で JST 描画される。
         driver.get(url)
-        print(f"browser timezone: {driver.execute_script('return Intl.DateTimeFormat().resolvedOptions().timeZone')}")
+        driver.get(url)
         wait.until(EC.presence_of_element_located((By.CLASS_NAME, 'js-year-link')))
 
         html = driver.page_source.encode("utf-8")
