@@ -77,10 +77,22 @@ class ActionChecker:
 
         TOP_URL = f'https://github.com/{self.user}'
         # GitHub はサーバーサイドで tz cookie から日付を決定する。
-        # 初回ロードで JS がブラウザの TZ を検出し tz cookie をセット → 2回目で JST 描画される。
+        # 初回ロードでドメインを確立し、JS で tz cookie を明示セットしてからリロードする。
         driver.get(TOP_URL)
+        cookies_before = driver.execute_script("return document.cookie")
+        print(f"cookies after 1st load: {cookies_before}")
+        driver.execute_script("document.cookie = 'tz=Asia%2FTokyo; path=/; domain=.github.com; max-age=86400'")
+        cookies_after = driver.execute_script("return document.cookie")
+        print(f"cookies after explicit set: {cookies_after}")
         driver.get(TOP_URL)
         wait.until(EC.presence_of_element_located((By.CLASS_NAME, 'js-year-link')))
+        latest_date = driver.execute_script("""
+            const tds = document.querySelectorAll('td.ContributionCalendar-day');
+            let max = '';
+            tds.forEach(td => { const d = td.getAttribute('data-date'); if (d && d > max) max = d; });
+            return max;
+        """)
+        print(f"latest data-date: {latest_date} (expected JST today: {self.date_today})")
 
         html = driver.page_source.encode("utf-8")
         soup = BeautifulSoup(html, 'html.parser')
@@ -112,8 +124,9 @@ class ActionChecker:
         driver.execute_cdp_cmd('Emulation.setTimezoneOverride', {'timezoneId': 'Asia/Tokyo'})
         wait = WebDriverWait(driver=driver, timeout=60)
 
-        # 初回ロードで JS が tz cookie をセット → 2回目で JST 描画される。
+        # 初回ロードでドメインを確立し、JS で tz cookie を明示セットしてからリロードする。
         driver.get(url)
+        driver.execute_script("document.cookie = 'tz=Asia%2FTokyo; path=/; domain=.github.com; max-age=86400'")
         driver.get(url)
         wait.until(EC.presence_of_element_located((By.CLASS_NAME, 'js-year-link')))
 
