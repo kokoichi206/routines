@@ -5,6 +5,7 @@ on:
   schedule:
     # 日本時間23時00分
     - cron: '0 14 * * *'
+  pull_request:
 
 jobs:
   checker:
