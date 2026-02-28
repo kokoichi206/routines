@@ -70,7 +70,7 @@ class ActionChecker:
 
         # js を動作させ DOM が揃うのを待つために selenium を使用。
         options = webdriver.ChromeOptions()
-        options.add_argument("--headless")
+        options.add_argument("--headless=new")
         driver = webdriver.Chrome(options=options)
         # GitHub はブラウザのタイムゾーンに応じて日付を表示するため、日本時間に設定する。
         driver.execute_cdp_cmd('Emulation.setTimezoneOverride', {'timezoneId': 'Asia/Tokyo'})
@@ -78,6 +78,7 @@ class ActionChecker:
 
         TOP_URL = f'https://github.com/{self.user}'
         driver.get(TOP_URL)
+        print(f"browser timezone: {driver.execute_script('return Intl.DateTimeFormat().resolvedOptions().timeZone')}")
         wait.until(EC.presence_of_element_located((By.CLASS_NAME, 'js-year-link')))
 
         html = driver.page_source.encode("utf-8")
@@ -105,13 +106,14 @@ class ActionChecker:
         # js を動作させ DOM が揃うのを待つために selenium を使用。
         # TODO: TOP_URL のページを持ったままボタン押下で遷移させる。
         options = webdriver.ChromeOptions()
-        options.add_argument("--headless")
+        options.add_argument("--headless=new")
         driver = webdriver.Chrome(options=options)
         # GitHub はブラウザのタイムゾーンに応じて日付を表示するため、日本時間に設定する。
         driver.execute_cdp_cmd('Emulation.setTimezoneOverride', {'timezoneId': 'Asia/Tokyo'})
         wait = WebDriverWait(driver=driver, timeout=60)
 
         driver.get(url)
+        print(f"browser timezone: {driver.execute_script('return Intl.DateTimeFormat().resolvedOptions().timeZone')}")
         wait.until(EC.presence_of_element_located((By.CLASS_NAME, 'js-year-link')))
 
         html = driver.page_source.encode("utf-8")
