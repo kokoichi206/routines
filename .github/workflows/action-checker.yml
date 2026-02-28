@@ -31,7 +31,10 @@ jobs:
 
       - name: Run script
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # GITHUB_TOKEN はリポジトリスコープの機械トークンのため、
+          # 他ユーザーの「プライベートコントリビューションを表示」データが取得できない。
+          # read:user スコープ付きの PAT が必要。
+          GITHUB_TOKEN: ${{ secrets.GH_PAT }}
         run: |
           python events.py \
             "${{ secrets.CHECK_DISCORD_WEBHOOK_URL }}" \
