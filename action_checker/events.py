@@ -144,43 +144,49 @@ class ActionChecker:
 
             self.counts[d] = for_to_contributions[td.attrs['id']]
 
-    def today_count(self) -> Tuple[int, int]:
-        """Get today's contributions and continued days.
+    def today_count(self) -> Tuple[int, int, int]:
+        """Get today's contributions, continued days, and previous streak.
 
         The values are calculated using self.counts
 
         Returns:
-            (today_counts, continuous_days)
+            (today_counts, continuous_days, prev_streak)
+            prev_streak: today == 0 の場合、直前の contribution streak の長さ
         """
-        #  で返却
         print(self.counts)
         today = self.counts[self.date_today]
         d = self.date_today
         continued = 1
+        prev_streak = 0
         if today == 0:
             while True:
                 d = d - timedelta(days=1)
                 cnt = self.counts.get(d, None)
                 if cnt is None:
                     logging.info("予期しない事象が発生しました。", "counts: ", self.counts, "d: ", d)
-                    return today, continued
+                    return today, continued, prev_streak
 
                 if cnt == 0:
                     continued += 1
                 else:
-                    return today, continued
+                    # 直前の contribution streak を数える
+                    while cnt is not None and cnt > 0:
+                        prev_streak += 1
+                        d = d - timedelta(days=1)
+                        cnt = self.counts.get(d, None)
+                    return today, continued, prev_streak
         else:
             while True:
                 d = d - timedelta(days=1)
                 cnt = self.counts.get(d, None)
                 if cnt is None:
                     logging.info("予期しない事象が発生しました。", "counts: ", self.counts, "d: ", d)
-                    return today, continued
+                    return today, continued, prev_streak
 
                 if cnt > 0:
                     continued += 1
                 else:
-                    return today, continued
+                    return today, continued, prev_streak
 
     def sum_weekly_counts(self) -> int:
         """Calculate weekly contrubutions of last week.
@@ -199,9 +205,12 @@ class ActionChecker:
             d = d - timedelta(days=1)
         return total
 
-    def daily_message(self, counts, continue_days) -> str:
+    def daily_message(self, counts, continue_days, prev_streak=0) -> str:
         if counts == 0:
-            return f"{self.user}の本日の活動数は{counts}です。\nこのまま今日を終えると{continue_days}日連続で No contributions になります\n本当によろしいですか？"
+            if continue_days == 1 and prev_streak > 0:
+                return f"{self.user}の本日の活動数は{counts}です。\nこのまま今日を終えると{prev_streak}日続いた連続 contributions がリセットされます！"
+            else:
+                return f"{self.user}の本日の活動数は{counts}です。\nこのまま今日を終えると{continue_days}日連続で No contributions になります\n本当によろしいですか？"
         else:
             return f"{self.user}の本日の活動数は{counts}です。\n{continue_days}日連続 contributions 偉い！"
 
@@ -315,11 +324,11 @@ if __name__ == "__main__":
         for url in urls:
             checker.fetch_counts(url)
 
-        today, continued = checker.today_count()
+        today, continued, prev_streak = checker.today_count()
         # today = 18
-        print(today, continued)
+        print(today, continued, prev_streak)
 
-        message = checker.daily_message(today, continued)
+        message = checker.daily_message(today, continued, prev_streak)
         print(message)
 
         step = 0
