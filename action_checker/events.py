@@ -72,15 +72,11 @@ class ActionChecker:
         options = webdriver.ChromeOptions()
         options.add_argument("--headless=new")
         driver = webdriver.Chrome(options=options)
-        # GitHub はブラウザのタイムゾーンに応じて日付を表示するため、日本時間に設定する。
         driver.execute_cdp_cmd('Emulation.setTimezoneOverride', {'timezoneId': 'Asia/Tokyo'})
-        # GitHub はサーバーサイドで tz cookie からタイムゾーンを判定し日付を決定する。
-        driver.execute_cdp_cmd('Network.setCookie', {
-            'name': 'tz',
-            'value': 'Asia%2FTokyo',
-            'domain': '.github.com',
-            'path': '/',
-        })
+        # GitHub はサーバーサイドで tz cookie から日付を決定する。
+        # CDP Network.setCookie はナビゲーション前に効かないため、一度 github.com を開いて cookie をセットする。
+        driver.get('https://github.com')
+        driver.add_cookie({'name': 'tz', 'value': 'Asia%2FTokyo'})
         wait = WebDriverWait(driver=driver, timeout=60)
 
         TOP_URL = f'https://github.com/{self.user}'
@@ -115,15 +111,10 @@ class ActionChecker:
         options = webdriver.ChromeOptions()
         options.add_argument("--headless=new")
         driver = webdriver.Chrome(options=options)
-        # GitHub はブラウザのタイムゾーンに応じて日付を表示するため、日本時間に設定する。
         driver.execute_cdp_cmd('Emulation.setTimezoneOverride', {'timezoneId': 'Asia/Tokyo'})
-        # GitHub はサーバーサイドで tz cookie からタイムゾーンを判定し日付を決定する。
-        driver.execute_cdp_cmd('Network.setCookie', {
-            'name': 'tz',
-            'value': 'Asia%2FTokyo',
-            'domain': '.github.com',
-            'path': '/',
-        })
+        # GitHub はサーバーサイドで tz cookie から日付を決定する。
+        driver.get('https://github.com')
+        driver.add_cookie({'name': 'tz', 'value': 'Asia%2FTokyo'})
         wait = WebDriverWait(driver=driver, timeout=60)
 
         driver.get(url)
