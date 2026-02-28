@@ -1,4 +1,5 @@
 import datetime
+import json
 import logging
 import os
 import re
@@ -10,31 +11,15 @@ from typing import Tuple
 from urllib.error import HTTPError, URLError
 import base64
 
-from selenium import webdriver
-from bs4 import BeautifulSoup
 from dateutil import tz
 from discord import DiscordNotifyBot
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.common.by import By
 
 
 class ActionChecker:
     """Class for checking GitHub actions."""
 
     DATE_FORMAT = "%Y-%m-%d"
-    # 『1 contribution on January 8, 2023』の形。
-    contribution_regex = re.compile(r'\d*')
-    # contribution の年を指定するためのリンクの id。『year-link-2023』の形。
-    year_atag_id_regex = re.compile(r'year-link-\d{4}')
-
-    headers = {
-        'User-Agent': 'Mozilla/5.0',
-        "Accept-Language": "en",
-        "Time-Zone": "Asia/Tokyo",
-        "TZ": "Asia/Tokyo",
-        "Cookie": "tz=Asia%2FTokyo",
-    }
+    GRAPHQL_URL = "https://api.github.com/graphql"
 
     def __init__(self, user: str) -> None:
         """Initialize instance variables.
@@ -61,124 +46,98 @@ class ActionChecker:
         # datetime.date 型として扱う
         return datetime.strptime(formatted_date, ActionChecker.DATE_FORMAT).date()
 
-    def fetch_year_separated_urls(self) -> list:
-        """Get urls to contributions of each year.
+    def fetch_contributions(self, token: str) -> None:
+        """Fetch contribution data using GitHub GraphQL API.
 
-        Returns:
-            list: urls to contributions of each year.
+        GitHub はログインしていないユーザーに対して tz cookie を無視し、
+        常に UTC で contribution データを返す。
+        GraphQL API を使えば認証付きでタイムゾーン指定した正確なデータが取得できる。
         """
+        now_jst = datetime.now().astimezone(tz.gettz('Asia/Tokyo'))
 
-        # js を動作させ DOM が揃うのを待つために selenium を使用。
-        options = webdriver.ChromeOptions()
-        options.add_argument("--headless")
-        driver = webdriver.Chrome(options=options)
-        # GitHub はブラウザのタイムゾーンに応じて日付を表示するため、日本時間に設定する。
-        driver.execute_cdp_cmd('Emulation.setTimezoneOverride', {'timezoneId': 'Asia/Tokyo'})
-        wait = WebDriverWait(driver=driver, timeout=60)
-
-        TOP_URL = f'https://github.com/{self.user}'
-        driver.get(TOP_URL)
-        wait.until(EC.presence_of_element_located((By.CLASS_NAME, 'js-year-link')))
-
-        html = driver.page_source.encode("utf-8")
-        soup = BeautifulSoup(html, 'html.parser')
-
-        year_separated_urls = []
-
-        atags = soup.findAll('a', class_='js-year-link')
-        for atag in atags:
-            id = atag.attrs['id']
-            m = ActionChecker.year_atag_id_regex.match(id)
-            if m.group():
-                href = atag.attrs['href']
-                year_separated_urls.append(f'https://github.com/{href}')
-
-        print(f"year_separated_urls: {year_separated_urls}")
-        return year_separated_urls
-
-    def fetch_counts(self, url: str) -> None:
-        """Get contributions directly from html object of the specific year's overview url.
-        
-        Save them as a instance variable: self.counts
-        """
-
-        # js を動作させ DOM が揃うのを待つために selenium を使用。
-        # TODO: TOP_URL のページを持ったままボタン押下で遷移させる。
-        options = webdriver.ChromeOptions()
-        options.add_argument("--headless")
-        driver = webdriver.Chrome(options=options)
-        # GitHub はブラウザのタイムゾーンに応じて日付を表示するため、日本時間に設定する。
-        driver.execute_cdp_cmd('Emulation.setTimezoneOverride', {'timezoneId': 'Asia/Tokyo'})
-        wait = WebDriverWait(driver=driver, timeout=60)
-
-        driver.get(url)
-        wait.until(EC.presence_of_element_located((By.CLASS_NAME, 'js-year-link')))
-
-        html = driver.page_source.encode("utf-8")
-        soup = BeautifulSoup(html, 'html.parser')
-
-        tds = soup.findAll('td', class_='ContributionCalendar-day')
-        tool_tips = soup.findAll('tool-tip', class_='sr-only')
-        
-        for_to_contributions = {}
-        for tool_tip in tool_tips:
-            key_for = tool_tip.attrs['for']
-            m = ActionChecker.contribution_regex.match(tool_tip.text)
-            if m.group():
-                contributions = int(m.group())
-                for_to_contributions[key_for] = contributions
+        # 直近2年分を取得（streak 計算に十分な量）
+        query_parts = []
+        for i in range(2):
+            year = now_jst.year - i
+            from_date = f"{year}-01-01T00:00:00+09:00"
+            if i == 0:
+                to_date = now_jst.strftime("%Y-%m-%dT23:59:59+09:00")
             else:
-                for_to_contributions[key_for] = 0
+                to_date = f"{year}-12-31T23:59:59+09:00"
+            query_parts.append(
+                f'y{year}: contributionsCollection(from: "{from_date}", to: "{to_date}") {{'
+                f'  contributionCalendar {{ weeks {{ contributionDays {{ date contributionCount }} }} }}'
+                f'}}'
+            )
 
-        # 過去の草一覧
-        for td in tds:
-            if 'data-date' not in td.attrs:
-                continue
+        query = f'{{ user(login: "{self.user}") {{ {" ".join(query_parts)} }} }}'
 
-            d = datetime.strptime(td.attrs['data-date'], ActionChecker.DATE_FORMAT).date()
-            # 2023-01-20
-            if d > self.date_today:
-                continue
+        req = urllib.request.Request(
+            ActionChecker.GRAPHQL_URL,
+            data=json.dumps({'query': query}).encode(),
+            headers={
+                'Authorization': f'Bearer {token}',
+                'Content-Type': 'application/json',
+                'User-Agent': 'Action Checker',
+            },
+        )
+        response = urllib.request.urlopen(req)
+        result = json.loads(response.read().decode())
 
-            self.counts[d] = for_to_contributions[td.attrs['id']]
+        user_data = result['data']['user']
+        for key in user_data:
+            calendar = user_data[key]['contributionCalendar']
+            for week in calendar['weeks']:
+                for day in week['contributionDays']:
+                    d = datetime.strptime(day['date'], ActionChecker.DATE_FORMAT).date()
+                    if d > self.date_today:
+                        continue
+                    self.counts[d] = day['contributionCount']
 
-    def today_count(self) -> Tuple[int, int]:
-        """Get today's contributions and continued days.
+        print(f"fetched {len(self.counts)} days of contribution data via GraphQL API")
+
+    def today_count(self) -> Tuple[int, int, int]:
+        """Get today's contributions, continued days, and previous streak.
 
         The values are calculated using self.counts
 
         Returns:
-            (today_counts, continuous_days)
+            (today_counts, continuous_days, prev_streak)
+            prev_streak: today == 0 の場合、直前の contribution streak の長さ
         """
-        #  で返却
-        print(self.counts)
         today = self.counts[self.date_today]
         d = self.date_today
         continued = 1
+        prev_streak = 0
         if today == 0:
             while True:
                 d = d - timedelta(days=1)
                 cnt = self.counts.get(d, None)
                 if cnt is None:
                     logging.info("予期しない事象が発生しました。", "counts: ", self.counts, "d: ", d)
-                    return today, continued
+                    return today, continued, prev_streak
 
                 if cnt == 0:
                     continued += 1
                 else:
-                    return today, continued
+                    # 直前の contribution streak を数える
+                    while cnt is not None and cnt > 0:
+                        prev_streak += 1
+                        d = d - timedelta(days=1)
+                        cnt = self.counts.get(d, None)
+                    return today, continued, prev_streak
         else:
             while True:
                 d = d - timedelta(days=1)
                 cnt = self.counts.get(d, None)
                 if cnt is None:
                     logging.info("予期しない事象が発生しました。", "counts: ", self.counts, "d: ", d)
-                    return today, continued
+                    return today, continued, prev_streak
 
                 if cnt > 0:
                     continued += 1
                 else:
-                    return today, continued
+                    return today, continued, prev_streak
 
     def sum_weekly_counts(self) -> int:
         """Calculate weekly contrubutions of last week.
@@ -197,9 +156,12 @@ class ActionChecker:
             d = d - timedelta(days=1)
         return total
 
-    def daily_message(self, counts, continue_days) -> str:
+    def daily_message(self, counts, continue_days, prev_streak=0) -> str:
         if counts == 0:
-            return f"{self.user}の本日の活動数は{counts}です。\nこのまま今日を終えると{continue_days}日連続で No contributions になります\n本当によろしいですか？"
+            if continue_days == 1 and prev_streak > 0:
+                return f"{self.user}の本日の活動数は{counts}です。\nこのまま今日を終えると{prev_streak}日続いた連続 contributions がリセットされます！"
+            else:
+                return f"{self.user}の本日の活動数は{counts}です。\nこのまま今日を終えると{continue_days}日連続で No contributions になります\n本当によろしいですか？"
         else:
             return f"{self.user}の本日の活動数は{counts}です。\n{continue_days}日連続 contributions 偉い！"
 
@@ -294,6 +256,8 @@ if __name__ == "__main__":
         basic_auth_user = sys.argv[5]
         basic_auth_pass = sys.argv[6]
 
+    github_token = os.environ.get('GITHUB_TOKEN', '')
+
     img_saved_errs = {}
     # 人ごとに写真を変更する。
     for user in users:
@@ -309,15 +273,12 @@ if __name__ == "__main__":
     for user in users:
         print(f"===== {user} =====")
         checker = ActionChecker(user=user)
-        urls = checker.fetch_year_separated_urls()
-        for url in urls:
-            checker.fetch_counts(url)
+        checker.fetch_contributions(github_token)
 
-        today, continued = checker.today_count()
-        # today = 18
-        print(today, continued)
+        today, continued, prev_streak = checker.today_count()
+        print(today, continued, prev_streak)
 
-        message = checker.daily_message(today, continued)
+        message = checker.daily_message(today, continued, prev_streak)
         print(message)
 
         step = 0
@@ -334,14 +295,3 @@ if __name__ == "__main__":
             )
         elif img_err:
             print("not found image")
-            # bot.send_embed(
-            #     title="エラー",
-            #     description=message,
-            #     color=0xFF0000,  # 赤色
-            # )
-
-    # # 画像サーバー側がおかしい場合
-    # if all([type(err) is URLError for err in img_saved_errs.values()]):
-    #     bot.send(
-    #         message="画像を取得する設定がおかしいようです..."
-    #     )
