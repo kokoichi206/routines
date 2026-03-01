@@ -1,10 +1,7 @@
-import datetime
 import json
 import logging
 import os
-import re
 import sys
-import urllib.parse
 import urllib.request
 from datetime import datetime, timedelta
 from typing import Tuple
@@ -41,7 +38,6 @@ class ActionChecker:
         """
         JST = tz.gettz('Asia/Tokyo')
         now = datetime.now().astimezone(JST)
-        print(f"now: {now}")
         formatted_date = now.strftime(ActionChecker.DATE_FORMAT)
         # datetime.date 型として扱う
         return datetime.strptime(formatted_date, ActionChecker.DATE_FORMAT).date()
@@ -94,7 +90,6 @@ class ActionChecker:
                         continue
                     self.counts[d] = day['contributionCount']
 
-        print(f"fetched {len(self.counts)} days of contribution data via GraphQL API")
 
     def today_count(self) -> Tuple[int, int, int]:
         """Get today's contributions, continued days, and previous streak.
@@ -175,7 +170,6 @@ def init_images(base_url, steps, username, basic_auth_user=None, basic_auth_pass
     """
 
     os.makedirs(username, exist_ok=True)
-    print("===== init_images =====")
     img_saved_errs = {}
     headers = {
         'User-Agent': 'Action Checker (run in github actions)',
@@ -205,7 +199,6 @@ def init_images(base_url, steps, username, basic_auth_user=None, basic_auth_pass
     # see: https://end0tknr.hateblo.jp/entry/20210312/1615498434
     if all([type(err) == URLError for err in img_saved_errs.values()]):
 
-        print("===== Retry with default SSL certificate =====")
         # デフォルトの証明書を付けてリトライ
         import ssl
         ssl._create_default_https_context = ssl._create_unverified_context
@@ -225,8 +218,6 @@ def init_images(base_url, steps, username, basic_auth_user=None, basic_auth_pass
             except URLError as e:
                 img_saved_errs[step] = e
 
-    print(f"steps: {steps}")
-    print(f"img_saved_errs: {img_saved_errs}")
     return img_saved_errs
 
 
@@ -251,7 +242,6 @@ if __name__ == "__main__":
     base_url = sys.argv[4]
     basic_auth_user = None
     basic_auth_pass = None
-    print(len(sys.argv))
     if len(sys.argv) >= 7:
         basic_auth_user = sys.argv[5]
         basic_auth_pass = sys.argv[6]
@@ -271,15 +261,11 @@ if __name__ == "__main__":
 
     bot = DiscordNotifyBot(webhook_url=DISCORD_WEBHOOK_URL)
     for user in users:
-        print(f"===== {user} =====")
         checker = ActionChecker(user=user)
         checker.fetch_contributions(github_token)
 
         today, continued, prev_streak = checker.today_count()
-        print(today, continued, prev_streak)
-
         message = checker.daily_message(today, continued, prev_streak)
-        print(message)
 
         step = 0
         for i in range(1, len(steps)):
@@ -288,10 +274,7 @@ if __name__ == "__main__":
 
         img_err = img_saved_errs[user][step]
         if not img_err:
-            print("normal image")
             bot.send(
                 message=message,
                 image=f"{user}/{step}.png",
             )
-        elif img_err:
-            print("not found image")
