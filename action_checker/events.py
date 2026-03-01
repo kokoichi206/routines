@@ -45,9 +45,14 @@ class ActionChecker:
     def fetch_contributions(self, token: str) -> None:
         """Fetch contribution data using GitHub GraphQL API.
 
-        GitHub はログインしていないユーザーに対して tz cookie を無視し、
-        常に UTC で contribution データを返す。
-        GraphQL API を使えば認証付きでタイムゾーン指定した正確なデータが取得できる。
+        ブラウザで直接プロフィールページにアクセスする方法（Selenium スクレイピング）だと、
+        GitHub は未ログインユーザーの tz cookie を無視し、日毎の集計が常に UTC になる。
+        CDP setTimezoneOverride や tz クエリパラメータも未ログインでは効かない。
+        ログイン済みブラウザなら JST で取得できるが、CI 上でログインセッションを維持するのは困難。
+
+        GraphQL API は認証ユーザーのタイムゾーンで日毎の集計を行うため、
+        JST ユーザーの PAT を使えばブラウザで見るのと同じ結果が得られる。
+        （secrets.GITHUB_TOKEN はユーザーに紐づかないため UTC になる）
         """
         now_jst = datetime.now().astimezone(tz.gettz('Asia/Tokyo'))
 
