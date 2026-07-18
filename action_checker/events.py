@@ -85,7 +85,16 @@ class ActionChecker:
         response = urllib.request.urlopen(req)
         result = json.loads(response.read().decode())
 
+        # GraphQL は認証・認可エラーでも HTTP 200 + errors で返すため、
+        # ここで検知しないと user=null を掴んで下流で分かりにくく落ちる。
+        if result.get('errors'):
+            raise RuntimeError(f"GitHub GraphQL API returned errors: {result['errors']}")
+
         user_data = result['data']['user']
+        # PAT が無効・スコープ不足（read:user 必須）だと user=null になる。
+        if user_data is None:
+            raise RuntimeError(f"GitHub GraphQL API returned user=null. response: {result}")
+
         for key in user_data:
             calendar = user_data[key]['contributionCalendar']
             for week in calendar['weeks']:
