@@ -54,55 +54,66 @@ class ActionChecker:
         JST ユーザーの PAT を使えばブラウザで見るのと同じ結果が得られる。
         （secrets.GITHUB_TOKEN はユーザーに紐づかないため UTC になる）
         """
-        now_jst = datetime.now().astimezone(tz.gettz('Asia/Tokyo'))
+        range_end = self.date_today
+        oldest_date = self.date_today - timedelta(days=730)
 
-        # 直近2年分を取得（streak 計算に十分な量）
-        query_parts = []
-        for i in range(2):
-            year = now_jst.year - i
-            from_date = f"{year}-01-01T00:00:00+09:00"
-            if i == 0:
-                to_date = now_jst.strftime("%Y-%m-%dT23:59:59+09:00")
-            else:
-                to_date = f"{year}-12-31T23:59:59+09:00"
-            query_parts.append(
-                f'y{year}: contributionsCollection(from: "{from_date}", to: "{to_date}") {{'
+        while range_end >= oldest_date:
+            range_start = max(range_end - timedelta(days=6), oldest_date)
+            from_date = f"{range_start.isoformat()}T00:00:00+09:00"
+            to_date = f"{range_end.isoformat()}T23:59:59+09:00"
+            query = (
+                f'{{ user(login: "{self.user}") {{ contributionsCollection('
+                f'from: "{from_date}", to: "{to_date}") {{'
                 f'  contributionCalendar {{ weeks {{ contributionDays {{ date contributionCount }} }} }}'
-                f'}}'
+                f'}} }} }}'
             )
 
-        query = f'{{ user(login: "{self.user}") {{ {" ".join(query_parts)} }} }}'
+            req = urllib.request.Request(
+                ActionChecker.GRAPHQL_URL,
+                data=json.dumps({'query': query}).encode(),
+                headers={
+                    'Authorization': f'Bearer {token}',
+                    'Content-Type': 'application/json',
+                    'User-Agent': 'Action Checker',
+                },
+            )
+            response = urllib.request.urlopen(req)
+            result = json.loads(response.read().decode())
 
-        req = urllib.request.Request(
-            ActionChecker.GRAPHQL_URL,
-            data=json.dumps({'query': query}).encode(),
-            headers={
-                'Authorization': f'Bearer {token}',
-                'Content-Type': 'application/json',
-                'User-Agent': 'Action Checker',
-            },
-        )
-        response = urllib.request.urlopen(req)
-        result = json.loads(response.read().decode())
+            # GraphQL は認証・認可エラーでも HTTP 200 + errors で返すため、
+            # ここで検知しないと user=null を掴んで下流で分かりにくく落ちる。
+            if result.get('errors'):
+                raise RuntimeError(f"GitHub GraphQL API returned errors: {result['errors']}")
 
-        # GraphQL は認証・認可エラーでも HTTP 200 + errors で返すため、
-        # ここで検知しないと user=null を掴んで下流で分かりにくく落ちる。
-        if result.get('errors'):
-            raise RuntimeError(f"GitHub GraphQL API returned errors: {result['errors']}")
+            user_data = result['data']['user']
+            # PAT が無効・スコープ不足（read:user 必須）だと user=null になる。
+            if user_data is None:
+                raise RuntimeError(f"GitHub GraphQL API returned user=null. response: {result}")
 
-        user_data = result['data']['user']
-        # PAT が無効・スコープ不足（read:user 必須）だと user=null になる。
-        if user_data is None:
-            raise RuntimeError(f"GitHub GraphQL API returned user=null. response: {result}")
-
-        for key in user_data:
-            calendar = user_data[key]['contributionCalendar']
+            calendar = user_data['contributionsCollection']['contributionCalendar']
             for week in calendar['weeks']:
                 for day in week['contributionDays']:
                     d = datetime.strptime(day['date'], ActionChecker.DATE_FORMAT).date()
                     if d > self.date_today:
                         continue
                     self.counts[d] = day['contributionCount']
+
+            counts = [
+                self.counts[self.date_today - timedelta(days=i)]
+                for i in range((self.date_today - range_start).days + 1)
+            ]
+            if len(counts) >= 8:
+                if counts[0] > 0 and 0 in counts:
+                    return
+                if counts[0] == 0:
+                    first_contribution = next(
+                        (i for i, count in enumerate(counts) if count > 0),
+                        None,
+                    )
+                    if first_contribution is not None and 0 in counts[first_contribution:]:
+                        return
+
+            range_end = range_start - timedelta(days=1)
 
 
     def today_count(self) -> Tuple[int, int, int]:
