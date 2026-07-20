@@ -2,8 +2,9 @@ import json
 import logging
 import os
 import sys
+import time
 import urllib.request
-from datetime import datetime, timedelta
+from datetime import date, datetime, timedelta
 from typing import Tuple
 from urllib.error import HTTPError, URLError
 import base64
@@ -12,11 +13,24 @@ from dateutil import tz
 from discord import DiscordNotifyBot
 
 
+class ContributionsFetchError(RuntimeError):
+    """GitHub GraphQL から contribution データを取得できなかったことを表す。"""
+
+
 class ActionChecker:
     """Class for checking GitHub actions."""
 
     DATE_FORMAT = "%Y-%m-%d"
     GRAPHQL_URL = "https://api.github.com/graphql"
+
+    # contributionsCollection の負荷は取得期間の長さにほぼ比例し、
+    # GitHub 側の実行制限を超えると HTTP 502 か
+    # data.user が null + errors(RESOURCE_LIMITS_EXCEEDED 等) の 200 応答になる。
+    # 許容される期間長は GitHub 側の負荷状況で変動するため、
+    # 失敗したらチャンク幅を半分に狭めて取得できる粒度まで自動で落とす。
+    FETCH_CHUNK_DAYS = 30
+    FETCH_MAX_ATTEMPTS = 2
+    FETCH_RETRY_WAIT_SECONDS = 5
 
     def __init__(self, user: str) -> None:
         """Initialize instance variables.
@@ -54,46 +68,71 @@ class ActionChecker:
         JST ユーザーの PAT を使えばブラウザで見るのと同じ結果が得られる。
         （secrets.GITHUB_TOKEN はユーザーに紐づかないため UTC になる）
         """
-        now_jst = datetime.now().astimezone(tz.gettz('Asia/Tokyo'))
-
-        # 直近2年分を取得（streak 計算に十分な量）
-        query_parts = []
-        for i in range(2):
-            year = now_jst.year - i
-            from_date = f"{year}-01-01T00:00:00+09:00"
-            if i == 0:
-                to_date = now_jst.strftime("%Y-%m-%dT23:59:59+09:00")
-            else:
-                to_date = f"{year}-12-31T23:59:59+09:00"
-            query_parts.append(
-                f'y{year}: contributionsCollection(from: "{from_date}", to: "{to_date}") {{'
-                f'  contributionCalendar {{ weeks {{ contributionDays {{ date contributionCount }} }} }}'
-                f'}}'
+        # 前年の年初から今日までを取得する（streak 計算に十分な量）。
+        chunk_days = ActionChecker.FETCH_CHUNK_DAYS
+        chunk_start = date(self.date_today.year - 1, 1, 1)
+        while chunk_start <= self.date_today:
+            chunk_end = min(
+                chunk_start + timedelta(days=chunk_days - 1),
+                self.date_today,
             )
+            try:
+                self._fetch_range(token, chunk_start, chunk_end)
+            except ContributionsFetchError:
+                if chunk_days == 1:
+                    raise
+                # 狭めた幅は以降のチャンクにも引き継ぎ、劣化時間帯に幅広クエリを繰り返さない。
+                chunk_days = chunk_days // 2
+                continue
+            chunk_start = chunk_end + timedelta(days=1)
 
-        query = f'{{ user(login: "{self.user}") {{ {" ".join(query_parts)} }} }}'
-
-        req = urllib.request.Request(
-            ActionChecker.GRAPHQL_URL,
-            data=json.dumps({'query': query}).encode(),
-            headers={
-                'Authorization': f'Bearer {token}',
-                'Content-Type': 'application/json',
-                'User-Agent': 'Action Checker',
-            },
+    def _fetch_range(self, token: str, from_date: date, to_date: date) -> None:
+        """Fetch contribution counts of [from_date, to_date] into self.counts."""
+        query = (
+            f'{{ user(login: "{self.user}") {{'
+            f' contributionsCollection(from: "{from_date}T00:00:00+09:00", to: "{to_date}T23:59:59+09:00") {{'
+            f' contributionCalendar {{ weeks {{ contributionDays {{ date contributionCount }} }} }}'
+            f' }} }} }}'
         )
-        response = urllib.request.urlopen(req)
-        result = json.loads(response.read().decode())
 
-        user_data = result['data']['user']
-        for key in user_data:
-            calendar = user_data[key]['contributionCalendar']
+        last_failure = None
+        for attempt in range(ActionChecker.FETCH_MAX_ATTEMPTS):
+            if attempt > 0:
+                time.sleep(ActionChecker.FETCH_RETRY_WAIT_SECONDS)
+
+            try:
+                req = urllib.request.Request(
+                    ActionChecker.GRAPHQL_URL,
+                    data=json.dumps({'query': query}).encode(),
+                    headers={
+                        'Authorization': f'Bearer {token}',
+                        'Content-Type': 'application/json',
+                        'User-Agent': 'Action Checker',
+                    },
+                )
+                with urllib.request.urlopen(req, timeout=30) as response:
+                    result = json.loads(response.read().decode())
+            except (HTTPError, URLError) as e:
+                last_failure = str(e)
+                continue
+
+            user_data = (result.get('data') or {}).get('user')
+            if user_data is None:
+                last_failure = json.dumps(result.get('errors'), ensure_ascii=False)
+                continue
+
+            calendar = user_data['contributionsCollection']['contributionCalendar']
             for week in calendar['weeks']:
                 for day in week['contributionDays']:
                     d = datetime.strptime(day['date'], ActionChecker.DATE_FORMAT).date()
                     if d > self.date_today:
                         continue
                     self.counts[d] = day['contributionCount']
+            return
+
+        raise ContributionsFetchError(
+            f'{self.user} の contributions 取得に失敗しました ({from_date} 〜 {to_date}): {last_failure}'
+        )
 
 
     def today_count(self) -> Tuple[int, int, int]:
