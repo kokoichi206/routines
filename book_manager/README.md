@@ -80,9 +80,9 @@ Notion の取得順は作成日時の昇順に固定し、ページ送りで全�
 同じ Notion データベースへ同時に登録しないよう、ワークフローの実行を直列化する。
 
 ```sh
-gh workflow run update-books-info.yml --repo kokoichi206/routines \\
-  --ref fix/books-drive-oauth \\
-  -f one_time_folder_ids='1qQqHew3niLBkqeVR5P079qOKbVHMAr2- 18i6J6uHhpTR2bBmpg6k8FYYuZbX227GQ' \\
+gh workflow run update-books-info.yml --repo kokoichi206/routines \
+  --ref main \
+  -f one_time_folder_ids='folder-id-1 folder-id-2' \
   -f dry_run=true
 ```
 
