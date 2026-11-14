@@ -1,1 +1,1 @@
-GOOGLE_DRIVE_URL = "https://your.google.drive.url"
+GOOGLE_DRIVE_FOLDER_ID = "1PgVnNQDEFcxhDF4vOYLo-5mzL4731rPY"

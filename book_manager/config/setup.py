@@ -44,10 +44,10 @@ def load_google_drive_config() -> GoogleDriveConfig:
         Google Drive configuration (:class:`GoogleDriveConfig`): Entity about Google Drive configuration.
     """
 
-    drive_url = os.getenv("GOOGLE_DRIVE_URL")
-    if not drive_url:
-        drive_url = google_drive_config.GOOGLE_DRIVE_URL
+    folder_id = os.getenv("GOOGLE_DRIVE_FOLDER_ID")
+    if not folder_id:
+        folder_id = google_drive_config.GOOGLE_DRIVE_FOLDER_ID
 
     return GoogleDriveConfig(
-        url=drive_url,
+        folder_id=folder_id,
     )
