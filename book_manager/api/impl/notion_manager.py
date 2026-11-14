@@ -47,7 +47,9 @@ class NotionManager(BookFetcher, BookUploader):
         res_json = {}
         while True:
             next_cursor = res_json.get("next_cursor", None)
-            body = {"start_cursor": next_cursor} if next_cursor else {}
+            body = {"sorts": [{"timestamp": "created_time", "direction": "ascending"}]}
+            if next_cursor:
+                body["start_cursor"] = next_cursor
             response = self._session.request("POST",
                                         url=self._get_request_url(
                                             f"databases/{self.database_id}/query"),

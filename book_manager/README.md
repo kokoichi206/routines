@@ -74,6 +74,7 @@ gh secret set GOOGLE_DRIVE_OAUTH_JSON --repo kokoichi206/routines --env producti
 未指定の定期実行では、通常の books フォルダの `.pdf` だけを同期する。
 
 `dry_run` を有効にすると、Notion の既存項目と比較して登録予定件数だけを出力する。
+Notion の取得順は作成日時の昇順に固定し、ページ送りで全件を取得する。
 書き込み後は Notion を読み直し、取得元の全項目が存在することを確認する。
 登録失敗や読み直し時の欠落はジョブの失敗として扱う。
 同じ Notion データベースへ同時に登録しないよう、ワークフローの実行を直列化する。

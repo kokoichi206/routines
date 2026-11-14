@@ -44,8 +44,8 @@ jobs:
           architecture: "x64"
       - name: Install dependencies
         run: pip install -r requirements.txt
+      - name: Archive the duplicate created during this import
+        if: ${{ !inputs.dry_run }}
+        run: python3 -u scripts/archive_import_duplicate.py
       - name: Run main code
         run: python3 -u main.py
-      - name: Inspect Notion page and query results
-        if: inputs.dry_run
-        run: python3 -u scripts/inspect_notion_state.py

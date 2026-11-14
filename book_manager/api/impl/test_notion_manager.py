@@ -1,4 +1,5 @@
 from unittest.mock import patch
+import json
 
 import pytest
 from requests import HTTPError
@@ -24,3 +25,20 @@ def test_notion_fetch_propagates_http_errors(session_class):
 
     with pytest.raises(HTTPError, match="401 Unauthorized"):
         NotionManager("test-key", "test-database").fetch()
+
+
+@patch("api.impl.notion_manager.requests.Session")
+def test_notion_fetch_keeps_creation_order_across_pages(session_class):
+    session = session_class.return_value
+    session.request.return_value.json.side_effect = [
+        {"results": [], "has_more": True, "next_cursor": "next-page"},
+        {"results": [{"properties": {"title": {"title": [{"plain_text": "last.pdf"}]}, "url": {"url": "url-last"}}}], "has_more": False},
+    ]
+
+    assert NotionManager("test-key", "test-database").fetch() == [BookItem("last.pdf", "url-last")]
+
+    bodies = [json.loads(call.kwargs["data"]) for call in session.request.call_args_list]
+    assert bodies == [
+        {"sorts": [{"timestamp": "created_time", "direction": "ascending"}]},
+        {"sorts": [{"timestamp": "created_time", "direction": "ascending"}], "start_cursor": "next-page"},
+    ]
