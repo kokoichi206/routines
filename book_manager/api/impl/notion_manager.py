@@ -3,6 +3,8 @@ from http import HTTPStatus
 from typing import Dict, List
 
 import requests
+from requests.adapters import HTTPAdapter
+from urllib3.util.retry import Retry
 
 from api.interface.book_fetcher import BookFetcher
 from api.interface.book_uploader import BookUploader
@@ -22,6 +24,11 @@ class NotionManager(BookFetcher, BookUploader):
 
         self.notion_api_key = api_key
         self.database_id = database_id
+        self._session = requests.Session()
+        self._session.mount("https://api.notion.com/", HTTPAdapter(max_retries=Retry(
+            total=3, connect=0, read=0, status_forcelist=[429, 529],
+            allowed_methods=["GET", "POST"], respect_retry_after_header=True, backoff_factor=1,
+        )))
         self.headers = {"Authorization": f"Bearer {self.notion_api_key}",
                         "Content-Type": "application/json",
                         "Notion-Version": "2021-05-13"}
@@ -40,11 +47,14 @@ class NotionManager(BookFetcher, BookUploader):
         res_json = {}
         while True:
             next_cursor = res_json.get("next_cursor", None)
-            body = {"start_cursor": next_cursor} if next_cursor else {}
-            response = requests.request("POST",
+            body = {"sorts": [{"timestamp": "created_time", "direction": "ascending"}]}
+            if next_cursor:
+                body["start_cursor"] = next_cursor
+            response = self._session.request("POST",
                                         url=self._get_request_url(
                                             f"databases/{self.database_id}/query"),
-                                        headers=self.headers, data=json.dumps(body))
+                                        headers=self.headers, data=json.dumps(body), timeout=30)
+            response.raise_for_status()
             res_json = response.json()
             results = res_json["results"]
 
@@ -61,13 +71,11 @@ class NotionManager(BookFetcher, BookUploader):
             props = result.get("properties")
 
             title_props = props.get("title", {}).get("title", [])
-            # If title is undefined @Notion, [] will be returned.
-            if len(title_props) == 1:
-                title = title_props[0].get("text", {}).get("content")
+            title = "".join(part["plain_text"] for part in title_props)
 
             url = props.get("url", {}).get("url")
 
-            tag_props = props.get("tag", {}).get("rich_text", {})
+            tag_props = props.get("tag", {}).get("rich_text", [])
             tags = []
             for tag in tag_props:
                 tags.append(tag.get("text").get("content"))
@@ -112,14 +120,12 @@ class NotionManager(BookFetcher, BookUploader):
         """
 
         body = self._make_request_body(book=book)
-        response = requests.request("POST",
+        response = self._session.request("POST",
                                     url=self._get_request_url("pages"),
-                                    headers=self.headers, data=json.dumps(body))
+                                    headers=self.headers, data=json.dumps(body), timeout=30)
+        response.raise_for_status()
 
-        print(f'uploading {book.title}...')
-        if HTTPStatus.OK.__ne__(response.status_code):
-            print(response.status_code)
-            print(response.json())
+        print(f"Uploaded {book.title}: {response.json()['url']}")
         return HTTPStatus.OK.__eq__(response.status_code)
 
     def _make_request_body(self, book: BookItem) -> Dict[str, any]:
@@ -182,8 +188,8 @@ class NotionManager(BookFetcher, BookUploader):
             result (bool): whether the database access is possible.
         """
 
-        response = requests.request("GET",
+        response = self._session.request("GET",
                                     url=self._get_request_url(
                                         f"databases/{self.database_id}"),
-                                    headers=self.headers)
+                                    headers=self.headers, timeout=30)
         return HTTPStatus.OK.__eq__(response.status_code)

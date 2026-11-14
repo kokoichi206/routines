@@ -1,7 +1,9 @@
 import datetime
 import json
 import os
-from typing import List
+from typing import Dict, List
+
+from google.oauth2.credentials import Credentials
 
 from api.impl.drive_manager import DriveManager
 from api.impl.notion_manager import NotionManager
@@ -11,7 +13,7 @@ from config.setup import load_google_drive_config, load_notion_config
 from entity.book import BookItem
 
 
-def main(fetcher: BookFetcher, uploader: BookUploader) -> None:
+def main(fetcher: BookFetcher, uploader: BookUploader, dry_run: bool = False) -> Dict[str, int]:
     """Upload only un-uploaded BookItems.
 
     Args:
@@ -21,16 +23,25 @@ def main(fetcher: BookFetcher, uploader: BookUploader) -> None:
 
     new_books = fetcher.fetch()
     old_books = uploader.fetch()
+    registered_urls = {book.url for book in old_books}
     to_upload: List[BookItem] = []
     for book in new_books:
-        # If the book is already uploaded, skip uploading.
-        if book in old_books:
+        # Preserve titles edited in Notion when the Drive file is already registered.
+        if book.url in registered_urls:
             continue
         to_upload.append(book)
-    if uploader.upload(to_upload):
-        print(f"Succsessfully uploaded {len(to_upload)} items.")
-    else:
-        print(f"Failed to upload {len(to_upload)} items.")
+    counts = {"source": len(new_books), "existing": len(new_books) - len(to_upload), "to_upload": len(to_upload)}
+    if dry_run:
+        return counts
+    if not uploader.upload(to_upload):
+        raise RuntimeError(f"Failed to upload {len(to_upload)} items.")
+    registered_books = uploader.fetch()
+    registered_urls = {book.url for book in registered_books}
+    missing_books = [book for book in new_books if book.url not in registered_urls]
+    if missing_books:
+        raise RuntimeError(f"Notion is missing {len(missing_books)} source items after upload: {[(book.title, book.url) for book in missing_books]}")
+    print(f"Successfully uploaded {len(to_upload)} items and verified {len(new_books)} items.")
+    return counts
 
 
 def dump_json(fetcher: BookFetcher) -> None:
@@ -78,12 +89,20 @@ if __name__ == '__main__':
     )
 
     drive_config = load_google_drive_config()
-    drive_fetcher = DriveManager(
-        url=drive_config.url,
+    drive_credentials = Credentials.from_authorized_user_info(
+        json.loads(os.environ["GOOGLE_DRIVE_OAUTH_JSON"]),
     )
-
-    ## DI
-    main(drive_fetcher, notion)
+    folder_ids = [drive_config.folder_id] + os.getenv("ONE_TIME_DRIVE_FOLDER_IDS", "").split()
+    dry_run = os.getenv("BOOK_MANAGER_DRY_RUN") == "true"
+    for index, folder_id in enumerate(folder_ids):
+        drive_fetcher = DriveManager(
+            folder_id=folder_id,
+            credentials=drive_credentials,
+            pdf_only=index == 0,
+        )
+        counts = main(drive_fetcher, notion, dry_run=dry_run)
+        print(json.dumps({"mode": "scheduled_pdf" if index == 0 else "one_time_all_files",
+                          "folder_id": folder_id, "dry_run": dry_run, **counts}))
 
     ## Other examples
     # dump_json(notion)
