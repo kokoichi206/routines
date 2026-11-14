@@ -41,3 +41,17 @@ def test_main_fails_if_uploaded_books_are_missing_on_readback():
 
     with pytest.raises(RuntimeError, match="Notion is missing 1 source items"):
         main(fetcher, uploader)
+
+
+def test_main_preserves_notion_title_for_the_same_drive_url():
+    source_book = BookItem("original.pdf", "https://example.com/same-file")
+    renamed_book = BookItem("Edited in Notion", source_book.url)
+    fetcher = Mock()
+    fetcher.fetch.return_value = [source_book]
+    uploader = Mock()
+    uploader.fetch.return_value = [renamed_book]
+
+    counts = main(fetcher, uploader)
+
+    uploader.upload.assert_called_once_with([])
+    assert counts == {"source": 1, "existing": 1, "to_upload": 0}

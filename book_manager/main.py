@@ -23,23 +23,21 @@ def main(fetcher: BookFetcher, uploader: BookUploader, dry_run: bool = False) ->
 
     new_books = fetcher.fetch()
     old_books = uploader.fetch()
+    registered_urls = {book.url for book in old_books}
     to_upload: List[BookItem] = []
     for book in new_books:
-        # If the book is already uploaded, skip uploading.
-        if book in old_books:
+        # Preserve titles edited in Notion when the Drive file is already registered.
+        if book.url in registered_urls:
             continue
         to_upload.append(book)
     counts = {"source": len(new_books), "existing": len(new_books) - len(to_upload), "to_upload": len(to_upload)}
     if dry_run:
-        for book in to_upload:
-            same_url_titles = [old.title for old in old_books if old.url == book.url]
-            if same_url_titles:
-                print(json.dumps({"source_title": book.title, "notion_titles": same_url_titles, "url": book.url}, ensure_ascii=False))
         return counts
     if not uploader.upload(to_upload):
         raise RuntimeError(f"Failed to upload {len(to_upload)} items.")
     registered_books = uploader.fetch()
-    missing_books = [book for book in new_books if book not in registered_books]
+    registered_urls = {book.url for book in registered_books}
+    missing_books = [book for book in new_books if book.url not in registered_urls]
     if missing_books:
         raise RuntimeError(f"Notion is missing {len(missing_books)} source items after upload: {[(book.title, book.url) for book in missing_books]}")
     print(f"Successfully uploaded {len(to_upload)} items and verified {len(new_books)} items.")

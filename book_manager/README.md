@@ -92,4 +92,5 @@ Notion が `429` または `529` を返した場合は `Retry-After` に従っ�
 ## Notion
 
 `DATABASE_ID` と `NOTION_API_SECRET` は環境変数を優先し、未指定なら `config/notion_config.py` を使用する。
-タイトルと URL の両方が一致する項目は登録済みとして扱う。Drive から削除された本でも、Notion の既存項目は削除しない。
+Drive の URL が一致する項目は登録済みとして扱い、Notion で編集したタイトルは維持する。
+Drive から削除された本でも、Notion の既存項目は削除しない。

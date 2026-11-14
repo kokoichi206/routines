@@ -45,4 +45,4 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
       - name: Run main code
-        run: python3 main.py
+        run: python3 -u main.py
