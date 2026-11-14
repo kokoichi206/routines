@@ -23,3 +23,18 @@ for url in set(urls):
     print(json.dumps({'kind':'filtered_query','drive_url':url,'pages':[{'id':p['id'],'url':p['url'],'title_parts':p['properties']['title']['title']} for p in pages]},ensure_ascii=False))
 books=notion.fetch()
 print(json.dumps({'kind':'unfiltered_query','total':len(books),'matching':[{'title':b.title,'drive_url':b.url} for b in books if b.url in urls]},ensure_ascii=False))
+for mode,query,version in [
+    ('raw_unfiltered',{},'2021-05-13'),
+    ('raw_url_filter',{'filter':{'property':'url','url':{'is_not_empty':True}}},'2021-05-13'),
+    ('raw_created_sort',{'sorts':[{'timestamp':'created_time','direction':'ascending'}]},'2021-05-13'),
+    ('raw_2022',{},'2022-06-28'),
+]:
+    raw=[];body=query.copy();page_sizes=[]
+    while True:
+        headers={**notion.headers,'Notion-Version':version}
+        response=notion._session.post(f'https://api.notion.com/v1/databases/{config.database_id}/query',headers=headers,json=body,timeout=30)
+        response.raise_for_status();result=response.json();raw.extend(result['results']);page_sizes.append(len(result['results']))
+        if not result['has_more']:break
+        body={**query,'start_cursor':result['next_cursor']}
+    target_rows=[{'id':p['id'],'title_parts':p['properties']['title']['title'],'drive_url':p['properties']['url']['url']} for p in raw if p['id'].replace('-','') in page_ids]
+    print(json.dumps({'kind':mode,'raw_count':len(raw),'parsed_count':len(notion._extract_book_data(raw)),'unique_ids':len({p['id'] for p in raw}),'page_sizes':page_sizes,'target_rows':target_rows},ensure_ascii=False))
