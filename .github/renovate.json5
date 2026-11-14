@@ -1,0 +1,39 @@
+{
+  $schema: "https://docs.renovatebot.com/renovate-schema.json",
+  extends: [
+    "config:recommended",
+    "schedule:earlyMondays",
+    ":enableVulnerabilityAlertsWithLabel(security)",
+    "helpers:pinGitHubActionDigestsToSemver",
+  ],
+  timezone: "Asia/Tokyo",
+  prConcurrentLimit: 5,
+  prHourlyLimit: 2,
+  dependencyDashboard: {
+    enabled: true,
+  },
+  reviewers: ["kokoichi206"],
+  assignees: ["kokoichi206"],
+  labels: ["renovate"],
+  enabledManagers: ["npm", "pip_requirements", "github-actions"],
+  lockFileMaintenance: {
+    enabled: true,
+    schedule: ["before 5am on Monday"],
+  },
+  packageRules: [
+    {
+      matchManagers: ["github-actions"],
+      addLabels: ["ci"],
+      separateMinorPatch: true,
+    },
+    {
+      matchManagers: ["npm"],
+      matchDepTypes: ["devDependencies"],
+      matchUpdateTypes: ["patch"],
+      addLabels: ["automerge"],
+    },
+  ],
+  vulnerabilityAlerts: {
+    labels: ["security", "renovate"],
+  },
+}
