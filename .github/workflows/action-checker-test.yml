@@ -1,0 +1,41 @@
+name: action_checker dependency checks
+
+on:
+  pull_request:
+    paths:
+      - action_checker/**
+      - .github/workflows/action-checker-test.yml
+      - .github/workflows/action-checker.yml
+      - .github/workflows/action-checker_weekly.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-24.04
+    strategy:
+      matrix:
+        python-version:
+          - "3.8"
+          - "3.11"
+    defaults:
+      run:
+        working-directory: action_checker
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+      - uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Set up uv
+        uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2 # v10.3.3
+        with:
+          version: "0.11.2"
+          working-directory: action_checker
+      - name: Install dependencies
+        run: uv sync --locked
+      - name: Check runtime imports
+        run: uv run --locked python -c 'import events, discord, line'
+      - name: Check script syntax
+        run: uv run --locked python -m py_compile events.py weekly.py discord.py line.py
