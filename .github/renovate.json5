@@ -15,7 +15,7 @@
   reviewers: ["kokoichi206"],
   assignees: ["kokoichi206"],
   labels: ["renovate"],
-  enabledManagers: ["npm", "pip_requirements", "github-actions"],
+  enabledManagers: ["npm", "pip_requirements", "pep621", "github-actions"],
   lockFileMaintenance: {
     enabled: true,
     schedule: ["before 5am on Monday"],
