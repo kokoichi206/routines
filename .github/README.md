@@ -16,5 +16,4 @@ pinact run --check --verify-comment
 `main` などのブランチ参照は `pinact` の通常実行では固定されないため、使用するコミットと一致するタグがあるか確認する。
 一致するタグがなければ、そのコミットの SHA に固定して元のブランチ名をコメントに残す。
 
-`action-pins.yml` は各 PR で SHA の固定とバージョンコメントを検査する。ファイルの自動修正やコミットの push は行わない。
 依存の更新は `renovate.json5` の `helpers:pinGitHubActionDigestsToSemver` で管理する。
