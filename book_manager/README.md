@@ -3,6 +3,19 @@
 Python 3.12 で Google Drive の書籍情報を取得し、Notion に未登録の項目を追加する。
 Chrome と Selenium は使用しない。
 
+## セットアップ
+
+[uv](https://docs.astral.sh/uv/getting-started/installation/) をインストールし、依存関係を同期する。
+Python 3.12 は `.python-version` で指定する。
+
+```sh
+cd book_manager
+uv sync --locked
+```
+
+依存関係の追加には `uv add`、更新には `uv lock --upgrade` を使い、`pyproject.toml` と `uv.lock` をコミットする。
+テストは `uv run --locked python -m pytest` で実行する。
+
 ## Google Drive
 
 フォルダ直下にある、名前が `.pdf` で終わるファイルを取得する。サブフォルダは再帰しない。
@@ -16,12 +29,10 @@ Google Cloud で Drive API が有効なプロジェクトのデスクトップ�
 
 ```sh
 cd book_manager
-python3 -m venv .venv
-. .venv/bin/activate
-pip install -r requirements-auth.txt
+uv sync --locked --group auth
 mkdir -p ~/.config/routines/book-manager
 chmod 700 ~/.config/routines/book-manager
-python scripts/authorize_drive.py \
+uv run --locked --group auth python scripts/authorize_drive.py \
   ~/.config/routines/book-manager/client.json \
   ~/.config/routines/book-manager/oauth.json
 ```
@@ -40,13 +51,15 @@ export GOOGLE_DRIVE_FOLDER_ID='1PgVnNQDEFcxhDF4vOYLo-5mzL4731rPY'
 export GOOGLE_DRIVE_OAUTH_JSON="$(cat ~/.config/routines/book-manager/oauth.json)"
 export DATABASE_ID='your-notion-database-id'
 export NOTION_API_SECRET='your-notion-api-key'
-python main.py
+uv run --locked python main.py
 ```
 
 `GOOGLE_DRIVE_FOLDER_ID` は環境変数を優先し、未指定なら `config/google_drive_config.py` を使用する。
-`GOOGLE_DRIVE_OAUTH_JSON` は必須。実行に必要な依存関係だけを導入する場合は `pip install -r requirements.txt` を使用する。
+`GOOGLE_DRIVE_OAUTH_JSON` は必須。実行に必要な依存関係だけを導入する場合は `uv sync --locked --no-dev` を使用する。
 
 ### GitHub Actions
+
+`update-books-info.yml` は `uv sync --locked --no-dev` で依存関係を同期し、`uv run --locked --no-dev python -u main.py` で実行する。
 
 `production` Environment に以下の Secrets を登録する。
 `DATABASE_ID` と `NOTION_API_SECRET` は既存の Repository Secrets も使用できる。
