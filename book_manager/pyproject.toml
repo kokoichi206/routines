@@ -1,0 +1,13 @@
+[project]
+name = "book-manager"
+version = "0.1.0"
+requires-python = ">=3.12"
+dependencies = [
+    "dataclasses-json==0.5.7",
+    "google-auth==2.62.2",
+    "requests==2.27.1",
+]
+
+[dependency-groups]
+auth = ["google-auth-oauthlib==1.5.0"]
+dev = ["pytest>=9.0.2"]
