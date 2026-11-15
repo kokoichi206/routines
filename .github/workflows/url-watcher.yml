@@ -16,11 +16,11 @@ jobs:
         working-directory: ./url_watcher/odhackathon/
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@0717577d45739eb3c851188b29f50ed6c0b2194e # v2.8.0
 
       - name: Diff check
         id: diff-check
-        uses: kokoichi206/action-URL-watcher@main
+        uses: kokoichi206/action-URL-watcher@aee836bae4a097b3dbb84bb29b2e636780d67e76 # v0.1.1-alpha
         with:
           url: https://odhackathon.metro.tokyo.lg.jp/
           excluded-patterns: 'style.min.css\?[0-9]*-[0-9]*;common.js\?[0-9]*-[0-9]*'
